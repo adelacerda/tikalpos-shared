@@ -1,0 +1,13 @@
+.git
+.gitignore
+.vscode
+node_modules
+src
+*.ts
+!dist/
+.env
+.env.local
+tsconfig.json
+tsconfig.tsbuildinfo
+*.md
+!README.md

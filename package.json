@@ -1,9 +1,29 @@
 {
-  "name": "@cloud-pos/shared",
+  "name": "@tikal-pos/shared",
   "version": "0.1.0",
-  "private": true,
+  "description": "Shared TypeScript type definitions and utilities for Tikal POS.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "license": "MIT",
+  "author": "adelacerda",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adelacerda/tikalpos-shared.git"
+  },
+  "homepage": "https://github.com/adelacerda/tikalpos-shared",
+  "keywords": [
+    "pos",
+    "point-of-sale",
+    "types",
+    "typescript",
+    "shared",
+    "tikal-pos"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc -b",
     "lint": "tsc --noEmit",
