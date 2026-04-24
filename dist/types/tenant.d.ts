@@ -6,12 +6,14 @@ export interface SystemOwner {
     updatedAt: string;
 }
 export type OrganizationStatus = 'active' | 'suspended' | 'trial';
+export type FranchiseType = 'RESTAURANT' | 'RETAIL' | 'SERVICE';
 export interface Organization {
     id: string;
     systemOwnerId: string;
     name: string;
     slug: string;
     status: OrganizationStatus;
+    franchiseType: FranchiseType;
     settings: OrganizationSettings;
     createdAt: string;
     updatedAt: string;

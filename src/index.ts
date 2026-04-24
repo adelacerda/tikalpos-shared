@@ -3,6 +3,7 @@ export type {
   SystemOwner,
   Organization,
   OrganizationStatus,
+  FranchiseType,
   OrganizationSettings,
   Location,
   LocationStatus,
