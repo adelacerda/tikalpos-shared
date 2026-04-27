@@ -40,8 +40,8 @@ export interface Order {
 
 export interface OrderLineItem {
   id: string;
-  menuItemId: string;
-  menuItemName: string;
+  productId: string;
+  productName: string;
   quantity: number;
   unitPrice: number; // cents (base + modifiers)
   selectedModifiers: SelectedModifier[];

@@ -79,6 +79,7 @@ export type {
   KdsTicketStatus,
   KdsItemStatus,
   SendToKdsRequest,
+  SendToKdsResponse,
 } from './types/kds';
 
 // API utilities
