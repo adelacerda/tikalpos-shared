@@ -49,6 +49,8 @@ export interface OrderLineItem {
   notes?: string;
   voided: boolean;
   comboSelections?: ComboSelection[];
+  sentToKds?: boolean;
+  deliveredToTable?: boolean;
 }
 
 export type PaymentMethodType = 'cash' | 'card' | 'mobile' | 'gift_card' | 'loyalty_points';
