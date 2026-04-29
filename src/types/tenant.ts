@@ -11,7 +11,7 @@ export interface SystemOwner {
   updatedAt: string;
 }
 
-export type OrganizationStatus = 'active' | 'suspended' | 'trial';
+export type OrganizationStatus = 'ACTIVE' | 'SUSPENDED' | 'TRIAL';
 
 export type FranchiseType = 'RESTAURANT' | 'RETAIL' | 'SERVICE';
 
@@ -36,7 +36,7 @@ export interface OrganizationSettings {
   receiptFooter?: string;
 }
 
-export type LocationStatus = 'active' | 'inactive';
+export type LocationStatus = 'ACTIVE' | 'INACTIVE';
 
 export interface Location {
   id: string;
@@ -62,7 +62,7 @@ export interface OperatingHours {
   closed: boolean;
 }
 
-export type StaffRole = 'owner' | 'manager' | 'cashier' | 'server';
+export type StaffRole = 'OWNER' | 'MANAGER' | 'CASHIER' | 'SERVER' | 'WAITER' | 'SELLER';
 
 export interface Staff {
   id: string;
@@ -89,4 +89,4 @@ export interface Guest {
   updatedAt: string;
 }
 
-export type LoyaltyTier = 'bronze' | 'silver' | 'gold' | 'platinum';
+export type LoyaltyTier = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';

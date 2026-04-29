@@ -5,14 +5,14 @@ import { SelectedModifier, ComboSelection } from './menu';
 // ──────────────────────────────────────────────
 
 export type OrderStatus =
-  | 'draft'
-  | 'open'
-  | 'paid'
-  | 'partially_paid'
-  | 'voided'
-  | 'refunded';
+  | 'DRAFT'
+  | 'OPEN'
+  | 'PAID'
+  | 'PARTIALLY_PAID'
+  | 'VOIDED'
+  | 'REFUNDED';
 
-export type OrderType = 'dine_in' | 'takeout' | 'delivery';
+export type OrderType = 'DINE_IN' | 'TAKEOUT' | 'DELIVERY';
 
 export interface Order {
   id: string;
@@ -53,9 +53,9 @@ export interface OrderLineItem {
   deliveredToTable?: boolean;
 }
 
-export type PaymentMethodType = 'cash' | 'card' | 'mobile' | 'gift_card' | 'loyalty_points';
+export type PaymentMethodType = 'CASH' | 'CARD' | 'CREDIT' | 'DEBIT' | 'MOBILE' | 'GIFT_CARD' | 'LOYALTY_POINTS';
 
-export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'refunded';
+export type PaymentStatus = 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
 
 export interface OrderPayment {
   id: string;

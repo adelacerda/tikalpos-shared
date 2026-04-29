@@ -27,6 +27,8 @@
   "scripts": {
     "build": "tsc -b",
     "lint": "tsc --noEmit",
-    "test": "echo \"No tests yet\""
+    "test": "echo \"No tests yet\"",
+    "dev": "tsc -b --watch",
+    "prepublishOnly": "npm run build"
   }
 }

@@ -50,6 +50,7 @@ export type {
   RefundResult,
   ProcessorStatus,
   IPaymentProcessor,
+  PaymentMethod,
 } from './types/payment';
 
 // Loyalty
@@ -58,6 +59,11 @@ export type {
   TierThreshold,
   LoyaltyTransaction,
   LoyaltyTransactionType,
+  RewardCatalogItem,
+  EarnPointsInput,
+  EarnPointsResult,
+  RedeemRewardInput,
+  RedeemRewardResult,
 } from './types/loyalty';
 
 // Sync protocol
@@ -81,6 +87,28 @@ export type {
   SendToKdsRequest,
   SendToKdsResponse,
 } from './types/kds';
+
+// Reservations
+export type {
+  Reservation,
+  ReservationStatus,
+  CreateReservationInput,
+  UpdateReservationInput,
+} from './types/reservation';
+
+// FEL (Guatemala Fiscal System)
+export type {
+  NitLookupResult,
+  FelEmissionRequest,
+  FelEmissionResponse,
+  FelVoidRequest,
+  FelVoidResponse,
+  IFelProvider,
+  FELInvoiceData,
+  ValidationResult,
+  CertificateInfo,
+  SignedXmlResult,
+} from './types/fel';
 
 // API utilities
 export type {
