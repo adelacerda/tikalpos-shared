@@ -20,6 +20,43 @@ You are responsible for **implementing type definitions and utilities** based on
 6. **Reference** — add link to CLAUDE.md
 7. **Commit** — commit all changes with clear message
 
+## CRITICAL PITFALLS — Read Before Implementing (Learned From Real Failures)
+
+### 1. Run `npm run build` after every type change — then re-link in consuming repos
+
+Consuming repos read from `dist/`. If you skip the build, they import stale types or get module-not-found errors.
+
+```bash
+# After any type change in this repo:
+npm run build        # regenerates dist/
+
+# In each consuming repo that needs the new types:
+npm link @tikal-pos/shared
+node -e "require('@tikal-pos/shared'); console.log('link OK')"
+```
+
+### 2. Export every new type from `src/index.ts` — or it is invisible to all consumers
+
+```typescript
+// src/index.ts — add alongside existing exports
+export type { DeviceRole, EnrolledDevice, ActivationCode } from './types/device';
+```
+
+Verify after adding:
+```bash
+node -e "const s = require('./dist/index.js'); console.log(Object.keys(s))"
+# Your new type names must appear in the output
+```
+
+### 3. Coordinate breaking changes across all consumer repos before committing
+
+Renaming or removing an exported type breaks every repo that imports it. For any breaking change:
+1. Find all consumers: `grep -rn "from '@tikal-pos/shared'" ../tikalpos-backend ../tikalpos-web ../tikalpos-tablet`
+2. Create coordinated changes in every affected repo first
+3. All builds must be green before any of the coordinated changes merge
+
+---
+
 ## Test Mandate (NO EXCEPTIONS)
 
 This package is **types-only — no runtime code**, so the testing surface is narrower than backend/web. The mandate still applies in adapted form:
