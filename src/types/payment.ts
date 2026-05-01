@@ -2,13 +2,15 @@
 // Payment Processor Abstraction
 // ──────────────────────────────────────────────
 
+export type PaymentMethod = 'CARD' | 'MOBILE';
+
 export interface PaymentRequest {
   amount: number; // cents
   currency: string;
   orderId: string;
   locationId: string;
   organizationId: string;
-  method: 'card' | 'mobile';
+  method: PaymentMethod;
   idempotencyKey: string;
   metadata?: Record<string, unknown>;
 }

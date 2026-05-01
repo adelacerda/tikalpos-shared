@@ -5,7 +5,7 @@ export interface SystemOwner {
     createdAt: string;
     updatedAt: string;
 }
-export type OrganizationStatus = 'active' | 'suspended' | 'trial';
+export type OrganizationStatus = 'ACTIVE' | 'SUSPENDED' | 'TRIAL';
 export type FranchiseType = 'RESTAURANT' | 'RETAIL' | 'SERVICE';
 export interface Organization {
     id: string;
@@ -26,7 +26,7 @@ export interface OrganizationSettings {
     receiptHeader?: string;
     receiptFooter?: string;
 }
-export type LocationStatus = 'active' | 'inactive';
+export type LocationStatus = 'ACTIVE' | 'INACTIVE';
 export interface Location {
     id: string;
     organizationId: string;
@@ -48,7 +48,7 @@ export interface OperatingHours {
     closeTime: string;
     closed: boolean;
 }
-export type StaffRole = 'owner' | 'manager' | 'cashier' | 'server';
+export type StaffRole = 'OWNER' | 'MANAGER' | 'CASHIER' | 'SERVER' | 'WAITER' | 'SELLER';
 export interface Staff {
     id: string;
     organizationId: string;
@@ -72,5 +72,5 @@ export interface Guest {
     createdAt: string;
     updatedAt: string;
 }
-export type LoyaltyTier = 'bronze' | 'silver' | 'gold' | 'platinum';
+export type LoyaltyTier = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
 //# sourceMappingURL=tenant.d.ts.map

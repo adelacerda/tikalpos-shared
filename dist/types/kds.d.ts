@@ -49,4 +49,14 @@ export interface SendToKdsRequest {
         prepTimeMinutes: number;
     }[];
 }
+export interface SendToKdsResponse {
+    /** Newly created KDS tickets grouped by destination */
+    data: KdsTicket[];
+    /** Backend order id backing this check */
+    orderId: string;
+    /** Whether this request created a new order */
+    isNewOrder: boolean;
+    /** Mapping from frontend lineItemId -> backend OrderLineItem.id */
+    lineItemIdMap: Record<string, string>;
+}
 //# sourceMappingURL=kds.d.ts.map

@@ -1,4 +1,4 @@
-export type MenuItemStatus = 'active' | 'inactive' | 'out_of_stock';
+export type MenuItemStatus = 'ACTIVE' | 'INACTIVE' | 'OUT_OF_STOCK';
 export interface MenuCategory {
     id: string;
     organizationId: string;
@@ -8,7 +8,7 @@ export interface MenuCategory {
     createdAt: string;
     updatedAt: string;
 }
-export type ComboSlotType = 'fixed' | 'choice';
+export type ComboSlotType = 'FIXED' | 'CHOICE';
 export interface ComboSlotOption {
     id: string;
     comboSlotId: string;

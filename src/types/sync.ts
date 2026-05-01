@@ -3,13 +3,13 @@
 // ──────────────────────────────────────────────
 
 export type SyncEntityType =
-  | 'order'
-  | 'menu_item'
-  | 'modifier_group'
-  | 'guest'
-  | 'loyalty_transaction';
+  | 'ORDER'
+  | 'MENU_ITEM'
+  | 'MODIFIER_GROUP'
+  | 'GUEST'
+  | 'LOYALTY_TRANSACTION';
 
-export type SyncAction = 'create' | 'update' | 'delete';
+export type SyncAction = 'CREATE' | 'UPDATE' | 'DELETE';
 
 /**
  * A single change record produced by the mobile POS client while offline.
