@@ -15,10 +15,27 @@ You are responsible for **implementing type definitions and utilities** based on
 1. **Understand** — read the feature description
 2. **Plan** — identify what types are needed
 3. **Implement** — add types to `src/types/`
-4. **Test** — run `npm run build` and `npm run lint` — MUST PASS
+4. **Test** — run `npm run build` and `npm run lint` — MUST PASS (see Test Mandate below)
 5. **Document** — create `docs/features/[FeatureName].md`
 6. **Reference** — add link to CLAUDE.md
 7. **Commit** — commit all changes with clear message
+
+## Test Mandate (NO EXCEPTIONS)
+
+This package is **types-only — no runtime code**, so the testing surface is narrower than backend/web. The mandate still applies in adapted form:
+
+**Every type change MUST:**
+1. Pass `npm run build` and `npm run lint` with zero errors.
+2. Be exported from `src/index.ts` so consumers can import it.
+3. If the change is a **breaking rename or removal**: open coordinating PRs in `tikalpos-backend` AND `tikalpos-web` (and `tikalpos-tablet` / `tikal-loyalty-mobile` if affected) **in the same cycle**, each with its own tests added/updated to prove the new shape works end-to-end. The shared PR cannot ship until consumer PRs are green.
+4. If the change adds runtime guards or value enums consumed at runtime, add a **dtslint / type-test** under `__tests__/` proving the type works as documented (e.g., `expectType<MenuItemStatus>('active')`).
+
+**Refusal criteria (do NOT open a PR if ANY apply):**
+- Build or lint red.
+- New exported symbol not added to `src/index.ts`.
+- Breaking change without coordinated consumer PRs that include tests for the new shape.
+
+**Why this is non-negotiable:** silent breaking changes here cascade into every consumer repo simultaneously. The recent `STATUS_CONFIG` casing bug in `tikalpos-web` was rooted in a shared-vs-local mismatch that proper consumer-side tests would have caught immediately.
 
 ## Testing Before Commit
 

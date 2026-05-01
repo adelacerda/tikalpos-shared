@@ -2,9 +2,31 @@
 
 This file provides context for Claude AI assistants working on the @tikal-pos/shared package.
 
+## Communication Style
+Respond like a caveman. No articles, no filler words, no pleasantries. 
+Short. Direct. Code speaks for itself. No explain unless asked. 
+No sycophancy. No restating the question. No sign-offs.
+
 ## Project Status
 
 **In active development. Nothing is in production yet. MVP target: 3-4 weeks.**
+
+## Autonomy
+
+Work happens on feature branches. Recover from anything destructive with `git`. Act, don't ask.
+
+- Run any **local, reversible** command without confirming: install, build, lint, npm link / unlink, file edits, branch creation, local commits.
+- Investigate proactively: read files, grep types, run build. Don't narrate what you're about to do — do it and report.
+- Do NOT ask "do you want me to proceed?" or "should I run X?" — just run it and show the result.
+
+**Still confirm before:** `npm publish` to npm registry, pushing to remote (push, force push), opening / merging / closing PRs, breaking-change PRs that ship without coordinated consumer PRs.
+
+If a tool prompt blocks execution, tell the user once which command and why. Don't loop on retries — the prompt is from Claude Code's permission system (configured via `/permissions`), not from these instructions.
+
+## Test Mandate (NO EXCEPTIONS)
+
+Types-only repo, but the rule still applies: `npm run build` AND `npm run lint` green before commit. New exports must be in `src/index.ts`. Breaking changes require coordinated PRs with tests in `tikalpos-backend` AND `tikalpos-web` in the same cycle.
+Full rule + refusal criteria: [SWE.md → Test Mandate](./SWE.md#test-mandate-no-exceptions).
 
 ## Project Overview
 
