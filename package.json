@@ -1,6 +1,6 @@
 {
   "name": "@tikalpos/shared",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Shared TypeScript type definitions and utilities for Tikal POS.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,5 +30,8 @@
     "test": "echo \"No tests yet\"",
     "dev": "tsc -b --watch",
     "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }

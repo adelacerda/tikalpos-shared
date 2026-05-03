@@ -118,3 +118,13 @@ export type {
   PaginationParams,
   AuthTokenPayload,
 } from './types/api';
+
+// Device enrollment
+export type {
+  DeviceRole,
+  ActivationCode,
+  EnrolledDevice,
+  EnrollDeviceInput,
+  EnrollDeviceResult,
+  ActivationCodeResult,
+} from './types/device';

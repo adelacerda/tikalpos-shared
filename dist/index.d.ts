@@ -8,4 +8,5 @@ export type { KdsTicket, KdsTicketItem, KdsTicketStatus, KdsItemStatus, SendToKd
 export type { Reservation, ReservationStatus, CreateReservationInput, UpdateReservationInput, } from './types/reservation';
 export type { NitLookupResult, FelEmissionRequest, FelEmissionResponse, FelVoidRequest, FelVoidResponse, IFelProvider, FELInvoiceData, ValidationResult, CertificateInfo, SignedXmlResult, } from './types/fel';
 export type { ApiResponse, ApiError, PaginationMeta, PaginationParams, AuthTokenPayload, } from './types/api';
+export type { DeviceRole, ActivationCode, EnrolledDevice, EnrollDeviceInput, EnrollDeviceResult, ActivationCodeResult, } from './types/device';
 //# sourceMappingURL=index.d.ts.map
