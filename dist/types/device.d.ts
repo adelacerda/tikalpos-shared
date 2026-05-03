@@ -18,6 +18,9 @@ export interface EnrolledDevice {
     enrolledAt: string;
     lastSeenAt: string | null;
     enrolledByUserId: string | null;
+    deviceModel: string | null;
+    deviceType: string | null;
+    appVersion: string | null;
     createdAt: string;
     updatedAt: string;
 }
@@ -27,6 +30,9 @@ export interface EnrollDeviceInput {
     pin?: string;
     ownerEmail?: string;
     ownerPassword?: string;
+    deviceModel?: string;
+    deviceType?: string;
+    appVersion?: string;
 }
 export interface EnrollDeviceResult {
     deviceToken: string;

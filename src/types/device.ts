@@ -23,6 +23,9 @@ export interface EnrolledDevice {
   enrolledAt: string;     // ISO 8601
   lastSeenAt: string | null;
   enrolledByUserId: string | null;
+  deviceModel: string | null;   // e.g. "iPad (9th generation)"
+  deviceType: string | null;    // e.g. "iPad", "Samsung Galaxy Tab S8"
+  appVersion: string | null;    // e.g. "1.2.0"
   createdAt: string;
   updatedAt: string;
 }
@@ -34,6 +37,9 @@ export interface EnrollDeviceInput {
   pin?: string;           // Manager PIN (4–6 digits)
   ownerEmail?: string;    // Owner email (if using password auth)
   ownerPassword?: string; // Owner password (if using password auth)
+  deviceModel?: string;   // e.g. "iPad (9th generation)"
+  deviceType?: string;    // e.g. "iPad"
+  appVersion?: string;    // e.g. "1.2.0"
 }
 
 // POST /api/devices/enroll — response data
@@ -44,6 +50,7 @@ export interface EnrollDeviceResult {
   organizationId: string;
   locationName: string;
   orgName: string;
+  orgLanguage: string;    // e.g. "en" or "es"
   role: DeviceRole;
 }
 

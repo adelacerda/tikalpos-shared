@@ -114,7 +114,25 @@ npm link @tikal-pos/shared
 
 ## Done Criteria
 
-- [ ] `src/types/device.ts` created with all 6 types/interfaces
-- [ ] All types exported from `src/index.ts`
-- [ ] `npm run build` passes
-- [ ] `npm run lint` zero errors
+- [x] `src/types/device.ts` created with all 6 types/interfaces
+- [x] All types exported from `src/index.ts`
+- [x] `npm run build` passes
+- [x] `npm run lint` zero errors
+
+---
+
+## Implementation History
+
+### Initial implementation
+- Created `src/types/device.ts` with `DeviceRole`, `ActivationCode`, `EnrolledDevice`, `EnrollDeviceInput`, `EnrollDeviceResult`, `ActivationCodeResult`
+- Exported all types from `src/index.ts`
+- Added optional `serialNumber`, `deviceModel`, `deviceType`, `appVersion` fields to `EnrollDeviceInput` to capture hardware metadata during enrollment
+
+### Bug fix — tablet language not applied before PIN login
+**Problem:** The tablet home screen (staff login portal) always rendered in English before any user logged in, because `orgLanguage` was not available to the app until after a successful PIN login set it via `setAuth`.
+
+**Fix:** Added `orgLanguage: string` to `EnrollDeviceResult`. This field is now returned by both `POST /api/devices/enroll` and `GET /api/devices/me`, so the tablet can:
+1. Persist `orgLanguage` in its device store (AsyncStorage) during the one-time enrollment flow
+2. Re-apply it to the in-memory language store on every app start in `splash.tsx`, before navigating to the home screen
+
+**Files changed:** `src/types/device.ts` — `EnrollDeviceResult` interface
