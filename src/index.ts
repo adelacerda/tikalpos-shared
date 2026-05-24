@@ -128,3 +128,4 @@ export type {
   EnrollDeviceResult,
   ActivationCodeResult,
 } from './types/device';
+export { DEVICE_ROLES, isDeviceRole } from './types/device';
