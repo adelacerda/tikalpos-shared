@@ -41,6 +41,7 @@ export interface EnrollDeviceResult {
     organizationId: string;
     locationName: string;
     orgName: string;
+    orgLanguage: string;
     role: DeviceRole;
 }
 export interface ActivationCodeResult {
