@@ -1,5 +1,14 @@
-// Device role — what POS function this tablet serves
-export type DeviceRole = 'WAITER' | 'KITCHEN' | 'BAR' | 'HOST' | 'SELLER';
+// Device role — what POS function this tablet serves.
+// `DEVICE_ROLES` is the canonical runtime list; the union type below is
+// derived from it so they stay in sync.
+export const DEVICE_ROLES = ['WAITER', 'KITCHEN', 'BAR', 'HOST', 'SELLER'] as const;
+
+export type DeviceRole = typeof DEVICE_ROLES[number];
+
+/** Type guard for validating values coming from URLs / external inputs. */
+export function isDeviceRole(value: unknown): value is DeviceRole {
+  return typeof value === 'string' && (DEVICE_ROLES as readonly string[]).includes(value);
+}
 
 // Activation code — generated per location, time-limited
 export interface ActivationCode {

@@ -1,4 +1,7 @@
-export type DeviceRole = 'WAITER' | 'KITCHEN' | 'BAR' | 'HOST' | 'SELLER';
+export declare const DEVICE_ROLES: readonly ["WAITER", "KITCHEN", "BAR", "HOST", "SELLER"];
+export type DeviceRole = typeof DEVICE_ROLES[number];
+/** Type guard for validating values coming from URLs / external inputs. */
+export declare function isDeviceRole(value: unknown): value is DeviceRole;
 export interface ActivationCode {
     id: string;
     locationId: string;
