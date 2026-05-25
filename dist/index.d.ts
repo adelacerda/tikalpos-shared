@@ -1,4 +1,5 @@
 export type { SystemOwner, Organization, OrganizationStatus, FranchiseType, OrganizationSettings, Location, LocationStatus, LocationSettings, OperatingHours, Staff, StaffRole, Guest, LoyaltyTier, } from './types/tenant';
+export { STAFF_ROLES, isStaffRole, allowedStaffRolesFor, allowedDeviceRolesFor, } from './types/tenant';
 export type { MenuCategory, MenuItem, MenuItemStatus, ModifierGroup, Modifier, SelectedModifier, LocationMenuOverride, ComboSlotType, ComboSlot, ComboSlotOption, ComboSelection, PrepDestination, } from './types/menu';
 export type { Order, OrderStatus, OrderType, OrderLineItem, OrderPayment, PaymentMethodType, PaymentStatus, } from './types/order';
 export type { PaymentRequest, PaymentResult, RefundRequest, RefundResult, ProcessorStatus, IPaymentProcessor, PaymentMethod, } from './types/payment';

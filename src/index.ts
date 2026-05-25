@@ -14,6 +14,12 @@ export type {
   Guest,
   LoyaltyTier,
 } from './types/tenant';
+export {
+  STAFF_ROLES,
+  isStaffRole,
+  allowedStaffRolesFor,
+  allowedDeviceRolesFor,
+} from './types/tenant';
 
 // Menu & modifiers
 export type {

@@ -48,7 +48,12 @@ export interface OperatingHours {
     closeTime: string;
     closed: boolean;
 }
-export type StaffRole = 'OWNER' | 'MANAGER' | 'CASHIER' | 'SERVER' | 'WAITER' | 'SELLER';
+export declare const STAFF_ROLES: readonly ["OWNER", "MANAGER", "CASHIER", "SERVER", "HOST", "SELLER"];
+export type StaffRole = typeof STAFF_ROLES[number];
+/** Type guard for validating values coming from URLs / external inputs. */
+export declare function isStaffRole(value: unknown): value is StaffRole;
+export declare function allowedStaffRolesFor(franchiseType: FranchiseType): readonly StaffRole[];
+export declare function allowedDeviceRolesFor(franchiseType: FranchiseType): readonly string[];
 export interface Staff {
     id: string;
     organizationId: string;

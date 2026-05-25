@@ -14,7 +14,7 @@ import {
 
 describe('DEVICE_ROLES (runtime constant)', () => {
   it('contains exactly the 5 supported roles in the documented order', () => {
-    expect(DEVICE_ROLES).toEqual(['WAITER', 'KITCHEN', 'BAR', 'HOST', 'SELLER']);
+    expect(DEVICE_ROLES).toEqual(['SERVER', 'KITCHEN', 'BAR', 'HOST', 'SELLER']);
   });
 
   it('is a readonly tuple (frozen at the const-assertion level)', () => {
@@ -34,7 +34,8 @@ describe('isDeviceRole (type guard)', () => {
 
   it('returns false for unknown strings', () => {
     expect(isDeviceRole('OWNER')).toBe(false);
-    expect(isDeviceRole('waiter')).toBe(false); // case-sensitive
+    expect(isDeviceRole('WAITER')).toBe(false); // legacy role removed in Sprint 1 R1
+    expect(isDeviceRole('server')).toBe(false); // case-sensitive
     expect(isDeviceRole('')).toBe(false);
   });
 
@@ -49,7 +50,7 @@ describe('isDeviceRole (type guard)', () => {
 describe('Type-level contracts', () => {
   it('DeviceRole is the union of DEVICE_ROLES literals', () => {
     expectTypeOf<DeviceRole>().toEqualTypeOf<
-      'WAITER' | 'KITCHEN' | 'BAR' | 'HOST' | 'SELLER'
+      'SERVER' | 'KITCHEN' | 'BAR' | 'HOST' | 'SELLER'
     >();
   });
 
