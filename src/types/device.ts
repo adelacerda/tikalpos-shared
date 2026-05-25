@@ -60,6 +60,7 @@ export interface EnrollDeviceResult {
   locationName: string;
   orgName: string;
   orgLanguage: string;    // e.g. "en" or "es"
+  orgLogoUrl: string | null; // Franchise-uploaded logo; null = use bundled TikalPOS logo
   role: DeviceRole;
 }
 
