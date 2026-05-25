@@ -72,7 +72,7 @@ Located in `src/types/`:
 // Correct
 OrderStatus: 'DRAFT' | 'OPEN' | 'PAID' | 'PARTIALLY_PAID' | 'VOIDED' | 'REFUNDED'
 SyncAction: 'CREATE' | 'UPDATE' | 'DELETE'
-StaffRole: 'OWNER' | 'MANAGER' | 'CASHIER' | 'SERVER' | 'WAITER' | 'SELLER'
+StaffRole: 'OWNER' | 'MANAGER' | 'CASHIER' | 'SERVER' | 'HOST' | 'SELLER'
 LoyaltyTier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM'
 RewardPromotionStatus: 'ACTIVE' | 'INACTIVE' | 'EXPIRED'
 ```

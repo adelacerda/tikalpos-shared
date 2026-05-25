@@ -9,7 +9,7 @@ const index_1 = require("../index");
 //      tablet's pin-confirm whitelist) shows up as a failing test.
 (0, vitest_1.describe)('DEVICE_ROLES (runtime constant)', () => {
     (0, vitest_1.it)('contains exactly the 5 supported roles in the documented order', () => {
-        (0, vitest_1.expect)(index_1.DEVICE_ROLES).toEqual(['WAITER', 'KITCHEN', 'BAR', 'HOST', 'SELLER']);
+        (0, vitest_1.expect)(index_1.DEVICE_ROLES).toEqual(['SERVER', 'KITCHEN', 'BAR', 'HOST', 'SELLER']);
     });
     (0, vitest_1.it)('is a readonly tuple (frozen at the const-assertion level)', () => {
         // `as const` makes it `readonly [...]` at the type level; we just
@@ -26,7 +26,8 @@ const index_1 = require("../index");
     });
     (0, vitest_1.it)('returns false for unknown strings', () => {
         (0, vitest_1.expect)((0, index_1.isDeviceRole)('OWNER')).toBe(false);
-        (0, vitest_1.expect)((0, index_1.isDeviceRole)('waiter')).toBe(false); // case-sensitive
+        (0, vitest_1.expect)((0, index_1.isDeviceRole)('WAITER')).toBe(false); // legacy role removed in Sprint 1 R1
+        (0, vitest_1.expect)((0, index_1.isDeviceRole)('server')).toBe(false); // case-sensitive
         (0, vitest_1.expect)((0, index_1.isDeviceRole)('')).toBe(false);
     });
     (0, vitest_1.it)('returns false for non-string inputs', () => {

@@ -1,7 +1,7 @@
 // Device role — what POS function this tablet serves.
 // `DEVICE_ROLES` is the canonical runtime list; the union type below is
 // derived from it so they stay in sync.
-export const DEVICE_ROLES = ['WAITER', 'KITCHEN', 'BAR', 'HOST', 'SELLER'] as const;
+export const DEVICE_ROLES = ['SERVER', 'KITCHEN', 'BAR', 'HOST', 'SELLER'] as const;
 
 export type DeviceRole = typeof DEVICE_ROLES[number];
 
