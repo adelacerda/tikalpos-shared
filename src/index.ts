@@ -139,3 +139,16 @@ export type {
   ActivationCodeResult,
 } from './types/device';
 export { DEVICE_ROLES, isDeviceRole } from './types/device';
+
+// Offline-First Resilience (FT-CORE-002)
+export type {
+  SyncStatus,
+  NetworkHealthSnapshot,
+  OfflineEventType,
+  OfflineEventPayload,
+  OfflineQueueEvent,
+  RetryPayload,
+  ReconciliationOutcome,
+  ReconciledEventReceipt,
+  ReconciliationResponse,
+} from './types/offline';
