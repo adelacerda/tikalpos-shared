@@ -78,8 +78,27 @@ export interface RedeemRewardInput {
   orderId?: string;
 }
 
+export interface HighPrecisionTimestamp {
+  iso: string;
+  epochMs: number;
+  monotonicNs: string;
+}
+
+export type LoyaltyMutationOutcome = 'COMMITTED' | 'SERIALIZATION_CONFLICT';
+
+export type LoyaltyConflictReason = 'CONCURRENT_REDEMPTION' | 'STALE_BALANCE';
+
+export interface LoyaltyMutationEnvelope {
+  outcome: LoyaltyMutationOutcome;
+  observedAt: HighPrecisionTimestamp;
+  committedAt?: HighPrecisionTimestamp;
+  conflictReason?: LoyaltyConflictReason;
+  version?: number;
+}
+
 export interface RedeemRewardResult {
   rewardName: string;
   pointsSpent: number;
   newBalance: number;
+  envelope: LoyaltyMutationEnvelope;
 }

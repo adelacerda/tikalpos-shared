@@ -70,6 +70,10 @@ export type {
   EarnPointsResult,
   RedeemRewardInput,
   RedeemRewardResult,
+  HighPrecisionTimestamp,
+  LoyaltyMutationOutcome,
+  LoyaltyConflictReason,
+  LoyaltyMutationEnvelope,
 } from './types/loyalty';
 
 // Sync protocol

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.8] - 2026-05-26
+
+### Added (FT-CORE-001 — Loyalty Sync Pro Max)
+
+- `HighPrecisionTimestamp` interface (`iso`, `epochMs`, `monotonicNs` as string for JSON safety).
+- `LoyaltyMutationOutcome` union (`'COMMITTED' | 'SERIALIZATION_CONFLICT'`).
+- `LoyaltyConflictReason` union (`'CONCURRENT_REDEMPTION' | 'STALE_BALANCE'`).
+- `LoyaltyMutationEnvelope` interface — uniform shape for transactional outcome reporting across backend, web and tablet.
+
+### Changed
+
+- `RedeemRewardResult` extended with required `envelope: LoyaltyMutationEnvelope` field (additive; consumers that ignore the field continue to work — backend is the sole producer today).
+- `tsconfig.cjs.json` and `tsconfig.esm.json` now exclude `src/__tests__` and `**/*.test.ts` from emit. Tests no longer ship to `dist/`.
+
 ## [Unreleased]
 
 ### Session: April 29, 2026 - 12:38 PM UTC-06:00
