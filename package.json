@@ -1,9 +1,17 @@
 {
   "name": "@tikalpos/shared",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Shared TypeScript type definitions and utilities for Tikal POS.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/cjs/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "license": "MIT",
   "author": "adelacerda",
   "repository": {
@@ -25,11 +33,11 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "dev": "tsc -b --watch",
+    "dev": "tsc -p tsconfig.cjs.json --watch",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
