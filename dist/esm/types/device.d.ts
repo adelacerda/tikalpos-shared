@@ -1,0 +1,56 @@
+export declare const DEVICE_ROLES: readonly ["SERVER", "KITCHEN", "BAR", "HOST", "SELLER"];
+export type DeviceRole = typeof DEVICE_ROLES[number];
+/** Type guard for validating values coming from URLs / external inputs. */
+export declare function isDeviceRole(value: unknown): value is DeviceRole;
+export interface ActivationCode {
+    id: string;
+    locationId: string;
+    organizationId: string;
+    code: string;
+    expiresAt: string;
+    usedAt: string | null;
+    enrolledDeviceId: string | null;
+    createdAt: string;
+}
+export interface EnrolledDevice {
+    id: string;
+    locationId: string;
+    organizationId: string;
+    role: DeviceRole;
+    label: string | null;
+    enrolledAt: string;
+    lastSeenAt: string | null;
+    enrolledByUserId: string | null;
+    deviceModel: string | null;
+    deviceType: string | null;
+    appVersion: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+export interface EnrollDeviceInput {
+    code: string;
+    deviceRole: DeviceRole;
+    pin?: string;
+    ownerEmail?: string;
+    ownerPassword?: string;
+    deviceModel?: string;
+    deviceType?: string;
+    appVersion?: string;
+}
+export interface EnrollDeviceResult {
+    deviceToken: string;
+    deviceId: string;
+    locationId: string;
+    organizationId: string;
+    locationName: string;
+    orgName: string;
+    orgLanguage: string;
+    orgLogoUrl: string | null;
+    role: DeviceRole;
+}
+export interface ActivationCodeResult {
+    code: string;
+    expiresAt: string;
+    expiresInHours: number;
+}
+//# sourceMappingURL=device.d.ts.map
