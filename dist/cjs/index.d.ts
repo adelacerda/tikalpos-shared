@@ -11,4 +11,5 @@ export type { NitLookupResult, FelEmissionRequest, FelEmissionResponse, FelVoidR
 export type { ApiResponse, ApiError, PaginationMeta, PaginationParams, AuthTokenPayload, } from './types/api';
 export type { DeviceRole, ActivationCode, EnrolledDevice, EnrollDeviceInput, EnrollDeviceResult, ActivationCodeResult, } from './types/device';
 export { DEVICE_ROLES, isDeviceRole } from './types/device';
+export type { SyncStatus, NetworkHealthSnapshot, OfflineEventType, OfflineEventPayload, OfflineQueueEvent, RetryPayload, ReconciliationOutcome, ReconciledEventReceipt, ReconciliationResponse, } from './types/offline';
 //# sourceMappingURL=index.d.ts.map
