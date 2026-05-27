@@ -152,3 +152,22 @@ export type {
   ReconciledEventReceipt,
   ReconciliationResponse,
 } from './types/offline';
+
+// Terminal Telemetry (FT-CORE-003)
+export type {
+  TelemetrySeverity,
+  TelemetryHttpMethod,
+  TelemetryNetworkFailureKind,
+  TelemetryBatteryState,
+  TelemetryThermalState,
+  TelemetryAnomalyKind,
+  NetworkMetric,
+  HardwareMetric,
+  TelemetryAnomaly,
+  TelemetryPayload,
+  TelemetryIngestResult,
+} from './types/telemetry';
+export {
+  TELEMETRY_BUFFER_CAPS,
+  TELEMETRY_FLUSH_INTERVAL_MS,
+} from './types/telemetry';
