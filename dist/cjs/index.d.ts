@@ -12,4 +12,6 @@ export type { ApiResponse, ApiError, PaginationMeta, PaginationParams, AuthToken
 export type { DeviceRole, ActivationCode, EnrolledDevice, EnrollDeviceInput, EnrollDeviceResult, ActivationCodeResult, } from './types/device';
 export { DEVICE_ROLES, isDeviceRole } from './types/device';
 export type { SyncStatus, NetworkHealthSnapshot, OfflineEventType, OfflineEventPayload, OfflineQueueEvent, RetryPayload, ReconciliationOutcome, ReconciledEventReceipt, ReconciliationResponse, } from './types/offline';
+export type { TelemetrySeverity, TelemetryHttpMethod, TelemetryNetworkFailureKind, TelemetryBatteryState, TelemetryThermalState, TelemetryAnomalyKind, NetworkMetric, HardwareMetric, TelemetryAnomaly, TelemetryPayload, TelemetryIngestResult, } from './types/telemetry';
+export { TELEMETRY_BUFFER_CAPS, TELEMETRY_FLUSH_INTERVAL_MS, } from './types/telemetry';
 //# sourceMappingURL=index.d.ts.map
