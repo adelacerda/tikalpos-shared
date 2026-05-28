@@ -171,3 +171,23 @@ export {
   TELEMETRY_BUFFER_CAPS,
   TELEMETRY_FLUSH_INTERVAL_MS,
 } from './types/telemetry';
+
+// Franchise Migration Cannon (FT-GROWTH-005)
+export type {
+  MigrationSource,
+  MigrationSourceFormat,
+  MigrationMode,
+  MigrationEntityKind,
+  MigrationRowOutcome,
+  MigrationConflictReason,
+  MigrationPayload,
+  MigrationRowError,
+  MigrationEntityTally,
+  MigrationConflict,
+  MigrationResultReport,
+} from './types/migration';
+export {
+  MIGRATION_SOURCES,
+  isMigrationSource,
+  MIGRATION_LIMITS,
+} from './types/migration';

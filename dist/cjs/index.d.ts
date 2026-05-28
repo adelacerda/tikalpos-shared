@@ -14,4 +14,6 @@ export { DEVICE_ROLES, isDeviceRole } from './types/device';
 export type { SyncStatus, NetworkHealthSnapshot, OfflineEventType, OfflineEventPayload, OfflineQueueEvent, RetryPayload, ReconciliationOutcome, ReconciledEventReceipt, ReconciliationResponse, } from './types/offline';
 export type { TelemetrySeverity, TelemetryHttpMethod, TelemetryNetworkFailureKind, TelemetryBatteryState, TelemetryThermalState, TelemetryAnomalyKind, NetworkMetric, HardwareMetric, TelemetryAnomaly, TelemetryPayload, TelemetryIngestResult, } from './types/telemetry';
 export { TELEMETRY_BUFFER_CAPS, TELEMETRY_FLUSH_INTERVAL_MS, } from './types/telemetry';
+export type { MigrationSource, MigrationSourceFormat, MigrationMode, MigrationEntityKind, MigrationRowOutcome, MigrationConflictReason, MigrationPayload, MigrationRowError, MigrationEntityTally, MigrationConflict, MigrationResultReport, } from './types/migration';
+export { MIGRATION_SOURCES, isMigrationSource, MIGRATION_LIMITS, } from './types/migration';
 //# sourceMappingURL=index.d.ts.map
