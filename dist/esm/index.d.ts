@@ -16,4 +16,8 @@ export type { TelemetrySeverity, TelemetryHttpMethod, TelemetryNetworkFailureKin
 export { TELEMETRY_BUFFER_CAPS, TELEMETRY_FLUSH_INTERVAL_MS, } from './types/telemetry';
 export type { MigrationSource, MigrationSourceFormat, MigrationMode, MigrationEntityKind, MigrationRowOutcome, MigrationConflictReason, MigrationPayload, MigrationRowError, MigrationEntityTally, MigrationConflict, MigrationResultReport, } from './types/migration';
 export { MIGRATION_SOURCES, isMigrationSource, MIGRATION_LIMITS, } from './types/migration';
+export type { ChatRoomKind, ChatSenderRole, ChatMessage, ChatClientEventType, ChatClientEvent, ChatServerEventType, ChatServerEvent, ChatErrorCode, PushSubscriptionOwnerKind, WebPushKeys, WebPushSubscriptionInput, WebPushPayload, PushBroadcastFilter, PushDispatchResult, PushBroadcastReport, } from './types/messaging';
+export { CHAT_ROOMS, isChatRoomKind, CHAT_LIMITS, PUSH_OWNERS, isPushSubscriptionOwnerKind, WEBPUSH_LIMITS, } from './types/messaging';
+export type { MediaAssetKind, MediaAsset, MediaUploadResult, } from './types/media';
+export { MEDIA_KINDS, isMediaAssetKind, MEDIA_LIMITS, } from './types/media';
 //# sourceMappingURL=index.d.ts.map

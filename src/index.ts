@@ -191,3 +191,42 @@ export {
   isMigrationSource,
   MIGRATION_LIMITS,
 } from './types/migration';
+
+// Zero-Third-Party Messaging (FT-GROWTH-015)
+export type {
+  ChatRoomKind,
+  ChatSenderRole,
+  ChatMessage,
+  ChatClientEventType,
+  ChatClientEvent,
+  ChatServerEventType,
+  ChatServerEvent,
+  ChatErrorCode,
+  PushSubscriptionOwnerKind,
+  WebPushKeys,
+  WebPushSubscriptionInput,
+  WebPushPayload,
+  PushBroadcastFilter,
+  PushDispatchResult,
+  PushBroadcastReport,
+} from './types/messaging';
+export {
+  CHAT_ROOMS,
+  isChatRoomKind,
+  CHAT_LIMITS,
+  PUSH_OWNERS,
+  isPushSubscriptionOwnerKind,
+  WEBPUSH_LIMITS,
+} from './types/messaging';
+
+// Local Media Storage (FT-GROWTH-015 §2)
+export type {
+  MediaAssetKind,
+  MediaAsset,
+  MediaUploadResult,
+} from './types/media';
+export {
+  MEDIA_KINDS,
+  isMediaAssetKind,
+  MEDIA_LIMITS,
+} from './types/media';

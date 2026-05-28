@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MIGRATION_LIMITS = exports.isMigrationSource = exports.MIGRATION_SOURCES = exports.TELEMETRY_FLUSH_INTERVAL_MS = exports.TELEMETRY_BUFFER_CAPS = exports.isDeviceRole = exports.DEVICE_ROLES = exports.allowedDeviceRolesFor = exports.allowedStaffRolesFor = exports.isStaffRole = exports.STAFF_ROLES = void 0;
+exports.MEDIA_LIMITS = exports.isMediaAssetKind = exports.MEDIA_KINDS = exports.WEBPUSH_LIMITS = exports.isPushSubscriptionOwnerKind = exports.PUSH_OWNERS = exports.CHAT_LIMITS = exports.isChatRoomKind = exports.CHAT_ROOMS = exports.MIGRATION_LIMITS = exports.isMigrationSource = exports.MIGRATION_SOURCES = exports.TELEMETRY_FLUSH_INTERVAL_MS = exports.TELEMETRY_BUFFER_CAPS = exports.isDeviceRole = exports.DEVICE_ROLES = exports.allowedDeviceRolesFor = exports.allowedStaffRolesFor = exports.isStaffRole = exports.STAFF_ROLES = void 0;
 var tenant_1 = require("./types/tenant");
 Object.defineProperty(exports, "STAFF_ROLES", { enumerable: true, get: function () { return tenant_1.STAFF_ROLES; } });
 Object.defineProperty(exports, "isStaffRole", { enumerable: true, get: function () { return tenant_1.isStaffRole; } });
@@ -16,4 +16,15 @@ var migration_1 = require("./types/migration");
 Object.defineProperty(exports, "MIGRATION_SOURCES", { enumerable: true, get: function () { return migration_1.MIGRATION_SOURCES; } });
 Object.defineProperty(exports, "isMigrationSource", { enumerable: true, get: function () { return migration_1.isMigrationSource; } });
 Object.defineProperty(exports, "MIGRATION_LIMITS", { enumerable: true, get: function () { return migration_1.MIGRATION_LIMITS; } });
+var messaging_1 = require("./types/messaging");
+Object.defineProperty(exports, "CHAT_ROOMS", { enumerable: true, get: function () { return messaging_1.CHAT_ROOMS; } });
+Object.defineProperty(exports, "isChatRoomKind", { enumerable: true, get: function () { return messaging_1.isChatRoomKind; } });
+Object.defineProperty(exports, "CHAT_LIMITS", { enumerable: true, get: function () { return messaging_1.CHAT_LIMITS; } });
+Object.defineProperty(exports, "PUSH_OWNERS", { enumerable: true, get: function () { return messaging_1.PUSH_OWNERS; } });
+Object.defineProperty(exports, "isPushSubscriptionOwnerKind", { enumerable: true, get: function () { return messaging_1.isPushSubscriptionOwnerKind; } });
+Object.defineProperty(exports, "WEBPUSH_LIMITS", { enumerable: true, get: function () { return messaging_1.WEBPUSH_LIMITS; } });
+var media_1 = require("./types/media");
+Object.defineProperty(exports, "MEDIA_KINDS", { enumerable: true, get: function () { return media_1.MEDIA_KINDS; } });
+Object.defineProperty(exports, "isMediaAssetKind", { enumerable: true, get: function () { return media_1.isMediaAssetKind; } });
+Object.defineProperty(exports, "MEDIA_LIMITS", { enumerable: true, get: function () { return media_1.MEDIA_LIMITS; } });
 //# sourceMappingURL=index.js.map
