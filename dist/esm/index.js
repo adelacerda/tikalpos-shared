@@ -4,4 +4,5 @@ export { TELEMETRY_BUFFER_CAPS, TELEMETRY_FLUSH_INTERVAL_MS, } from './types/tel
 export { MIGRATION_SOURCES, isMigrationSource, MIGRATION_LIMITS, } from './types/migration';
 export { CHAT_ROOMS, isChatRoomKind, CHAT_LIMITS, PUSH_OWNERS, isPushSubscriptionOwnerKind, WEBPUSH_LIMITS, } from './types/messaging';
 export { MEDIA_KINDS, isMediaAssetKind, MEDIA_LIMITS, } from './types/media';
+export { LEAD_STATUSES, LEAD_SOURCES, LEAD_VERTICALS, LEAD_LIMITS, isLeadStatus, isLeadSource, isLeadVertical, } from './types/lead';
 //# sourceMappingURL=index.js.map

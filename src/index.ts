@@ -230,3 +230,26 @@ export {
   isMediaAssetKind,
   MEDIA_LIMITS,
 } from './types/media';
+
+// Sales Lead Capture (Sprint Pre12.1)
+export type {
+  LeadStatus,
+  LeadSource,
+  LeadVertical,
+  LeadEventKind,
+  LeadEvent,
+  Lead,
+  CreateLeadInput,
+  UpdateLeadInput,
+  ListLeadsQuery,
+  ListLeadsResult,
+} from './types/lead';
+export {
+  LEAD_STATUSES,
+  LEAD_SOURCES,
+  LEAD_VERTICALS,
+  LEAD_LIMITS,
+  isLeadStatus,
+  isLeadSource,
+  isLeadVertical,
+} from './types/lead';

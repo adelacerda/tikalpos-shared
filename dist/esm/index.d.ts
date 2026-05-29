@@ -20,4 +20,6 @@ export type { ChatRoomKind, ChatSenderRole, ChatMessage, ChatClientEventType, Ch
 export { CHAT_ROOMS, isChatRoomKind, CHAT_LIMITS, PUSH_OWNERS, isPushSubscriptionOwnerKind, WEBPUSH_LIMITS, } from './types/messaging';
 export type { MediaAssetKind, MediaAsset, MediaUploadResult, } from './types/media';
 export { MEDIA_KINDS, isMediaAssetKind, MEDIA_LIMITS, } from './types/media';
+export type { LeadStatus, LeadSource, LeadVertical, LeadEventKind, LeadEvent, Lead, CreateLeadInput, UpdateLeadInput, ListLeadsQuery, ListLeadsResult, } from './types/lead';
+export { LEAD_STATUSES, LEAD_SOURCES, LEAD_VERTICALS, LEAD_LIMITS, isLeadStatus, isLeadSource, isLeadVertical, } from './types/lead';
 //# sourceMappingURL=index.d.ts.map
