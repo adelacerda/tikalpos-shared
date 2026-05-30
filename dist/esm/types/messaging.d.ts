@@ -65,7 +65,7 @@ export declare const CHAT_LIMITS: {
     readonly BACKLOG_REPLAY_COUNT: 50;
     readonly RETENTION_DAYS: 30;
 };
-export type PushSubscriptionOwnerKind = 'GUEST' | 'STAFF' | 'DEVICE';
+export type PushSubscriptionOwnerKind = 'GUEST' | 'STAFF' | 'DEVICE' | 'LOYALTY_GUEST';
 export declare const PUSH_OWNERS: readonly PushSubscriptionOwnerKind[];
 export declare function isPushSubscriptionOwnerKind(value: unknown): value is PushSubscriptionOwnerKind;
 export interface WebPushKeys {

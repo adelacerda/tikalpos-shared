@@ -19,7 +19,7 @@ exports.CHAT_LIMITS = {
     BACKLOG_REPLAY_COUNT: 50,
     RETENTION_DAYS: 30,
 };
-exports.PUSH_OWNERS = ['GUEST', 'STAFF', 'DEVICE'];
+exports.PUSH_OWNERS = ['GUEST', 'STAFF', 'DEVICE', 'LOYALTY_GUEST'];
 function isPushSubscriptionOwnerKind(value) {
     return typeof value === 'string' && exports.PUSH_OWNERS.includes(value);
 }
