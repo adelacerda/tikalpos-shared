@@ -14,7 +14,7 @@ export const CHAT_LIMITS = {
     BACKLOG_REPLAY_COUNT: 50,
     RETENTION_DAYS: 30,
 };
-export const PUSH_OWNERS = ['GUEST', 'STAFF', 'DEVICE'];
+export const PUSH_OWNERS = ['GUEST', 'STAFF', 'DEVICE', 'LOYALTY_GUEST'];
 export function isPushSubscriptionOwnerKind(value) {
     return typeof value === 'string' && PUSH_OWNERS.includes(value);
 }

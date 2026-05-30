@@ -74,9 +74,9 @@ export const CHAT_LIMITS = {
 // WebPush / VAPID (FT-GROWTH-015 §3)
 // ──────────────────────────────────────────────
 
-export type PushSubscriptionOwnerKind = 'GUEST' | 'STAFF' | 'DEVICE';
+export type PushSubscriptionOwnerKind = 'GUEST' | 'STAFF' | 'DEVICE' | 'LOYALTY_GUEST';
 
-export const PUSH_OWNERS: readonly PushSubscriptionOwnerKind[] = ['GUEST', 'STAFF', 'DEVICE'] as const;
+export const PUSH_OWNERS: readonly PushSubscriptionOwnerKind[] = ['GUEST', 'STAFF', 'DEVICE', 'LOYALTY_GUEST'] as const;
 
 export function isPushSubscriptionOwnerKind(value: unknown): value is PushSubscriptionOwnerKind {
   return typeof value === 'string' && (PUSH_OWNERS as readonly string[]).includes(value);
