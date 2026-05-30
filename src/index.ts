@@ -253,3 +253,33 @@ export {
   isLeadSource,
   isLeadVertical,
 } from './types/lead';
+
+// Subscription Tiers & Monetization (FT-MONETIZATION-001, Sprint 11.1)
+export type {
+  PlanTier,
+  BillingCycle,
+  SubscriptionStatus,
+  SubscriptionEventKind,
+  AdSegmentationKind,
+  PushSegmentationKind,
+  PushSchedulingKind,
+  PlanLimits,
+  Subscription,
+  UsageWindow,
+  SubscriptionEvent,
+  UsageSnapshot,
+  UpdateSubscriptionInput,
+  ListUsageWindowsQuery,
+  ListSubscriptionEventsQuery,
+} from './types/subscription';
+export {
+  PLAN_TIERS,
+  BILLING_CYCLES,
+  SUBSCRIPTION_STATUSES,
+  SUBSCRIPTION_EVENT_KINDS,
+  PLAN_LIMITS,
+  isPlanTier,
+  isBillingCycle,
+  isSubscriptionStatus,
+  isSubscriptionEventKind,
+} from './types/subscription';
