@@ -28,6 +28,7 @@ export interface PlanLimits {
     promoPushOveragePerPushCents: number;
     promoPushSegmentationKinds: readonly PushSegmentationKind[];
     promoPushSchedulingKinds: readonly PushSchedulingKind[];
+    loyaltyBoostFeeCents: number;
 }
 export declare const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>>;
 export interface Subscription {
@@ -57,9 +58,11 @@ export interface UsageWindow {
     promoPushCount: number;
     promoPushOverageCount: number;
     promoPushOverageCents: number;
+    boostCount: number;
+    boostChargeCents: number;
     closedAt: string | null;
 }
-export type SubscriptionEventKind = 'CREATED' | 'TIER_CHANGED' | 'STATUS_CHANGED' | 'PERIOD_ROLLED' | 'MANUAL_SUSPEND' | 'MANUAL_REACTIVATE';
+export type SubscriptionEventKind = 'CREATED' | 'TIER_CHANGED' | 'STATUS_CHANGED' | 'PERIOD_ROLLED' | 'MANUAL_SUSPEND' | 'MANUAL_REACTIVATE' | 'BOOST_CHARGED';
 export declare const SUBSCRIPTION_EVENT_KINDS: readonly SubscriptionEventKind[];
 export declare function isSubscriptionEventKind(value: unknown): value is SubscriptionEventKind;
 export interface SubscriptionEvent {
