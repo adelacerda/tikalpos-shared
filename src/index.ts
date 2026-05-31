@@ -75,6 +75,7 @@ export type {
   LoyaltyConflictReason,
   LoyaltyMutationEnvelope,
 } from './types/loyalty';
+export { isRewardPromotionActive } from './types/loyalty';
 
 // Sync protocol
 export type {
@@ -205,6 +206,8 @@ export type {
   PushSubscriptionOwnerKind,
   WebPushKeys,
   WebPushSubscriptionInput,
+  ExpoPushSubscriptionInput,
+  PushSubscriptionInput,
   WebPushPayload,
   PushBroadcastFilter,
   PushDispatchResult,
@@ -216,6 +219,7 @@ export {
   CHAT_LIMITS,
   PUSH_OWNERS,
   isPushSubscriptionOwnerKind,
+  isExpoPushSubscription,
   WEBPUSH_LIMITS,
 } from './types/messaging';
 
@@ -253,6 +257,36 @@ export {
   isLeadSource,
   isLeadVertical,
 } from './types/lead';
+
+// TikalLoyalty Mobile App (FT-GROWTH-002, Sprint 12.1)
+export type {
+  LoyaltyAuthProvider,
+  LoyaltyTransactionKind,
+  LoyaltyPushTopic,
+  LoyaltyMobileProfile,
+  LoyaltyMobileSession,
+  LoyaltyAuthGoogleInput,
+  LoyaltyAuthAppleInput,
+  LoyaltyAuthEmailInput,
+  LoyaltyFranchiseBranding,
+  LoyaltyMemberSummary,
+  LoyaltyTransactionEntry,
+  LoyaltyRewardCard,
+  LoyaltyFranchiseDetail,
+  LoyaltyRedemptionHold,
+  ReserveRewardInput,
+  LoyaltyAdCampaignCard,
+  LoyaltyPushSubscribeInput,
+  UpdateLoyaltyProfileInput,
+} from './types/loyalty-mobile';
+export {
+  LOYALTY_AUTH_PROVIDERS,
+  LOYALTY_TRANSACTION_KINDS,
+  LOYALTY_PUSH_TOPICS,
+  isLoyaltyAuthProvider,
+  isLoyaltyTransactionKind,
+  isLoyaltyPushTopic,
+} from './types/loyalty-mobile';
 
 // Subscription Tiers & Monetization (FT-MONETIZATION-001, Sprint 11.1)
 export type {

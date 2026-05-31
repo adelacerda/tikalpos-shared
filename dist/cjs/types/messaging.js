@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WEBPUSH_LIMITS = exports.PUSH_OWNERS = exports.CHAT_LIMITS = exports.CHAT_ROOMS = void 0;
 exports.isChatRoomKind = isChatRoomKind;
 exports.isPushSubscriptionOwnerKind = isPushSubscriptionOwnerKind;
+exports.isExpoPushSubscription = isExpoPushSubscription;
 exports.CHAT_ROOMS = ['PRESALES', 'B2B'];
 function isChatRoomKind(value) {
     return typeof value === 'string' && exports.CHAT_ROOMS.includes(value);
@@ -19,9 +20,13 @@ exports.CHAT_LIMITS = {
     BACKLOG_REPLAY_COUNT: 50,
     RETENTION_DAYS: 30,
 };
-exports.PUSH_OWNERS = ['GUEST', 'STAFF', 'DEVICE'];
+exports.PUSH_OWNERS = ['GUEST', 'STAFF', 'DEVICE', 'LOYALTY_GUEST'];
 function isPushSubscriptionOwnerKind(value) {
     return typeof value === 'string' && exports.PUSH_OWNERS.includes(value);
+}
+function isExpoPushSubscription(input) {
+    return (typeof input.expoPushToken === 'string' &&
+        input.expoPushToken.length > 0);
 }
 exports.WEBPUSH_LIMITS = {
     MAX_PAYLOAD_BYTES: 3900,

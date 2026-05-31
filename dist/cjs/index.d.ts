@@ -4,6 +4,7 @@ export type { MenuCategory, MenuItem, MenuItemStatus, ModifierGroup, Modifier, S
 export type { Order, OrderStatus, OrderType, OrderLineItem, OrderPayment, PaymentMethodType, PaymentStatus, } from './types/order';
 export type { PaymentRequest, PaymentResult, RefundRequest, RefundResult, ProcessorStatus, IPaymentProcessor, PaymentMethod, } from './types/payment';
 export type { LoyaltyConfig, TierThreshold, LoyaltyTransaction, LoyaltyTransactionType, RewardCatalogItem, EarnPointsInput, EarnPointsResult, RedeemRewardInput, RedeemRewardResult, HighPrecisionTimestamp, LoyaltyMutationOutcome, LoyaltyConflictReason, LoyaltyMutationEnvelope, } from './types/loyalty';
+export { isRewardPromotionActive } from './types/loyalty';
 export type { SyncEntityType, SyncAction, SyncChangeRecord, SyncPushRequest, SyncPushResponse, SyncConflict, SyncPullRequest, SyncPullResponse, } from './types/sync';
 export type { KdsTicket, KdsTicketItem, KdsTicketStatus, KdsItemStatus, SendToKdsRequest, SendToKdsResponse, } from './types/kds';
 export type { Reservation, ReservationStatus, CreateReservationInput, UpdateReservationInput, } from './types/reservation';
@@ -16,12 +17,14 @@ export type { TelemetrySeverity, TelemetryHttpMethod, TelemetryNetworkFailureKin
 export { TELEMETRY_BUFFER_CAPS, TELEMETRY_FLUSH_INTERVAL_MS, } from './types/telemetry';
 export type { MigrationSource, MigrationSourceFormat, MigrationMode, MigrationEntityKind, MigrationRowOutcome, MigrationConflictReason, MigrationPayload, MigrationRowError, MigrationEntityTally, MigrationConflict, MigrationResultReport, } from './types/migration';
 export { MIGRATION_SOURCES, isMigrationSource, MIGRATION_LIMITS, } from './types/migration';
-export type { ChatRoomKind, ChatSenderRole, ChatMessage, ChatClientEventType, ChatClientEvent, ChatServerEventType, ChatServerEvent, ChatErrorCode, PushSubscriptionOwnerKind, WebPushKeys, WebPushSubscriptionInput, WebPushPayload, PushBroadcastFilter, PushDispatchResult, PushBroadcastReport, } from './types/messaging';
-export { CHAT_ROOMS, isChatRoomKind, CHAT_LIMITS, PUSH_OWNERS, isPushSubscriptionOwnerKind, WEBPUSH_LIMITS, } from './types/messaging';
+export type { ChatRoomKind, ChatSenderRole, ChatMessage, ChatClientEventType, ChatClientEvent, ChatServerEventType, ChatServerEvent, ChatErrorCode, PushSubscriptionOwnerKind, WebPushKeys, WebPushSubscriptionInput, ExpoPushSubscriptionInput, PushSubscriptionInput, WebPushPayload, PushBroadcastFilter, PushDispatchResult, PushBroadcastReport, } from './types/messaging';
+export { CHAT_ROOMS, isChatRoomKind, CHAT_LIMITS, PUSH_OWNERS, isPushSubscriptionOwnerKind, isExpoPushSubscription, WEBPUSH_LIMITS, } from './types/messaging';
 export type { MediaAssetKind, MediaAsset, MediaUploadResult, } from './types/media';
 export { MEDIA_KINDS, isMediaAssetKind, MEDIA_LIMITS, } from './types/media';
 export type { LeadStatus, LeadSource, LeadVertical, LeadEventKind, LeadEvent, Lead, CreateLeadInput, UpdateLeadInput, ListLeadsQuery, ListLeadsResult, } from './types/lead';
 export { LEAD_STATUSES, LEAD_SOURCES, LEAD_VERTICALS, LEAD_LIMITS, isLeadStatus, isLeadSource, isLeadVertical, } from './types/lead';
+export type { LoyaltyAuthProvider, LoyaltyTransactionKind, LoyaltyPushTopic, LoyaltyMobileProfile, LoyaltyMobileSession, LoyaltyAuthGoogleInput, LoyaltyAuthAppleInput, LoyaltyAuthEmailInput, LoyaltyFranchiseBranding, LoyaltyMemberSummary, LoyaltyTransactionEntry, LoyaltyRewardCard, LoyaltyFranchiseDetail, LoyaltyRedemptionHold, ReserveRewardInput, LoyaltyAdCampaignCard, LoyaltyPushSubscribeInput, UpdateLoyaltyProfileInput, } from './types/loyalty-mobile';
+export { LOYALTY_AUTH_PROVIDERS, LOYALTY_TRANSACTION_KINDS, LOYALTY_PUSH_TOPICS, isLoyaltyAuthProvider, isLoyaltyTransactionKind, isLoyaltyPushTopic, } from './types/loyalty-mobile';
 export type { PlanTier, BillingCycle, SubscriptionStatus, SubscriptionEventKind, AdSegmentationKind, PushSegmentationKind, PushSchedulingKind, PlanLimits, Subscription, UsageWindow, SubscriptionEvent, UsageSnapshot, UpdateSubscriptionInput, ListUsageWindowsQuery, ListSubscriptionEventsQuery, } from './types/subscription';
 export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS, PLAN_LIMITS, isPlanTier, isBillingCycle, isSubscriptionStatus, isSubscriptionEventKind, } from './types/subscription';
 //# sourceMappingURL=index.d.ts.map

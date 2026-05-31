@@ -74,9 +74,9 @@ export const CHAT_LIMITS = {
 // WebPush / VAPID (FT-GROWTH-015 §3)
 // ──────────────────────────────────────────────
 
-export type PushSubscriptionOwnerKind = 'GUEST' | 'STAFF' | 'DEVICE';
+export type PushSubscriptionOwnerKind = 'GUEST' | 'STAFF' | 'DEVICE' | 'LOYALTY_GUEST';
 
-export const PUSH_OWNERS: readonly PushSubscriptionOwnerKind[] = ['GUEST', 'STAFF', 'DEVICE'] as const;
+export const PUSH_OWNERS: readonly PushSubscriptionOwnerKind[] = ['GUEST', 'STAFF', 'DEVICE', 'LOYALTY_GUEST'] as const;
 
 export function isPushSubscriptionOwnerKind(value: unknown): value is PushSubscriptionOwnerKind {
   return typeof value === 'string' && (PUSH_OWNERS as readonly string[]).includes(value);
@@ -94,6 +94,28 @@ export interface WebPushSubscriptionInput {
   ownerId: string;
   organizationId?: string;
   userAgent?: string;
+}
+
+// Sprint 12.5 / FT-GROWTH-002 — Expo Push path for the native loyalty app.
+// The backend stores an Expo push token instead of WebPush endpoint+keys and
+// dispatches through Expo's push service. Same owner/org scoping as WebPush.
+export interface ExpoPushSubscriptionInput {
+  expoPushToken: string;
+  ownerType: PushSubscriptionOwnerKind;
+  ownerId: string;
+  organizationId?: string;
+  userAgent?: string;
+}
+
+export type PushSubscriptionInput = WebPushSubscriptionInput | ExpoPushSubscriptionInput;
+
+export function isExpoPushSubscription(
+  input: PushSubscriptionInput,
+): input is ExpoPushSubscriptionInput {
+  return (
+    typeof (input as ExpoPushSubscriptionInput).expoPushToken === 'string' &&
+    (input as ExpoPushSubscriptionInput).expoPushToken.length > 0
+  );
 }
 
 export interface WebPushPayload {

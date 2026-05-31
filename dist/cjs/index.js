@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isSubscriptionEventKind = exports.isSubscriptionStatus = exports.isBillingCycle = exports.isPlanTier = exports.PLAN_LIMITS = exports.SUBSCRIPTION_EVENT_KINDS = exports.SUBSCRIPTION_STATUSES = exports.BILLING_CYCLES = exports.PLAN_TIERS = exports.isLeadVertical = exports.isLeadSource = exports.isLeadStatus = exports.LEAD_LIMITS = exports.LEAD_VERTICALS = exports.LEAD_SOURCES = exports.LEAD_STATUSES = exports.MEDIA_LIMITS = exports.isMediaAssetKind = exports.MEDIA_KINDS = exports.WEBPUSH_LIMITS = exports.isPushSubscriptionOwnerKind = exports.PUSH_OWNERS = exports.CHAT_LIMITS = exports.isChatRoomKind = exports.CHAT_ROOMS = exports.MIGRATION_LIMITS = exports.isMigrationSource = exports.MIGRATION_SOURCES = exports.TELEMETRY_FLUSH_INTERVAL_MS = exports.TELEMETRY_BUFFER_CAPS = exports.isDeviceRole = exports.DEVICE_ROLES = exports.allowedDeviceRolesFor = exports.allowedStaffRolesFor = exports.isStaffRole = exports.STAFF_ROLES = void 0;
+exports.isSubscriptionEventKind = exports.isSubscriptionStatus = exports.isBillingCycle = exports.isPlanTier = exports.PLAN_LIMITS = exports.SUBSCRIPTION_EVENT_KINDS = exports.SUBSCRIPTION_STATUSES = exports.BILLING_CYCLES = exports.PLAN_TIERS = exports.isLoyaltyPushTopic = exports.isLoyaltyTransactionKind = exports.isLoyaltyAuthProvider = exports.LOYALTY_PUSH_TOPICS = exports.LOYALTY_TRANSACTION_KINDS = exports.LOYALTY_AUTH_PROVIDERS = exports.isLeadVertical = exports.isLeadSource = exports.isLeadStatus = exports.LEAD_LIMITS = exports.LEAD_VERTICALS = exports.LEAD_SOURCES = exports.LEAD_STATUSES = exports.MEDIA_LIMITS = exports.isMediaAssetKind = exports.MEDIA_KINDS = exports.WEBPUSH_LIMITS = exports.isExpoPushSubscription = exports.isPushSubscriptionOwnerKind = exports.PUSH_OWNERS = exports.CHAT_LIMITS = exports.isChatRoomKind = exports.CHAT_ROOMS = exports.MIGRATION_LIMITS = exports.isMigrationSource = exports.MIGRATION_SOURCES = exports.TELEMETRY_FLUSH_INTERVAL_MS = exports.TELEMETRY_BUFFER_CAPS = exports.isDeviceRole = exports.DEVICE_ROLES = exports.isRewardPromotionActive = exports.allowedDeviceRolesFor = exports.allowedStaffRolesFor = exports.isStaffRole = exports.STAFF_ROLES = void 0;
 var tenant_1 = require("./types/tenant");
 Object.defineProperty(exports, "STAFF_ROLES", { enumerable: true, get: function () { return tenant_1.STAFF_ROLES; } });
 Object.defineProperty(exports, "isStaffRole", { enumerable: true, get: function () { return tenant_1.isStaffRole; } });
 Object.defineProperty(exports, "allowedStaffRolesFor", { enumerable: true, get: function () { return tenant_1.allowedStaffRolesFor; } });
 Object.defineProperty(exports, "allowedDeviceRolesFor", { enumerable: true, get: function () { return tenant_1.allowedDeviceRolesFor; } });
+var loyalty_1 = require("./types/loyalty");
+Object.defineProperty(exports, "isRewardPromotionActive", { enumerable: true, get: function () { return loyalty_1.isRewardPromotionActive; } });
 var device_1 = require("./types/device");
 Object.defineProperty(exports, "DEVICE_ROLES", { enumerable: true, get: function () { return device_1.DEVICE_ROLES; } });
 Object.defineProperty(exports, "isDeviceRole", { enumerable: true, get: function () { return device_1.isDeviceRole; } });
@@ -22,6 +24,7 @@ Object.defineProperty(exports, "isChatRoomKind", { enumerable: true, get: functi
 Object.defineProperty(exports, "CHAT_LIMITS", { enumerable: true, get: function () { return messaging_1.CHAT_LIMITS; } });
 Object.defineProperty(exports, "PUSH_OWNERS", { enumerable: true, get: function () { return messaging_1.PUSH_OWNERS; } });
 Object.defineProperty(exports, "isPushSubscriptionOwnerKind", { enumerable: true, get: function () { return messaging_1.isPushSubscriptionOwnerKind; } });
+Object.defineProperty(exports, "isExpoPushSubscription", { enumerable: true, get: function () { return messaging_1.isExpoPushSubscription; } });
 Object.defineProperty(exports, "WEBPUSH_LIMITS", { enumerable: true, get: function () { return messaging_1.WEBPUSH_LIMITS; } });
 var media_1 = require("./types/media");
 Object.defineProperty(exports, "MEDIA_KINDS", { enumerable: true, get: function () { return media_1.MEDIA_KINDS; } });
@@ -35,6 +38,13 @@ Object.defineProperty(exports, "LEAD_LIMITS", { enumerable: true, get: function 
 Object.defineProperty(exports, "isLeadStatus", { enumerable: true, get: function () { return lead_1.isLeadStatus; } });
 Object.defineProperty(exports, "isLeadSource", { enumerable: true, get: function () { return lead_1.isLeadSource; } });
 Object.defineProperty(exports, "isLeadVertical", { enumerable: true, get: function () { return lead_1.isLeadVertical; } });
+var loyalty_mobile_1 = require("./types/loyalty-mobile");
+Object.defineProperty(exports, "LOYALTY_AUTH_PROVIDERS", { enumerable: true, get: function () { return loyalty_mobile_1.LOYALTY_AUTH_PROVIDERS; } });
+Object.defineProperty(exports, "LOYALTY_TRANSACTION_KINDS", { enumerable: true, get: function () { return loyalty_mobile_1.LOYALTY_TRANSACTION_KINDS; } });
+Object.defineProperty(exports, "LOYALTY_PUSH_TOPICS", { enumerable: true, get: function () { return loyalty_mobile_1.LOYALTY_PUSH_TOPICS; } });
+Object.defineProperty(exports, "isLoyaltyAuthProvider", { enumerable: true, get: function () { return loyalty_mobile_1.isLoyaltyAuthProvider; } });
+Object.defineProperty(exports, "isLoyaltyTransactionKind", { enumerable: true, get: function () { return loyalty_mobile_1.isLoyaltyTransactionKind; } });
+Object.defineProperty(exports, "isLoyaltyPushTopic", { enumerable: true, get: function () { return loyalty_mobile_1.isLoyaltyPushTopic; } });
 var subscription_1 = require("./types/subscription");
 Object.defineProperty(exports, "PLAN_TIERS", { enumerable: true, get: function () { return subscription_1.PLAN_TIERS; } });
 Object.defineProperty(exports, "BILLING_CYCLES", { enumerable: true, get: function () { return subscription_1.BILLING_CYCLES; } });
