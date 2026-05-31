@@ -49,6 +49,23 @@ export interface RewardCatalogItem {
   redemptionWindowDays?: number;
   discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT';
   discountValue?: number;
+  // Reward promotion (Sprint 12.5d / FT-GROWTH-002): a temporary reduced
+  // point cost with an end date. A promotion is "active" when promoEndsAt is
+  // in the future and promoPointsCost is below the regular pointsCost. When
+  // active the mobile feed surfaces promoPointsCost as the cost and pointsCost
+  // as the struck-through original.
+  promoPointsCost?: number;
+  promoEndsAt?: string; // ISO-8601
+}
+
+/** True when a catalog item has an active promotion at `now`. */
+export function isRewardPromotionActive(item: RewardCatalogItem, now: number = Date.now()): boolean {
+  return (
+    typeof item.promoPointsCost === 'number' &&
+    typeof item.promoEndsAt === 'string' &&
+    item.promoPointsCost < item.pointsCost &&
+    new Date(item.promoEndsAt).getTime() > now
+  );
 }
 
 export interface EarnPointsInput {

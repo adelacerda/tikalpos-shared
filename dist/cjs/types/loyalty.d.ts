@@ -39,7 +39,11 @@ export interface RewardCatalogItem {
     redemptionWindowDays?: number;
     discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT';
     discountValue?: number;
+    promoPointsCost?: number;
+    promoEndsAt?: string;
 }
+/** True when a catalog item has an active promotion at `now`. */
+export declare function isRewardPromotionActive(item: RewardCatalogItem, now?: number): boolean;
 export interface EarnPointsInput {
     guestId: string;
     organizationId: string;
