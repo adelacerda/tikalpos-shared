@@ -8,4 +8,10 @@ export function isRewardPromotionActive(item, now = Date.now()) {
         item.promoPointsCost < item.pointsCost &&
         new Date(item.promoEndsAt).getTime() > now);
 }
+/** True when a catalog item is a featured (neon-boosted) reward at `now`. */
+export function isRewardBoostActive(item, now = Date.now()) {
+    return (item.featured === true &&
+        typeof item.featuredUntil === 'string' &&
+        new Date(item.featuredUntil).getTime() > now);
+}
 //# sourceMappingURL=loyalty.js.map

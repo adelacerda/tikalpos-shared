@@ -56,6 +56,12 @@ export interface RewardCatalogItem {
   // as the struck-through original.
   promoPointsCost?: number;
   promoEndsAt?: string; // ISO-8601
+  // Featured boost (FT-GROWTH-017 §Canal 2): a paid highlight that renders the
+  // reward in neon + top placement in the app for a window. Independent of a
+  // promotion (though usually paired). "Active" when featured && featuredUntil
+  // is in the future.
+  featured?: boolean;
+  featuredUntil?: string; // ISO-8601
 }
 
 /** True when a catalog item has an active promotion at `now`. */
@@ -65,6 +71,15 @@ export function isRewardPromotionActive(item: RewardCatalogItem, now: number = D
     typeof item.promoEndsAt === 'string' &&
     item.promoPointsCost < item.pointsCost &&
     new Date(item.promoEndsAt).getTime() > now
+  );
+}
+
+/** True when a catalog item is a featured (neon-boosted) reward at `now`. */
+export function isRewardBoostActive(item: RewardCatalogItem, now: number = Date.now()): boolean {
+  return (
+    item.featured === true &&
+    typeof item.featuredUntil === 'string' &&
+    new Date(item.featuredUntil).getTime() > now
   );
 }
 

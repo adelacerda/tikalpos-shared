@@ -133,6 +133,7 @@ export interface LoyaltyRewardCard {
   imageUrl?: string | null;
   promotionEndsAt?: string | null;
   redeemableUntil?: string | null;
+  featured?: boolean; // FT-GROWTH-017 §Canal 2 — neon-boosted highlight
 }
 
 export interface LoyaltyFranchiseDetail {

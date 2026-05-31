@@ -4,7 +4,7 @@ export type { MenuCategory, MenuItem, MenuItemStatus, ModifierGroup, Modifier, S
 export type { Order, OrderStatus, OrderType, OrderLineItem, OrderPayment, PaymentMethodType, PaymentStatus, } from './types/order';
 export type { PaymentRequest, PaymentResult, RefundRequest, RefundResult, ProcessorStatus, IPaymentProcessor, PaymentMethod, } from './types/payment';
 export type { LoyaltyConfig, TierThreshold, LoyaltyTransaction, LoyaltyTransactionType, RewardCatalogItem, EarnPointsInput, EarnPointsResult, RedeemRewardInput, RedeemRewardResult, HighPrecisionTimestamp, LoyaltyMutationOutcome, LoyaltyConflictReason, LoyaltyMutationEnvelope, } from './types/loyalty';
-export { isRewardPromotionActive } from './types/loyalty';
+export { isRewardPromotionActive, isRewardBoostActive } from './types/loyalty';
 export type { SyncEntityType, SyncAction, SyncChangeRecord, SyncPushRequest, SyncPushResponse, SyncConflict, SyncPullRequest, SyncPullResponse, } from './types/sync';
 export type { KdsTicket, KdsTicketItem, KdsTicketStatus, KdsItemStatus, SendToKdsRequest, SendToKdsResponse, } from './types/kds';
 export type { Reservation, ReservationStatus, CreateReservationInput, UpdateReservationInput, } from './types/reservation';
