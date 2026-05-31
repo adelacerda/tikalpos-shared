@@ -41,9 +41,13 @@ export interface RewardCatalogItem {
     discountValue?: number;
     promoPointsCost?: number;
     promoEndsAt?: string;
+    featured?: boolean;
+    featuredUntil?: string;
 }
 /** True when a catalog item has an active promotion at `now`. */
 export declare function isRewardPromotionActive(item: RewardCatalogItem, now?: number): boolean;
+/** True when a catalog item is a featured (neon-boosted) reward at `now`. */
+export declare function isRewardBoostActive(item: RewardCatalogItem, now?: number): boolean;
 export interface EarnPointsInput {
     guestId: string;
     organizationId: string;
