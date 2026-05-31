@@ -205,6 +205,8 @@ export type {
   PushSubscriptionOwnerKind,
   WebPushKeys,
   WebPushSubscriptionInput,
+  ExpoPushSubscriptionInput,
+  PushSubscriptionInput,
   WebPushPayload,
   PushBroadcastFilter,
   PushDispatchResult,
@@ -216,6 +218,7 @@ export {
   CHAT_LIMITS,
   PUSH_OWNERS,
   isPushSubscriptionOwnerKind,
+  isExpoPushSubscription,
   WEBPUSH_LIMITS,
 } from './types/messaging';
 

@@ -18,6 +18,10 @@ export const PUSH_OWNERS = ['GUEST', 'STAFF', 'DEVICE', 'LOYALTY_GUEST'];
 export function isPushSubscriptionOwnerKind(value) {
     return typeof value === 'string' && PUSH_OWNERS.includes(value);
 }
+export function isExpoPushSubscription(input) {
+    return (typeof input.expoPushToken === 'string' &&
+        input.expoPushToken.length > 0);
+}
 export const WEBPUSH_LIMITS = {
     MAX_PAYLOAD_BYTES: 3900,
     DEFAULT_TTL_SECONDS: 86400,

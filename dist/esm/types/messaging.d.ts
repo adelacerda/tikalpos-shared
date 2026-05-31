@@ -80,6 +80,15 @@ export interface WebPushSubscriptionInput {
     organizationId?: string;
     userAgent?: string;
 }
+export interface ExpoPushSubscriptionInput {
+    expoPushToken: string;
+    ownerType: PushSubscriptionOwnerKind;
+    ownerId: string;
+    organizationId?: string;
+    userAgent?: string;
+}
+export type PushSubscriptionInput = WebPushSubscriptionInput | ExpoPushSubscriptionInput;
+export declare function isExpoPushSubscription(input: PushSubscriptionInput): input is ExpoPushSubscriptionInput;
 export interface WebPushPayload {
     title: string;
     body: string;
