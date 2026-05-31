@@ -75,6 +75,7 @@ export type {
   LoyaltyConflictReason,
   LoyaltyMutationEnvelope,
 } from './types/loyalty';
+export { isRewardPromotionActive } from './types/loyalty';
 
 // Sync protocol
 export type {
