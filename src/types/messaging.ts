@@ -96,6 +96,28 @@ export interface WebPushSubscriptionInput {
   userAgent?: string;
 }
 
+// Sprint 12.5 / FT-GROWTH-002 — Expo Push path for the native loyalty app.
+// The backend stores an Expo push token instead of WebPush endpoint+keys and
+// dispatches through Expo's push service. Same owner/org scoping as WebPush.
+export interface ExpoPushSubscriptionInput {
+  expoPushToken: string;
+  ownerType: PushSubscriptionOwnerKind;
+  ownerId: string;
+  organizationId?: string;
+  userAgent?: string;
+}
+
+export type PushSubscriptionInput = WebPushSubscriptionInput | ExpoPushSubscriptionInput;
+
+export function isExpoPushSubscription(
+  input: PushSubscriptionInput,
+): input is ExpoPushSubscriptionInput {
+  return (
+    typeof (input as ExpoPushSubscriptionInput).expoPushToken === 'string' &&
+    (input as ExpoPushSubscriptionInput).expoPushToken.length > 0
+  );
+}
+
 export interface WebPushPayload {
   title: string;
   body: string;
