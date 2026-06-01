@@ -44,11 +44,23 @@ export interface RewardCatalogItem {
     featured?: boolean;
     featuredUntil?: string;
     corporateOnly?: boolean;
+    welcome?: boolean;
+    discoveryHighlight?: boolean;
+    discoveryHighlightStartsAt?: string;
+    discoveryHighlightEndsAt?: string;
+    discoveryHighlightLockedFeeCents?: number;
 }
 /** True when a catalog item has an active promotion at `now`. */
 export declare function isRewardPromotionActive(item: RewardCatalogItem, now?: number): boolean;
 /** True when a catalog item is a featured (neon-boosted) reward at `now`. */
 export declare function isRewardBoostActive(item: RewardCatalogItem, now?: number): boolean;
+/**
+ * True when a reward's discovery-highlight opt-in is active at `now` — i.e.
+ * the merchant opted in and `now` falls within [startsAt, endsAt]. Such a
+ * reward's franchise is eligible to win the rotated neon spotlight in the
+ * home discovery carousel.
+ */
+export declare function isDiscoveryHighlightActive(item: RewardCatalogItem, now?: number): boolean;
 export interface EarnPointsInput {
     guestId: string;
     organizationId: string;

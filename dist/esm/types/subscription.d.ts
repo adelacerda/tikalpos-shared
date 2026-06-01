@@ -60,9 +60,11 @@ export interface UsageWindow {
     promoPushOverageCents: number;
     boostCount: number;
     boostChargeCents: number;
+    discoveryHighlightCount: number;
+    discoveryHighlightChargeCents: number;
     closedAt: string | null;
 }
-export type SubscriptionEventKind = 'CREATED' | 'TIER_CHANGED' | 'STATUS_CHANGED' | 'PERIOD_ROLLED' | 'MANUAL_SUSPEND' | 'MANUAL_REACTIVATE' | 'BOOST_CHARGED';
+export type SubscriptionEventKind = 'CREATED' | 'TIER_CHANGED' | 'STATUS_CHANGED' | 'PERIOD_ROLLED' | 'MANUAL_SUSPEND' | 'MANUAL_REACTIVATE' | 'BOOST_CHARGED' | 'DISCOVERY_HIGHLIGHT_CHARGED';
 export declare const SUBSCRIPTION_EVENT_KINDS: readonly SubscriptionEventKind[];
 export declare function isSubscriptionEventKind(value: unknown): value is SubscriptionEventKind;
 export interface SubscriptionEvent {

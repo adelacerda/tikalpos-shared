@@ -14,4 +14,17 @@ export function isRewardBoostActive(item, now = Date.now()) {
         typeof item.featuredUntil === 'string' &&
         new Date(item.featuredUntil).getTime() > now);
 }
+/**
+ * True when a reward's discovery-highlight opt-in is active at `now` — i.e.
+ * the merchant opted in and `now` falls within [startsAt, endsAt]. Such a
+ * reward's franchise is eligible to win the rotated neon spotlight in the
+ * home discovery carousel.
+ */
+export function isDiscoveryHighlightActive(item, now = Date.now()) {
+    return (item.discoveryHighlight === true &&
+        typeof item.discoveryHighlightStartsAt === 'string' &&
+        typeof item.discoveryHighlightEndsAt === 'string' &&
+        new Date(item.discoveryHighlightStartsAt).getTime() <= now &&
+        new Date(item.discoveryHighlightEndsAt).getTime() > now);
+}
 //# sourceMappingURL=loyalty.js.map

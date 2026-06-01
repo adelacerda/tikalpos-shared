@@ -180,6 +180,19 @@ export interface LoyaltyAdCampaignCard {
   expiresAt?: string | null;
 }
 
+// ── Discovery carousel ──────────────────────────────────────────────────────
+// Cross-merchant acquisition feed: one card per franchise the guest is NOT
+// enrolled in, showing its welcome reward (or lowest-cost fallback). At most
+// one card per response is `highlighted` (the rotated, paid neon winner —
+// fixed per user/day, server-side), and the highlighted card is returned first.
+// See docs/feature-discovery-carousel.md.
+export interface LoyaltyDiscoveryCard {
+  orgId: string;
+  branding: LoyaltyFranchiseBranding;
+  reward: LoyaltyRewardCard; // the welcome reward, else the lowest-cost one
+  highlighted: boolean;      // neon spotlight winner for this user today
+}
+
 // ── Push registration ──────────────────────────────────────────────────────
 
 export interface LoyaltyPushSubscribeInput {
