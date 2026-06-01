@@ -288,6 +288,20 @@ export {
   isLoyaltyPushTopic,
 } from './types/loyalty-mobile';
 
+// Corporate Employee Benefits (FT-GROWTH-018 §Canal 1)
+export type {
+  CorporateAccountStatus,
+  CorporateAccount,
+  CorporateMembershipStatus,
+  CorporateMembership,
+  CreateCorporateAccountInput,
+  RedeemCorporateInviteInput,
+} from './types/corporate';
+export {
+  CORPORATE_ACCOUNT_STATUSES,
+  CORPORATE_MEMBERSHIP_STATUSES,
+} from './types/corporate';
+
 // Subscription Tiers & Monetization (FT-MONETIZATION-001, Sprint 11.1)
 export type {
   PlanTier,

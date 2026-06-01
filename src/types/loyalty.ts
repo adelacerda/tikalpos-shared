@@ -62,6 +62,9 @@ export interface RewardCatalogItem {
   // is in the future.
   featured?: boolean;
   featuredUntil?: string; // ISO-8601
+  // Corporate-only (FT-GROWTH-018 §Canal 1): redeemable only by employees of a
+  // company with an active CorporateAccount for this franchise.
+  corporateOnly?: boolean;
 }
 
 /** True when a catalog item has an active promotion at `now`. */

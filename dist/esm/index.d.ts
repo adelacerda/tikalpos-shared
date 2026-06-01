@@ -25,6 +25,8 @@ export type { LeadStatus, LeadSource, LeadVertical, LeadEventKind, LeadEvent, Le
 export { LEAD_STATUSES, LEAD_SOURCES, LEAD_VERTICALS, LEAD_LIMITS, isLeadStatus, isLeadSource, isLeadVertical, } from './types/lead';
 export type { LoyaltyAuthProvider, LoyaltyTransactionKind, LoyaltyPushTopic, LoyaltyMobileProfile, LoyaltyMobileSession, LoyaltyAuthGoogleInput, LoyaltyAuthAppleInput, LoyaltyAuthEmailInput, LoyaltyFranchiseBranding, LoyaltyMemberSummary, LoyaltyTransactionEntry, LoyaltyRewardCard, LoyaltyFranchiseDetail, LoyaltyRedemptionHold, ReserveRewardInput, LoyaltyAdCampaignCard, LoyaltyPushSubscribeInput, UpdateLoyaltyProfileInput, } from './types/loyalty-mobile';
 export { LOYALTY_AUTH_PROVIDERS, LOYALTY_TRANSACTION_KINDS, LOYALTY_PUSH_TOPICS, isLoyaltyAuthProvider, isLoyaltyTransactionKind, isLoyaltyPushTopic, } from './types/loyalty-mobile';
+export type { CorporateAccountStatus, CorporateAccount, CorporateMembershipStatus, CorporateMembership, CreateCorporateAccountInput, RedeemCorporateInviteInput, } from './types/corporate';
+export { CORPORATE_ACCOUNT_STATUSES, CORPORATE_MEMBERSHIP_STATUSES, } from './types/corporate';
 export type { PlanTier, BillingCycle, SubscriptionStatus, SubscriptionEventKind, AdSegmentationKind, PushSegmentationKind, PushSchedulingKind, PlanLimits, Subscription, UsageWindow, SubscriptionEvent, UsageSnapshot, UpdateSubscriptionInput, ListUsageWindowsQuery, ListSubscriptionEventsQuery, } from './types/subscription';
 export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS, PLAN_LIMITS, isPlanTier, isBillingCycle, isSubscriptionStatus, isSubscriptionEventKind, } from './types/subscription';
 //# sourceMappingURL=index.d.ts.map
