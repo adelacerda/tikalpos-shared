@@ -43,6 +43,7 @@ export interface RewardCatalogItem {
     promoEndsAt?: string;
     featured?: boolean;
     featuredUntil?: string;
+    corporateOnly?: boolean;
 }
 /** True when a catalog item has an active promotion at `now`. */
 export declare function isRewardPromotionActive(item: RewardCatalogItem, now?: number): boolean;
