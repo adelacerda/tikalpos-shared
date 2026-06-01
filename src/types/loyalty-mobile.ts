@@ -119,7 +119,9 @@ export interface LoyaltyTransactionEntry {
   kind: LoyaltyTransactionKind;
   points: number;           // signed: +earn, -redeem, -expiry
   balanceAfter: number;
-  description: string;
+  description: string;       // backend-generated (English); kept for web/legacy
+  amountCents: number | null; // money tied to the txn (order total for EARN); null otherwise
+  currency: string;         // ISO-4217 of the franchise (e.g. "GTQ") — money rendered client-side
   occurredAt: string;       // ISO-8601
   orgId: string;
 }
