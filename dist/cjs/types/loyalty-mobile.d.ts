@@ -60,6 +60,8 @@ export interface LoyaltyTransactionEntry {
     points: number;
     balanceAfter: number;
     description: string;
+    amountCents: number | null;
+    currency: string;
     occurredAt: string;
     orgId: string;
 }
