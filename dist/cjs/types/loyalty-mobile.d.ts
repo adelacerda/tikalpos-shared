@@ -73,6 +73,7 @@ export interface LoyaltyRewardCard {
     promotionEndsAt?: string | null;
     redeemableUntil?: string | null;
     featured?: boolean;
+    corporateOnly?: boolean;
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
