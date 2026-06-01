@@ -302,6 +302,17 @@ export {
   CORPORATE_MEMBERSHIP_STATUSES,
 } from './types/corporate';
 
+// Cross-Tenant Loyalty Coalition (FT-GROWTH-008 §Canal 4)
+export type {
+  CoalitionStatus,
+  CoalitionMemberOrg,
+  Coalition,
+  CreateCoalitionInput,
+  LoyaltyCoalitionFranchise,
+  LoyaltyCoalitionSummary,
+} from './types/coalition';
+export { COALITION_STATUSES } from './types/coalition';
+
 // Subscription Tiers & Monetization (FT-MONETIZATION-001, Sprint 11.1)
 export type {
   PlanTier,
