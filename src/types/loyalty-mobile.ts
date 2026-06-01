@@ -134,6 +134,7 @@ export interface LoyaltyRewardCard {
   promotionEndsAt?: string | null;
   redeemableUntil?: string | null;
   featured?: boolean; // FT-GROWTH-017 §Canal 2 — neon-boosted highlight
+  corporateOnly?: boolean; // FT-GROWTH-018 §Canal 1 — corporate-member-only
 }
 
 export interface LoyaltyFranchiseDetail {
