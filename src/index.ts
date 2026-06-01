@@ -310,6 +310,7 @@ export type {
   CreateCoalitionInput,
   LoyaltyCoalitionFranchise,
   LoyaltyCoalitionSummary,
+  CoalitionSettlement,
 } from './types/coalition';
 export { COALITION_STATUSES } from './types/coalition';
 

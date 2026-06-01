@@ -28,4 +28,16 @@ export interface LoyaltyCoalitionSummary {
     combinedPoints: number;
     franchises: LoyaltyCoalitionFranchise[];
 }
+export interface CoalitionSettlement {
+    id: string;
+    coalitionId: string;
+    debtorOrgId: string;
+    debtorName: string;
+    creditorOrgId: string;
+    creditorName: string;
+    points: number;
+    valueCents: number;
+    settledAt?: string | null;
+    createdAt: string;
+}
 //# sourceMappingURL=coalition.d.ts.map
