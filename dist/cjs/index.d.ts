@@ -27,7 +27,7 @@ export type { LoyaltyAuthProvider, LoyaltyTransactionKind, LoyaltyPushTopic, Loy
 export { LOYALTY_AUTH_PROVIDERS, LOYALTY_TRANSACTION_KINDS, LOYALTY_PUSH_TOPICS, isLoyaltyAuthProvider, isLoyaltyTransactionKind, isLoyaltyPushTopic, } from './types/loyalty-mobile';
 export type { CorporateAccountStatus, CorporateAccount, CorporateMembershipStatus, CorporateMembership, CreateCorporateAccountInput, RedeemCorporateInviteInput, } from './types/corporate';
 export { CORPORATE_ACCOUNT_STATUSES, CORPORATE_MEMBERSHIP_STATUSES, } from './types/corporate';
-export type { CoalitionStatus, CoalitionMemberOrg, Coalition, CreateCoalitionInput, LoyaltyCoalitionFranchise, LoyaltyCoalitionSummary, } from './types/coalition';
+export type { CoalitionStatus, CoalitionMemberOrg, Coalition, CreateCoalitionInput, LoyaltyCoalitionFranchise, LoyaltyCoalitionSummary, CoalitionSettlement, } from './types/coalition';
 export { COALITION_STATUSES } from './types/coalition';
 export type { PlanTier, BillingCycle, SubscriptionStatus, SubscriptionEventKind, AdSegmentationKind, PushSegmentationKind, PushSchedulingKind, PlanLimits, Subscription, UsageWindow, SubscriptionEvent, UsageSnapshot, UpdateSubscriptionInput, ListUsageWindowsQuery, ListSubscriptionEventsQuery, } from './types/subscription';
 export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS, PLAN_LIMITS, isPlanTier, isBillingCycle, isSubscriptionStatus, isSubscriptionEventKind, } from './types/subscription';

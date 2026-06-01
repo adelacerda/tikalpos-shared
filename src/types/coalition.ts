@@ -46,3 +46,23 @@ export interface LoyaltyCoalitionSummary {
   combinedPoints: number;
   franchises: LoyaltyCoalitionFranchise[];
 }
+
+// ── Settlement (Phase B — cross-spend clearing) ───────────────────────────
+//
+// When a member redeems at F2 using points "from" F1 (cross-spend), F1 owes
+// F2 the value of those points. Recorded as a settlement entry, cleared
+// periodically (reuse FT-GROWTH-007). Deduction policy: PROPORTIONAL across
+// the member's balances in the coalition's other franchises.
+
+export interface CoalitionSettlement {
+  id: string;
+  coalitionId: string;
+  debtorOrgId: string;
+  debtorName: string;
+  creditorOrgId: string;
+  creditorName: string;
+  points: number;
+  valueCents: number;
+  settledAt?: string | null;
+  createdAt: string; // ISO-8601
+}
