@@ -81,6 +81,15 @@ export {
   isDiscoveryHighlightActive,
 } from './types/loyalty';
 
+// Loyalty Ad system (FT-GROWTH-017 / reward-wizard SS5)
+export type {
+  LoyaltyAd,
+  CreateLoyaltyAdInput,
+  AdImpressionPricing,
+  CreateAdImpressionPricingInput,
+} from './types/ad';
+export { isLoyaltyAdActive } from './types/ad';
+
 // Sync protocol
 export type {
   SyncEntityType,
@@ -280,6 +289,7 @@ export type {
   LoyaltyRedemptionHold,
   ReserveRewardInput,
   LoyaltyAdCampaignCard,
+  LoyaltyAdCard,
   LoyaltyDiscoveryCard,
   LoyaltyFranchisePreview,
   LoyaltyPushSubscribeInput,

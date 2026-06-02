@@ -5,6 +5,8 @@ export type { Order, OrderStatus, OrderType, OrderLineItem, OrderPayment, Paymen
 export type { PaymentRequest, PaymentResult, RefundRequest, RefundResult, ProcessorStatus, IPaymentProcessor, PaymentMethod, } from './types/payment';
 export type { LoyaltyConfig, TierThreshold, LoyaltyTransaction, LoyaltyTransactionType, RewardCatalogItem, EarnPointsInput, EarnPointsResult, RedeemRewardInput, RedeemRewardResult, HighPrecisionTimestamp, LoyaltyMutationOutcome, LoyaltyConflictReason, LoyaltyMutationEnvelope, } from './types/loyalty';
 export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, } from './types/loyalty';
+export type { LoyaltyAd, CreateLoyaltyAdInput, AdImpressionPricing, CreateAdImpressionPricingInput, } from './types/ad';
+export { isLoyaltyAdActive } from './types/ad';
 export type { SyncEntityType, SyncAction, SyncChangeRecord, SyncPushRequest, SyncPushResponse, SyncConflict, SyncPullRequest, SyncPullResponse, } from './types/sync';
 export type { KdsTicket, KdsTicketItem, KdsTicketStatus, KdsItemStatus, SendToKdsRequest, SendToKdsResponse, } from './types/kds';
 export type { Reservation, ReservationStatus, CreateReservationInput, UpdateReservationInput, } from './types/reservation';
@@ -23,7 +25,7 @@ export type { MediaAssetKind, MediaAsset, MediaUploadResult, } from './types/med
 export { MEDIA_KINDS, isMediaAssetKind, MEDIA_LIMITS, } from './types/media';
 export type { LeadStatus, LeadSource, LeadVertical, LeadEventKind, LeadEvent, Lead, CreateLeadInput, UpdateLeadInput, ListLeadsQuery, ListLeadsResult, } from './types/lead';
 export { LEAD_STATUSES, LEAD_SOURCES, LEAD_VERTICALS, LEAD_LIMITS, isLeadStatus, isLeadSource, isLeadVertical, } from './types/lead';
-export type { LoyaltyAuthProvider, LoyaltyTransactionKind, LoyaltyPushTopic, LoyaltyMobileProfile, LoyaltyMobileSession, LoyaltyAuthGoogleInput, LoyaltyAuthAppleInput, LoyaltyAuthEmailInput, LoyaltyFranchiseBranding, LoyaltyMemberSummary, LoyaltyTransactionEntry, LoyaltyRewardCard, LoyaltyFranchiseDetail, LoyaltyRedemptionHold, ReserveRewardInput, LoyaltyAdCampaignCard, LoyaltyDiscoveryCard, LoyaltyFranchisePreview, LoyaltyPushSubscribeInput, UpdateLoyaltyProfileInput, } from './types/loyalty-mobile';
+export type { LoyaltyAuthProvider, LoyaltyTransactionKind, LoyaltyPushTopic, LoyaltyMobileProfile, LoyaltyMobileSession, LoyaltyAuthGoogleInput, LoyaltyAuthAppleInput, LoyaltyAuthEmailInput, LoyaltyFranchiseBranding, LoyaltyMemberSummary, LoyaltyTransactionEntry, LoyaltyRewardCard, LoyaltyFranchiseDetail, LoyaltyRedemptionHold, ReserveRewardInput, LoyaltyAdCampaignCard, LoyaltyAdCard, LoyaltyDiscoveryCard, LoyaltyFranchisePreview, LoyaltyPushSubscribeInput, UpdateLoyaltyProfileInput, } from './types/loyalty-mobile';
 export { LOYALTY_AUTH_PROVIDERS, LOYALTY_TRANSACTION_KINDS, LOYALTY_PUSH_TOPICS, isLoyaltyAuthProvider, isLoyaltyTransactionKind, isLoyaltyPushTopic, } from './types/loyalty-mobile';
 export type { CorporateAccountStatus, CorporateAccount, CorporateMembershipStatus, CorporateMembership, CreateCorporateAccountInput, RedeemCorporateInviteInput, } from './types/corporate';
 export { CORPORATE_ACCOUNT_STATUSES, CORPORATE_MEMBERSHIP_STATUSES, } from './types/corporate';
