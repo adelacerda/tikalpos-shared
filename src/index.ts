@@ -75,7 +75,11 @@ export type {
   LoyaltyConflictReason,
   LoyaltyMutationEnvelope,
 } from './types/loyalty';
-export { isRewardPromotionActive, isRewardBoostActive } from './types/loyalty';
+export {
+  isRewardPromotionActive,
+  isRewardBoostActive,
+  isDiscoveryHighlightActive,
+} from './types/loyalty';
 
 // Sync protocol
 export type {
@@ -276,6 +280,7 @@ export type {
   LoyaltyRedemptionHold,
   ReserveRewardInput,
   LoyaltyAdCampaignCard,
+  LoyaltyDiscoveryCard,
   LoyaltyPushSubscribeInput,
   UpdateLoyaltyProfileInput,
 } from './types/loyalty-mobile';
@@ -313,6 +318,12 @@ export type {
   CoalitionSettlement,
 } from './types/coalition';
 export { COALITION_STATUSES } from './types/coalition';
+
+// Discovery Carousel — system-admin highlight pricing
+export type {
+  DiscoveryHighlightPricing,
+  CreateDiscoveryHighlightPricingInput,
+} from './types/discovery';
 
 // Subscription Tiers & Monetization (FT-MONETIZATION-001, Sprint 11.1)
 export type {

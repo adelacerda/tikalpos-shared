@@ -108,6 +108,12 @@ export interface LoyaltyAdCampaignCard {
     sponsoredByOrgName: string;
     expiresAt?: string | null;
 }
+export interface LoyaltyDiscoveryCard {
+    orgId: string;
+    branding: LoyaltyFranchiseBranding;
+    reward: LoyaltyRewardCard;
+    highlighted: boolean;
+}
 export interface LoyaltyPushSubscribeInput {
     expoPushToken?: string;
     endpoint?: string;

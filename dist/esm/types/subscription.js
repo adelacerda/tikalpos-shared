@@ -139,6 +139,7 @@ export const SUBSCRIPTION_EVENT_KINDS = [
     'MANUAL_SUSPEND',
     'MANUAL_REACTIVATE',
     'BOOST_CHARGED',
+    'DISCOVERY_HIGHLIGHT_CHARGED',
 ];
 export function isSubscriptionEventKind(value) {
     return (typeof value === 'string' && SUBSCRIPTION_EVENT_KINDS.includes(value));

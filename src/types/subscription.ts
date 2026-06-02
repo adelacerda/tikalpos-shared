@@ -257,6 +257,12 @@ export interface UsageWindow {
   boostCount: number;
   boostChargeCents: number;
 
+  // Discovery Carousel — paid neon highlight (per-user/day impression billing).
+  // One impression per franchise per user per day, charged at the opt-in's
+  // locked fee.
+  discoveryHighlightCount: number;
+  discoveryHighlightChargeCents: number;
+
   closedAt: string | null; // set by the cron job at month-end close
 }
 
@@ -269,7 +275,8 @@ export type SubscriptionEventKind =
   | 'PERIOD_ROLLED'
   | 'MANUAL_SUSPEND'
   | 'MANUAL_REACTIVATE'
-  | 'BOOST_CHARGED';
+  | 'BOOST_CHARGED'
+  | 'DISCOVERY_HIGHLIGHT_CHARGED';
 
 export const SUBSCRIPTION_EVENT_KINDS: readonly SubscriptionEventKind[] = [
   'CREATED',
@@ -279,6 +286,7 @@ export const SUBSCRIPTION_EVENT_KINDS: readonly SubscriptionEventKind[] = [
   'MANUAL_SUSPEND',
   'MANUAL_REACTIVATE',
   'BOOST_CHARGED',
+  'DISCOVERY_HIGHLIGHT_CHARGED',
 ] as const;
 
 export function isSubscriptionEventKind(value: unknown): value is SubscriptionEventKind {

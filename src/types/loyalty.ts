@@ -65,6 +65,19 @@ export interface RewardCatalogItem {
   // Corporate-only (FT-GROWTH-018 §Canal 1): redeemable only by employees of a
   // company with an active CorporateAccount for this franchise.
   corporateOnly?: boolean;
+  // Welcome reward (Discovery Carousel): the merchant flags ONE reward as the
+  // card shown to non-members in the home discovery carousel. If a franchise
+  // has no welcome reward, the carousel falls back to its lowest-cost reward.
+  welcome?: boolean;
+  // Discovery highlight opt-in (Discovery Carousel — paid neon spotlight, a SKU
+  // separate from `featured`). When active, the franchise's discovery card is
+  // eligible to win the rotated neon slot. The fee is LOCKED at opt-in time
+  // (`discoveryHighlightLockedFeeCents`), so later system-rate changes do not
+  // affect an existing opt-in. The merchant sets the start/end window.
+  discoveryHighlight?: boolean;
+  discoveryHighlightStartsAt?: string; // ISO-8601
+  discoveryHighlightEndsAt?: string; // ISO-8601
+  discoveryHighlightLockedFeeCents?: number; // system rate snapshotted at opt-in
 }
 
 /** True when a catalog item has an active promotion at `now`. */
@@ -83,6 +96,25 @@ export function isRewardBoostActive(item: RewardCatalogItem, now: number = Date.
     item.featured === true &&
     typeof item.featuredUntil === 'string' &&
     new Date(item.featuredUntil).getTime() > now
+  );
+}
+
+/**
+ * True when a reward's discovery-highlight opt-in is active at `now` — i.e.
+ * the merchant opted in and `now` falls within [startsAt, endsAt]. Such a
+ * reward's franchise is eligible to win the rotated neon spotlight in the
+ * home discovery carousel.
+ */
+export function isDiscoveryHighlightActive(
+  item: RewardCatalogItem,
+  now: number = Date.now(),
+): boolean {
+  return (
+    item.discoveryHighlight === true &&
+    typeof item.discoveryHighlightStartsAt === 'string' &&
+    typeof item.discoveryHighlightEndsAt === 'string' &&
+    new Date(item.discoveryHighlightStartsAt).getTime() <= now &&
+    new Date(item.discoveryHighlightEndsAt).getTime() > now
   );
 }
 
