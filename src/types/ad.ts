@@ -8,7 +8,7 @@
 
 /** A full-screen promotional ad a franchise created to promote a reward. */
 export interface LoyaltyAd {
-  adId: string;
+  id: string;
   organizationId: string;
   /** The catalog reward this ad promotes (CTA target for members). */
   rewardId: string;
@@ -55,7 +55,7 @@ export function isLoyaltyAdActive(ad: LoyaltyAd, now: number = Date.now()): bool
  * null) is the current rate. Premium surface → priced higher than highlight.
  */
 export interface AdImpressionPricing {
-  pricingId: string;
+  id: string;
   feeCents: number;
   startsAt: string; // ISO-8601
   endsAt: string | null; // ISO-8601, null = open-ended / current
