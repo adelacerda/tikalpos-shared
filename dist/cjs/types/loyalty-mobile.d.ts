@@ -77,12 +77,28 @@ export interface LoyaltyRewardCard {
     featured?: boolean;
     corporateOnly?: boolean;
 }
+/**
+ * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
+ * gift granted on enrol). Shown under "Mis recompensas", separate from the
+ * redeemable catalog. No points cost; it's already theirs until it expires.
+ */
+export interface LoyaltyGiftedRewardCard {
+    id: string;
+    rewardId: string;
+    name: string;
+    description: string;
+    imageUrl?: string | null;
+    expiresAt: string;
+}
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
     pointsBalance: number;
     lifetimePoints: number;
     tier?: string | null;
     transactions: LoyaltyTransactionEntry[];
+    /** Rewards the member already owns (gifted), e.g. the welcome gift. */
+    myRewards: LoyaltyGiftedRewardCard[];
+    /** Catalog rewards available to redeem (never includes the welcome reward). */
     rewards: LoyaltyRewardCard[];
 }
 export interface LoyaltyRedemptionHold {

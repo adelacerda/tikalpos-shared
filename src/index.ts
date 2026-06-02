@@ -285,6 +285,7 @@ export type {
   LoyaltyMemberSummary,
   LoyaltyTransactionEntry,
   LoyaltyRewardCard,
+  LoyaltyGiftedRewardCard,
   LoyaltyFranchiseDetail,
   LoyaltyRedemptionHold,
   ReserveRewardInput,
