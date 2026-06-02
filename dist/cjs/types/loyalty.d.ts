@@ -33,6 +33,8 @@ export interface RewardCatalogItem {
     name: string;
     pointsCost: number;
     description?: string;
+    /** Reward photo (relative media URL, e.g. /api/v1/public/media/<hash>.webp). */
+    imageUrl?: string;
     active: boolean;
     requiredProductIds?: string[];
     minCheckAmount?: number;
