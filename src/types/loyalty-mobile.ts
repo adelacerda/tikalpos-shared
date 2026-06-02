@@ -193,6 +193,16 @@ export interface LoyaltyDiscoveryCard {
   highlighted: boolean;      // neon spotlight winner for this user today
 }
 
+// Public franchise preview for NON-members (reached from a discovery card).
+// No balance/transactions — just branding + the catalog, so the guest can
+// decide to join. `welcomeReward` is the same card shown in discovery
+// (welcome → else lowest-cost); `otherRewards` is the rest of the catalog.
+export interface LoyaltyFranchisePreview {
+  branding: LoyaltyFranchiseBranding;
+  welcomeReward: LoyaltyRewardCard | null;
+  otherRewards: LoyaltyRewardCard[];
+}
+
 // ── Push registration ──────────────────────────────────────────────────────
 
 export interface LoyaltyPushSubscribeInput {

@@ -281,6 +281,7 @@ export type {
   ReserveRewardInput,
   LoyaltyAdCampaignCard,
   LoyaltyDiscoveryCard,
+  LoyaltyFranchisePreview,
   LoyaltyPushSubscribeInput,
   UpdateLoyaltyProfileInput,
 } from './types/loyalty-mobile';
