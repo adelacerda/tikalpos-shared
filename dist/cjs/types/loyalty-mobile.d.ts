@@ -114,6 +114,11 @@ export interface LoyaltyDiscoveryCard {
     reward: LoyaltyRewardCard;
     highlighted: boolean;
 }
+export interface LoyaltyFranchisePreview {
+    branding: LoyaltyFranchiseBranding;
+    welcomeReward: LoyaltyRewardCard | null;
+    otherRewards: LoyaltyRewardCard[];
+}
 export interface LoyaltyPushSubscribeInput {
     expoPushToken?: string;
     endpoint?: string;
