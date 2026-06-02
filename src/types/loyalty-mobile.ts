@@ -180,6 +180,26 @@ export interface LoyaltyAdCampaignCard {
   expiresAt?: string | null;
 }
 
+/**
+ * A real full-screen ad served to the loyalty app's ad carousel (reward-wizard
+ * SS5). The server resolves `isMember` from the guest's enrolments so the app
+ * routes the bottom CTA: member → the reward, non-member → the franchise
+ * preview (to enrol). One billable impression is charged per ad per user/day
+ * on serve, at the ad's locked fee.
+ */
+export interface LoyaltyAdCard {
+  adId: string;
+  organizationId: string;
+  rewardId: string;
+  sponsoredByOrgName: string;
+  title: string;
+  iconUrl: string;
+  imageUrl: string; // full-screen creative (cover)
+  ctaLabel: string;
+  /** True when the guest already belongs to this franchise. */
+  isMember: boolean;
+}
+
 // ── Discovery carousel ──────────────────────────────────────────────────────
 // Cross-merchant acquisition feed: one card per franchise the guest is NOT
 // enrolled in, showing its welcome reward (or lowest-cost fallback). At most
