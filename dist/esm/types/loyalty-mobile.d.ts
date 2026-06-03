@@ -162,6 +162,16 @@ export interface LoyaltyDiscoveryCard {
     reward: LoyaltyRewardCard;
     highlighted: boolean;
 }
+/**
+ * A page of the discovery reward feed (the "Ver todas" screen). The feed is a
+ * randomized stream of rewards from non-enrolled franchises; each page tries to
+ * include one (not-yet-shown) highlight. `nextCursor` is the cursor to request
+ * the next page, or null at the end.
+ */
+export interface LoyaltyDiscoveryPage {
+    items: LoyaltyDiscoveryCard[];
+    nextCursor: number | null;
+}
 export interface LoyaltyFranchisePreview {
     branding: LoyaltyFranchiseBranding;
     welcomeReward: LoyaltyRewardCard | null;

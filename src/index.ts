@@ -293,6 +293,7 @@ export type {
   LoyaltyAdCampaignCard,
   LoyaltyAdCard,
   LoyaltyDiscoveryCard,
+  LoyaltyDiscoveryPage,
   LoyaltyFranchisePreview,
   LoyaltyPushSubscribeInput,
   UpdateLoyaltyProfileInput,

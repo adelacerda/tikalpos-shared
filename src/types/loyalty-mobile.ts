@@ -240,8 +240,19 @@ export interface LoyaltyAdCard {
 export interface LoyaltyDiscoveryCard {
   orgId: string;
   branding: LoyaltyFranchiseBranding;
-  reward: LoyaltyRewardCard; // the welcome reward, else the lowest-cost one
-  highlighted: boolean;      // neon spotlight winner for this user today
+  reward: LoyaltyRewardCard; // a reward from a franchise the guest hasn't joined
+  highlighted: boolean;      // a paid discovery-highlight reward (shown + billed)
+}
+
+/**
+ * A page of the discovery reward feed (the "Ver todas" screen). The feed is a
+ * randomized stream of rewards from non-enrolled franchises; each page tries to
+ * include one (not-yet-shown) highlight. `nextCursor` is the cursor to request
+ * the next page, or null at the end.
+ */
+export interface LoyaltyDiscoveryPage {
+  items: LoyaltyDiscoveryCard[];
+  nextCursor: number | null;
 }
 
 // Public franchise preview for NON-members (reached from a discovery card).
