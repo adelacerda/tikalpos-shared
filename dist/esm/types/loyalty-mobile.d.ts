@@ -118,8 +118,13 @@ export interface LoyaltyFranchiseDetail {
     myRewards: LoyaltyGiftedRewardCard[];
     /** Catalog rewards available to redeem (never includes the welcome reward). */
     rewards: LoyaltyRewardCard[];
-    /** Franchise location names where rewards can be redeemed. */
-    locations: string[];
+    /** Franchise locations where rewards can be redeemed. */
+    locations: LoyaltyLocation[];
+}
+/** A franchise location (name + address) shown in a reward's "Válida en". */
+export interface LoyaltyLocation {
+    name: string;
+    address: string | null;
 }
 export interface LoyaltyRedemptionHold {
     id: string;
