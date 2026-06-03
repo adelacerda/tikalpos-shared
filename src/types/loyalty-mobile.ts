@@ -103,6 +103,18 @@ export interface LoyaltyFranchiseBranding {
   primaryColorOklch?: string | null; // e.g. "oklch(68% 0.21 250)"
 }
 
+/**
+ * A points-redeemable reward used as a milestone on the home progress bar.
+ * Free welcome rewards (no points cost) are excluded — they're not a points
+ * goal. Sorted ascending by costPoints by the backend.
+ */
+export interface LoyaltyRewardMilestone {
+  rewardId: string;
+  name: string;
+  costPoints: number;
+  imageUrl?: string | null; // null → render the TikalPOS logo fallback
+}
+
 export interface LoyaltyMemberSummary {
   branding: LoyaltyFranchiseBranding;
   pointsBalance: number;
@@ -110,6 +122,8 @@ export interface LoyaltyMemberSummary {
   tier?: string | null;     // resolved tier label from LoyaltyConfig
   joinedAt: string;         // ISO-8601
   lastActivityAt?: string | null;
+  /** Points-redeemable rewards (asc by cost) for the next-reward progress bar. */
+  rewardMilestones: LoyaltyRewardMilestone[];
 }
 
 // ── Detail view ────────────────────────────────────────────────────────────
@@ -139,12 +153,29 @@ export interface LoyaltyRewardCard {
   corporateOnly?: boolean; // FT-GROWTH-018 §Canal 1 — corporate-member-only
 }
 
+/**
+ * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
+ * gift granted on enrol). Shown under "Mis recompensas", separate from the
+ * redeemable catalog. No points cost; it's already theirs until it expires.
+ */
+export interface LoyaltyGiftedRewardCard {
+  id: string; // giftedReward id
+  rewardId: string; // the catalog rewardId it was granted from
+  name: string;
+  description: string;
+  imageUrl?: string | null;
+  expiresAt: string; // ISO-8601
+}
+
 export interface LoyaltyFranchiseDetail {
   branding: LoyaltyFranchiseBranding;
   pointsBalance: number;
   lifetimePoints: number;
   tier?: string | null;
   transactions: LoyaltyTransactionEntry[];
+  /** Rewards the member already owns (gifted), e.g. the welcome gift. */
+  myRewards: LoyaltyGiftedRewardCard[];
+  /** Catalog rewards available to redeem (never includes the welcome reward). */
   rewards: LoyaltyRewardCard[];
 }
 
