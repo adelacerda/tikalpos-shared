@@ -283,6 +283,7 @@ export type {
   LoyaltyAuthEmailInput,
   LoyaltyFranchiseBranding,
   LoyaltyMemberSummary,
+  LoyaltyRewardMilestone,
   LoyaltyTransactionEntry,
   LoyaltyRewardCard,
   LoyaltyGiftedRewardCard,

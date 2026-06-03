@@ -103,6 +103,18 @@ export interface LoyaltyFranchiseBranding {
   primaryColorOklch?: string | null; // e.g. "oklch(68% 0.21 250)"
 }
 
+/**
+ * A points-redeemable reward used as a milestone on the home progress bar.
+ * Free welcome rewards (no points cost) are excluded — they're not a points
+ * goal. Sorted ascending by costPoints by the backend.
+ */
+export interface LoyaltyRewardMilestone {
+  rewardId: string;
+  name: string;
+  costPoints: number;
+  imageUrl?: string | null; // null → render the TikalPOS logo fallback
+}
+
 export interface LoyaltyMemberSummary {
   branding: LoyaltyFranchiseBranding;
   pointsBalance: number;
@@ -110,6 +122,8 @@ export interface LoyaltyMemberSummary {
   tier?: string | null;     // resolved tier label from LoyaltyConfig
   joinedAt: string;         // ISO-8601
   lastActivityAt?: string | null;
+  /** Points-redeemable rewards (asc by cost) for the next-reward progress bar. */
+  rewardMilestones: LoyaltyRewardMilestone[];
 }
 
 // ── Detail view ────────────────────────────────────────────────────────────
