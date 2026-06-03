@@ -89,6 +89,8 @@ export interface LoyaltyRewardCard {
     redeemableUntil?: string | null;
     featured?: boolean;
     corporateOnly?: boolean;
+    requiredProducts?: string[];
+    minCheckAmount?: number;
 }
 /**
  * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
@@ -101,7 +103,10 @@ export interface LoyaltyGiftedRewardCard {
     name: string;
     description: string;
     imageUrl?: string | null;
+    acquiredAt: string;
     expiresAt: string;
+    requiredProducts?: string[];
+    minCheckAmount?: number;
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
@@ -113,6 +118,8 @@ export interface LoyaltyFranchiseDetail {
     myRewards: LoyaltyGiftedRewardCard[];
     /** Catalog rewards available to redeem (never includes the welcome reward). */
     rewards: LoyaltyRewardCard[];
+    /** Franchise location names where rewards can be redeemed. */
+    locations: string[];
 }
 export interface LoyaltyRedemptionHold {
     id: string;

@@ -151,6 +151,9 @@ export interface LoyaltyRewardCard {
   redeemableUntil?: string | null;
   featured?: boolean; // FT-GROWTH-017 §Canal 2 — neon-boosted highlight
   corporateOnly?: boolean; // FT-GROWTH-018 §Canal 1 — corporate-member-only
+  // Eligibility — what the check must contain to redeem this reward.
+  requiredProducts?: string[]; // product names (resolved); empty = any purchase
+  minCheckAmount?: number; // minimum check total in cents (0 = none)
 }
 
 /**
@@ -164,7 +167,11 @@ export interface LoyaltyGiftedRewardCard {
   name: string;
   description: string;
   imageUrl?: string | null;
+  acquiredAt: string; // ISO-8601 — when the member got it
   expiresAt: string; // ISO-8601
+  // Eligibility resolved from the catalog reward (for the owned-reward detail).
+  requiredProducts?: string[]; // product names; empty = any purchase
+  minCheckAmount?: number; // minimum check total in cents (0 = none)
 }
 
 export interface LoyaltyFranchiseDetail {
@@ -177,6 +184,8 @@ export interface LoyaltyFranchiseDetail {
   myRewards: LoyaltyGiftedRewardCard[];
   /** Catalog rewards available to redeem (never includes the welcome reward). */
   rewards: LoyaltyRewardCard[];
+  /** Franchise location names where rewards can be redeemed. */
+  locations: string[];
 }
 
 // ── Redemption holds (QR-based pre-authorization) ──────────────────────────
