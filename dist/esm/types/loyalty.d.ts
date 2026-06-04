@@ -38,6 +38,8 @@ export interface RewardCatalogItem {
     active: boolean;
     requiredProductIds?: string[];
     minCheckAmount?: number;
+    /** Locations where this reward is valid/redeemable. Empty/undefined = ALL. */
+    locationIds?: string[];
     redemptionWindowDays?: number;
     discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT';
     discountValue?: number;
@@ -87,6 +89,8 @@ export interface RedeemRewardInput {
     organizationId: string;
     rewardId: string;
     orderId?: string;
+    /** Location where the redemption happens — validated against the reward's locationIds. */
+    locationId?: string;
 }
 export interface HighPrecisionTimestamp {
     iso: string;

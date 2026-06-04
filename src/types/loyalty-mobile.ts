@@ -156,6 +156,8 @@ export interface LoyaltyRewardCard {
   // Eligibility — what the check must contain to redeem this reward.
   requiredProducts?: string[]; // product names (resolved); empty = any purchase
   minCheckAmount?: number; // minimum check total in cents (0 = none)
+  /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
+  validLocations?: LoyaltyLocation[];
 }
 
 /**
@@ -174,6 +176,8 @@ export interface LoyaltyGiftedRewardCard {
   // Eligibility resolved from the catalog reward (for the owned-reward detail).
   requiredProducts?: string[]; // product names; empty = any purchase
   minCheckAmount?: number; // minimum check total in cents (0 = none)
+  /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
+  validLocations?: LoyaltyLocation[];
 }
 
 export interface LoyaltyFranchiseDetail {

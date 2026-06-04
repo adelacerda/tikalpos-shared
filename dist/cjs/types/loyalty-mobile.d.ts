@@ -93,6 +93,8 @@ export interface LoyaltyRewardCard {
     corporateOnly?: boolean;
     requiredProducts?: string[];
     minCheckAmount?: number;
+    /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
+    validLocations?: LoyaltyLocation[];
 }
 /**
  * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
@@ -109,6 +111,8 @@ export interface LoyaltyGiftedRewardCard {
     expiresAt: string;
     requiredProducts?: string[];
     minCheckAmount?: number;
+    /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
+    validLocations?: LoyaltyLocation[];
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
