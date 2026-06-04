@@ -23,6 +23,7 @@ export interface LoyaltyMobileSession {
 export interface LoyaltyAuthGoogleInput {
     idToken: string;
     expoPushToken?: string;
+    country?: string;
 }
 export interface LoyaltyAuthAppleInput {
     identityToken: string;
@@ -33,6 +34,7 @@ export interface LoyaltyAuthAppleInput {
     } | null;
     email?: string | null;
     expoPushToken?: string;
+    country?: string;
 }
 export interface LoyaltyAuthEmailInput {
     email: string;
