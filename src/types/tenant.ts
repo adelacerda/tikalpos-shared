@@ -23,6 +23,8 @@ export interface Organization {
   status: OrganizationStatus;
   franchiseType: FranchiseType;
   settings: OrganizationSettings;
+  /** Owner-defined category tags (e.g. "belleza", "comida china"). Normalized lowercase. */
+  tags: string[];
   createdAt: string;
   updatedAt: string;
 }
