@@ -89,6 +89,10 @@ export interface Lead {
   vertical?: LeadVertical | null;
   message: string;
   source: LeadSource;
+  /** ISO 3166-1 alpha-2 of the country the prospect selected on the form. */
+  country?: string | null;
+  /** UI locale the form was filled in (drives the acknowledgment email). */
+  locale?: string | null;
   status: LeadStatus;
   notes: string;
   statusHistory: LeadEvent[];
@@ -108,6 +112,8 @@ export interface CreateLeadInput {
   vertical?: LeadVertical;
   message: string;
   source: LeadSource;
+  country?: string;
+  locale?: string;
   company_url?: string;
 }
 
