@@ -22,7 +22,8 @@ export interface LoyaltyAd {
 export interface CreateLoyaltyAdInput {
     rewardId: string;
     title: string;
-    iconUrl: string;
+    /** @deprecated The ad icon is the franchise logo, served at runtime. */
+    iconUrl?: string;
     imageUrl: string;
     ctaLabel: string;
     startsAt: string;
