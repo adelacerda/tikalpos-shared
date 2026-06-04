@@ -77,6 +77,7 @@ export interface LoyaltyMobileSession {
 export interface LoyaltyAuthGoogleInput {
   idToken: string;          // raw `id_token` from expo-auth-session
   expoPushToken?: string;   // optional — opt-in push registration at signin
+  country?: string;         // ISO 3166-1 alpha-2 picked at signup (new guests)
 }
 
 export interface LoyaltyAuthAppleInput {
@@ -85,6 +86,7 @@ export interface LoyaltyAuthAppleInput {
   fullName?: { givenName?: string; familyName?: string } | null;
   email?: string | null;    // Apple only provides on first signin
   expoPushToken?: string;
+  country?: string;         // ISO 3166-1 alpha-2 picked at signup (new guests)
 }
 
 export interface LoyaltyAuthEmailInput {

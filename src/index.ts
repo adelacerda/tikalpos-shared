@@ -59,6 +59,26 @@ export type {
   PaymentMethod,
 } from './types/payment';
 
+// Active Countries (phased country-by-country rollout)
+export type {
+  SupportedLocale,
+  Country,
+  CountryCatalogEntry,
+  ActivateCountryInput,
+  UpdateCountryInput,
+} from './types/country';
+export {
+  SUPPORTED_LOCALES,
+  isSupportedLocale,
+  COUNTRY_CATALOG,
+  getCatalogEntry,
+  phoneDigits,
+  toE164,
+  nationalPart,
+  isValidNationalPhone,
+  isValidTaxId,
+} from './types/country';
+
 // Loyalty
 export type {
   LoyaltyConfig,
