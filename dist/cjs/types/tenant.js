@@ -28,6 +28,8 @@ const ROLES_BY_FRANCHISE = {
     RESTAURANT: ['OWNER', 'MANAGER', 'CASHIER', 'SERVER', 'HOST'],
     RETAIL: ['OWNER', 'MANAGER', 'SELLER'],
     SERVICE: ['OWNER', 'MANAGER', 'SELLER'],
+    // TikalLoyalty-only: no POS, just loyalty admins.
+    LOYALTY_ONLY: ['OWNER', 'MANAGER'],
 };
 function allowedStaffRolesFor(franchiseType) {
     return ROLES_BY_FRANCHISE[franchiseType];
@@ -40,6 +42,7 @@ const DEVICE_ROLES_BY_FRANCHISE = {
     RESTAURANT: ['SERVER', 'KITCHEN', 'BAR', 'HOST'],
     RETAIL: ['SELLER'],
     SERVICE: ['SELLER'],
+    LOYALTY_ONLY: [],
 };
 function allowedDeviceRolesFor(franchiseType) {
     return DEVICE_ROLES_BY_FRANCHISE[franchiseType];

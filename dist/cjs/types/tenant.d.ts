@@ -6,7 +6,7 @@ export interface SystemOwner {
     updatedAt: string;
 }
 export type OrganizationStatus = 'ACTIVE' | 'SUSPENDED' | 'TRIAL';
-export type FranchiseType = 'RESTAURANT' | 'RETAIL' | 'SERVICE';
+export type FranchiseType = 'RESTAURANT' | 'RETAIL' | 'SERVICE' | 'LOYALTY_ONLY';
 export interface Organization {
     id: string;
     systemOwnerId: string;

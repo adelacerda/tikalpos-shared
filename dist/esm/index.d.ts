@@ -5,7 +5,7 @@ export type { Order, OrderStatus, OrderType, OrderLineItem, OrderPayment, Paymen
 export type { PaymentRequest, PaymentResult, RefundRequest, RefundResult, ProcessorStatus, IPaymentProcessor, PaymentMethod, } from './types/payment';
 export type { SupportedLocale, Country, CountryCatalogEntry, ActivateCountryInput, UpdateCountryInput, } from './types/country';
 export { SUPPORTED_LOCALES, isSupportedLocale, COUNTRY_CATALOG, getCatalogEntry, phoneDigits, toE164, nationalPart, isValidNationalPhone, isValidTaxId, } from './types/country';
-export type { LoyaltyConfig, TierThreshold, LoyaltyTransaction, LoyaltyTransactionType, RewardCatalogItem, EarnPointsInput, EarnPointsResult, RedeemRewardInput, RedeemRewardResult, HighPrecisionTimestamp, LoyaltyMutationOutcome, LoyaltyConflictReason, LoyaltyMutationEnvelope, } from './types/loyalty';
+export type { LoyaltyConfig, TierThreshold, LoyaltyTransaction, LoyaltyTransactionType, RewardCatalogItem, EarnPointsInput, EarnPointsResult, RedeemRewardInput, RedeemRewardResult, LinkManualAccountInput, LinkManualAccountResult, HighPrecisionTimestamp, LoyaltyMutationOutcome, LoyaltyConflictReason, LoyaltyMutationEnvelope, } from './types/loyalty';
 export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, } from './types/loyalty';
 export type { LoyaltyAd, CreateLoyaltyAdInput, AdImpressionPricing, CreateAdImpressionPricingInput, } from './types/ad';
 export { isLoyaltyAdActive } from './types/ad';
