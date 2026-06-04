@@ -13,7 +13,7 @@ export interface SystemOwner {
 
 export type OrganizationStatus = 'ACTIVE' | 'SUSPENDED' | 'TRIAL';
 
-export type FranchiseType = 'RESTAURANT' | 'RETAIL' | 'SERVICE';
+export type FranchiseType = 'RESTAURANT' | 'RETAIL' | 'SERVICE' | 'LOYALTY_ONLY';
 
 export interface Organization {
   id: string;
@@ -85,9 +85,11 @@ export function isStaffRole(value: unknown): value is StaffRole {
  * RETAIL / SERVICE: simplified operations (no servers, no host).
  */
 const ROLES_BY_FRANCHISE: Record<FranchiseType, readonly StaffRole[]> = {
-  RESTAURANT: ['OWNER', 'MANAGER', 'CASHIER', 'SERVER', 'HOST'],
-  RETAIL:     ['OWNER', 'MANAGER', 'SELLER'],
-  SERVICE:    ['OWNER', 'MANAGER', 'SELLER'],
+  RESTAURANT:   ['OWNER', 'MANAGER', 'CASHIER', 'SERVER', 'HOST'],
+  RETAIL:       ['OWNER', 'MANAGER', 'SELLER'],
+  SERVICE:      ['OWNER', 'MANAGER', 'SELLER'],
+  // TikalLoyalty-only: no POS, just loyalty admins.
+  LOYALTY_ONLY: ['OWNER', 'MANAGER'],
 };
 
 export function allowedStaffRolesFor(franchiseType: FranchiseType): readonly StaffRole[] {
@@ -99,9 +101,10 @@ export function allowedStaffRolesFor(franchiseType: FranchiseType): readonly Sta
  * RETAIL / SERVICE only enroll SELLER tablets; restaurants get the full set.
  */
 const DEVICE_ROLES_BY_FRANCHISE: Record<FranchiseType, readonly string[]> = {
-  RESTAURANT: ['SERVER', 'KITCHEN', 'BAR', 'HOST'],
-  RETAIL:     ['SELLER'],
-  SERVICE:    ['SELLER'],
+  RESTAURANT:   ['SERVER', 'KITCHEN', 'BAR', 'HOST'],
+  RETAIL:       ['SELLER'],
+  SERVICE:      ['SELLER'],
+  LOYALTY_ONLY: [],
 };
 
 export function allowedDeviceRolesFor(franchiseType: FranchiseType): readonly string[] {

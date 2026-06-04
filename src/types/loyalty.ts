@@ -123,7 +123,8 @@ export function isDiscoveryHighlightActive(
 export interface EarnPointsInput {
   guestId: string;
   organizationId: string;
-  orderId: string;
+  /** Linked order; omitted for manual account linking (TikalLoyalty-only). */
+  orderId?: string;
   transactionTotalCents: number;
 }
 
@@ -170,4 +171,18 @@ export interface RedeemRewardResult {
   pointsSpent: number;
   newBalance: number;
   envelope: LoyaltyMutationEnvelope;
+}
+
+// Manual account linking — for TikalLoyalty-only franchises (no POS). Staff enter
+// an external POS account number + total paid; points are earned from the total.
+export interface LinkManualAccountInput {
+  guestId: string;
+  accountNumber: string;   // external POS account/check number — unique per franchise
+  totalCents: number;      // total paid in the franchise currency (minor units)
+  occurredAt?: string;     // ISO-8601 of the original transaction; defaults to now
+}
+
+export interface LinkManualAccountResult {
+  pointsEarned: number;
+  newBalance: number;
 }

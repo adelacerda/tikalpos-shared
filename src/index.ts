@@ -90,6 +90,8 @@ export type {
   EarnPointsResult,
   RedeemRewardInput,
   RedeemRewardResult,
+  LinkManualAccountInput,
+  LinkManualAccountResult,
   HighPrecisionTimestamp,
   LoyaltyMutationOutcome,
   LoyaltyConflictReason,

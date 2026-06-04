@@ -66,7 +66,8 @@ export declare function isDiscoveryHighlightActive(item: RewardCatalogItem, now?
 export interface EarnPointsInput {
     guestId: string;
     organizationId: string;
-    orderId: string;
+    /** Linked order; omitted for manual account linking (TikalLoyalty-only). */
+    orderId?: string;
     transactionTotalCents: number;
 }
 export interface EarnPointsResult {
@@ -106,5 +107,15 @@ export interface RedeemRewardResult {
     pointsSpent: number;
     newBalance: number;
     envelope: LoyaltyMutationEnvelope;
+}
+export interface LinkManualAccountInput {
+    guestId: string;
+    accountNumber: string;
+    totalCents: number;
+    occurredAt?: string;
+}
+export interface LinkManualAccountResult {
+    pointsEarned: number;
+    newBalance: number;
 }
 //# sourceMappingURL=loyalty.d.ts.map
