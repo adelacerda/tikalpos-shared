@@ -126,6 +126,15 @@ export interface LoyaltyLocation {
     name: string;
     address: string | null;
 }
+export interface LoyaltyMerchantSearchResult {
+    orgId: string;
+    branding: LoyaltyFranchiseBranding;
+    tags: string[];
+    isMember: boolean;
+}
+export interface LoyaltyMerchantSearchResponse {
+    items: LoyaltyMerchantSearchResult[];
+}
 export interface LoyaltyRedemptionHold {
     id: string;
     nonce: string;

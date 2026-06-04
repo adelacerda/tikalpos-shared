@@ -194,6 +194,22 @@ export interface LoyaltyLocation {
   address: string | null;
 }
 
+// ── Merchant search ─────────────────────────────────────────────────────────
+// Search across ALL loyalty-enabled franchises (member or not) by name or tag.
+// Tap a result → franchise preview (non-member) or detail (member). Backed by
+// GET /loyalty-mobile/merchants/search?q=.
+
+export interface LoyaltyMerchantSearchResult {
+  orgId: string;
+  branding: LoyaltyFranchiseBranding;
+  tags: string[];                 // the franchise's category tags
+  isMember: boolean;              // true → guest already enrolled (route to detail)
+}
+
+export interface LoyaltyMerchantSearchResponse {
+  items: LoyaltyMerchantSearchResult[];
+}
+
 // ── Redemption holds (QR-based pre-authorization) ──────────────────────────
 
 export interface LoyaltyRedemptionHold {

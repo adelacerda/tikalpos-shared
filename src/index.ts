@@ -289,6 +289,8 @@ export type {
   LoyaltyGiftedRewardCard,
   LoyaltyFranchiseDetail,
   LoyaltyLocation,
+  LoyaltyMerchantSearchResult,
+  LoyaltyMerchantSearchResponse,
   LoyaltyRedemptionHold,
   ReserveRewardInput,
   LoyaltyAdCampaignCard,
