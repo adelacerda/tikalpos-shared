@@ -50,12 +50,14 @@ export function isLeadSource(value: unknown): value is LeadSource {
   return typeof value === 'string' && (LEAD_SOURCES as readonly string[]).includes(value);
 }
 
-export type LeadVertical = 'RESTAURANT' | 'RETAIL' | 'BOTH' | 'OTHER';
+// 'BOTH' is retained for legacy rows only — it is no longer an accepted input
+// (see LEAD_VERTICALS). 'SERVICE' replaces it as a selectable vertical.
+export type LeadVertical = 'RESTAURANT' | 'RETAIL' | 'SERVICE' | 'BOTH' | 'OTHER';
 
 export const LEAD_VERTICALS: readonly LeadVertical[] = [
   'RESTAURANT',
   'RETAIL',
-  'BOTH',
+  'SERVICE',
   'OTHER',
 ] as const;
 
