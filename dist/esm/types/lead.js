@@ -31,7 +31,7 @@ export function isLeadSource(value) {
 export const LEAD_VERTICALS = [
     'RESTAURANT',
     'RETAIL',
-    'BOTH',
+    'SERVICE',
     'OTHER',
 ];
 export function isLeadVertical(value) {

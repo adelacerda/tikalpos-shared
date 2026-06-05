@@ -4,7 +4,7 @@ export declare function isLeadStatus(value: unknown): value is LeadStatus;
 export type LeadSource = 'HERO_CTA' | 'CTA_STRIP' | 'FOOTER' | 'NAV' | 'CHAT_HANDOFF' | 'DIRECT' | 'OTHER';
 export declare const LEAD_SOURCES: readonly LeadSource[];
 export declare function isLeadSource(value: unknown): value is LeadSource;
-export type LeadVertical = 'RESTAURANT' | 'RETAIL' | 'BOTH' | 'OTHER';
+export type LeadVertical = 'RESTAURANT' | 'RETAIL' | 'SERVICE' | 'BOTH' | 'OTHER';
 export declare const LEAD_VERTICALS: readonly LeadVertical[];
 export declare function isLeadVertical(value: unknown): value is LeadVertical;
 export type LeadEventKind = 'CREATED' | 'STATUS_CHANGED' | 'NOTE_ADDED' | 'CONTACTED' | 'CONVERTED';
