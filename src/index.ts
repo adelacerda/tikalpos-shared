@@ -1,3 +1,17 @@
+// Design tokens (Full-Design-V1 — single source of truth for all surfaces)
+export type { ThemeMode, ThemeColors, Tokens } from './tokens';
+export {
+  FONT,
+  COLOR,
+  THEME,
+  RADIUS,
+  SPACE,
+  MOTION,
+  DEFAULT_MODE,
+  getThemeColors,
+  tokens,
+} from './tokens';
+
 // Tenant hierarchy
 export type {
   SystemOwner,
