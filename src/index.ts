@@ -395,6 +395,10 @@ export type {
   UpdateSubscriptionInput,
   ListUsageWindowsQuery,
   ListSubscriptionEventsQuery,
+  PlanPricing,
+  UpdatePlanPricingInput,
+  PlanOffer,
+  CreatePlanOfferInput,
 } from './types/subscription';
 export {
   PLAN_TIERS,

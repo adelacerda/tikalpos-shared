@@ -36,6 +36,6 @@ export { CORPORATE_ACCOUNT_STATUSES, CORPORATE_MEMBERSHIP_STATUSES, } from './ty
 export type { CoalitionStatus, CoalitionMemberOrg, Coalition, CreateCoalitionInput, LoyaltyCoalitionFranchise, LoyaltyCoalitionSummary, CoalitionSettlement, } from './types/coalition';
 export { COALITION_STATUSES } from './types/coalition';
 export type { DiscoveryHighlightPricing, CreateDiscoveryHighlightPricingInput, } from './types/discovery';
-export type { PlanTier, BillingCycle, SubscriptionStatus, SubscriptionEventKind, AdSegmentationKind, PushSegmentationKind, PushSchedulingKind, PlanLimits, Subscription, UsageWindow, SubscriptionEvent, UsageSnapshot, UpdateSubscriptionInput, ListUsageWindowsQuery, ListSubscriptionEventsQuery, } from './types/subscription';
+export type { PlanTier, BillingCycle, SubscriptionStatus, SubscriptionEventKind, AdSegmentationKind, PushSegmentationKind, PushSchedulingKind, PlanLimits, Subscription, UsageWindow, SubscriptionEvent, UsageSnapshot, UpdateSubscriptionInput, ListUsageWindowsQuery, ListSubscriptionEventsQuery, PlanPricing, UpdatePlanPricingInput, PlanOffer, CreatePlanOfferInput, } from './types/subscription';
 export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS, PLAN_LIMITS, isPlanTier, isBillingCycle, isSubscriptionStatus, isSubscriptionEventKind, } from './types/subscription';
 //# sourceMappingURL=index.d.ts.map

@@ -21,9 +21,9 @@
 
 // ── Plan tiers and billing ────────────────────────────────────────────────
 
-export type PlanTier = 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+export type PlanTier = 'LOYALTY_LITE' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
 
-export const PLAN_TIERS: readonly PlanTier[] = ['STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
+export const PLAN_TIERS: readonly PlanTier[] = ['LOYALTY_LITE', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
 
 export function isPlanTier(value: unknown): value is PlanTier {
   return typeof value === 'string' && (PLAN_TIERS as readonly string[]).includes(value);
@@ -89,6 +89,14 @@ export interface PlanLimits {
   monthlyFeeCents: number;
   annualFeeCents: number;
 
+  // Free trial before plan billing begins. 0 = no trial (e.g. ENTERPRISE).
+  // Ads & highlights are NEVER on trial — they bill from day 1 regardless.
+  trialDays: number;
+
+  // Loyalty add-on impression fees, per plan (Q centavos per user/day impression)
+  adFeeCents: number;
+  highlightFeeCents: number;
+
   // Transaction quota + overage
   includedTransactions: number;
   overagePerTxCents: number;
@@ -118,10 +126,37 @@ export interface PlanLimits {
 const UNLIMITED = 999_999;
 
 export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
+  // Loyalty-only plan: no POS, no transaction billing — just the loyalty layer.
+  LOYALTY_LITE: {
+    tier: 'LOYALTY_LITE',
+    monthlyFeeCents: 9_900,
+    annualFeeCents: 95_000,
+    trialDays: 14,
+    adFeeCents: 8,
+    highlightFeeCents: 40,
+    includedTransactions: 0, // no POS transactions
+    overagePerTxCents: 0,
+    maxLocations: 1,
+    maxEnrolledDevices: 0, // no POS devices
+    maxLoyaltyMembers: 500,
+    maxConcurrentWsSessions: 5,
+    maxActiveAdCampaigns: 1,
+    adRevenueTakeRateBps: 2500,
+    welcomeRewardVariantsMax: 1,
+    adSegmentationKinds: ['NONE'],
+    includedPromoPushPerMonth: 1_000,
+    promoPushOveragePerPushCents: 2,
+    promoPushSegmentationKinds: ['NONE'],
+    promoPushSchedulingKinds: ['IMMEDIATE'],
+    loyaltyBoostFeeCents: 6_000,
+  },
   STARTER: {
     tier: 'STARTER',
     monthlyFeeCents: 24_900,
     annualFeeCents: 239_000,
+    trialDays: 14,
+    adFeeCents: 8,
+    highlightFeeCents: 40,
     includedTransactions: 500,
     overagePerTxCents: 50,
     maxLocations: 1,
@@ -142,6 +177,9 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     tier: 'PRO',
     monthlyFeeCents: 74_900,
     annualFeeCents: 719_000,
+    trialDays: 14,
+    adFeeCents: 6,
+    highlightFeeCents: 30,
     includedTransactions: 5_000,
     overagePerTxCents: 30,
     maxLocations: 5,
@@ -162,6 +200,9 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     tier: 'SCALE',
     monthlyFeeCents: 199_900,
     annualFeeCents: 1_919_000,
+    trialDays: 14,
+    adFeeCents: 4,
+    highlightFeeCents: 20,
     includedTransactions: 25_000,
     overagePerTxCents: 20,
     maxLocations: 25,
@@ -182,6 +223,9 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     tier: 'ENTERPRISE',
     monthlyFeeCents: 0, // negotiated per contract
     annualFeeCents: 0,
+    trialDays: 0, // no trial — negotiated per contract
+    adFeeCents: 0, // negotiated per contract
+    highlightFeeCents: 0, // negotiated per contract
     includedTransactions: 0, // unlimited / negotiated
     overagePerTxCents: 0,
     maxLocations: UNLIMITED,
@@ -339,4 +383,61 @@ export interface ListUsageWindowsQuery {
 export interface ListSubscriptionEventsQuery {
   cursor?: string; // ISO of createdAt to paginate from
   limit?: number; // default 50, max 200
+}
+
+// ── Editable plan pricing (system-admin) ──────────────────────────────────
+// PLAN_LIMITS above is the seed/default. The live, editable values live in the
+// DB and are surfaced through these types for the system-admin pricing screen
+// and the public website pricing endpoint.
+
+/** A plan's live pricing/limits row (DB-backed, editable). Mirrors PlanLimits. */
+export interface PlanPricing extends PlanLimits {
+  updatedAt: string; // ISO 8601
+}
+
+/** Editable fields for a plan. All money in Q centavos; omit to leave unchanged. */
+export interface UpdatePlanPricingInput {
+  monthlyFeeCents?: number;
+  annualFeeCents?: number;
+  trialDays?: number;
+  adFeeCents?: number;
+  highlightFeeCents?: number;
+  includedTransactions?: number;
+  overagePerTxCents?: number;
+  maxLocations?: number;
+  maxEnrolledDevices?: number;
+  maxLoyaltyMembers?: number;
+  maxConcurrentWsSessions?: number;
+  maxActiveAdCampaigns?: number;
+  adRevenueTakeRateBps?: number;
+  welcomeRewardVariantsMax?: number;
+  includedPromoPushPerMonth?: number;
+  promoPushOveragePerPushCents?: number;
+  loyaltyBoostFeeCents?: number;
+}
+
+/**
+ * A time-bound promotional price for a plan. Applies to NEW sign-ups only:
+ * the active offer's price is snapshotted/locked onto the subscription at
+ * opt-in (existing subscribers are unaffected). Ads/highlights are never on
+ * offer here — they bill from day 1 at the plan's add-on fees.
+ */
+export interface PlanOffer {
+  id: string;
+  tier: PlanTier;
+  promoMonthlyFeeCents: number;
+  promoAnnualFeeCents: number | null; // null = offer applies to monthly only
+  startsAt: string; // ISO 8601 — inclusive
+  endsAt: string; // ISO 8601 — exclusive
+  note: string | null;
+  createdAt: string;
+}
+
+export interface CreatePlanOfferInput {
+  tier: PlanTier;
+  promoMonthlyFeeCents: number;
+  promoAnnualFeeCents?: number | null;
+  startsAt: string;
+  endsAt: string;
+  note?: string;
 }
