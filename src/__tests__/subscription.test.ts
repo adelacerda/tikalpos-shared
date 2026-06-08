@@ -19,8 +19,8 @@ import {
 // in docs/market-price-analysis.md §2.1 and §3.2.
 
 describe('PLAN_TIERS (runtime constant)', () => {
-  it('contains the 4 supported tiers in business order', () => {
-    expect(PLAN_TIERS).toEqual(['STARTER', 'PRO', 'SCALE', 'ENTERPRISE']);
+  it('contains the supported tiers in business order', () => {
+    expect(PLAN_TIERS).toEqual(['LOYALTY_LITE', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE']);
   });
 });
 
@@ -47,6 +47,8 @@ describe('BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS', () =
       'PERIOD_ROLLED',
       'MANUAL_SUSPEND',
       'MANUAL_REACTIVATE',
+      'BOOST_CHARGED',
+      'DISCOVERY_HIGHLIGHT_CHARGED',
     ]);
   });
 });
@@ -191,6 +193,6 @@ describe('PLAN_LIMITS — pricing matrix (Q centavos)', () => {
 
 describe('Type-level contracts', () => {
   it('PlanTier is the union of PLAN_TIERS literals', () => {
-    expectTypeOf<PlanTier>().toEqualTypeOf<'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE'>();
+    expectTypeOf<PlanTier>().toEqualTypeOf<'LOYALTY_LITE' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE'>();
   });
 });

@@ -1,4 +1,4 @@
-export type PlanTier = 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+export type PlanTier = 'LOYALTY_LITE' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
 export declare const PLAN_TIERS: readonly PlanTier[];
 export declare function isPlanTier(value: unknown): value is PlanTier;
 export type BillingCycle = 'MONTHLY' | 'ANNUAL';
@@ -14,6 +14,9 @@ export interface PlanLimits {
     tier: PlanTier;
     monthlyFeeCents: number;
     annualFeeCents: number;
+    trialDays: number;
+    adFeeCents: number;
+    highlightFeeCents: number;
     includedTransactions: number;
     overagePerTxCents: number;
     maxLocations: number;
@@ -103,5 +106,53 @@ export interface ListUsageWindowsQuery {
 export interface ListSubscriptionEventsQuery {
     cursor?: string;
     limit?: number;
+}
+/** A plan's live pricing/limits row (DB-backed, editable). Mirrors PlanLimits. */
+export interface PlanPricing extends PlanLimits {
+    updatedAt: string;
+}
+/** Editable fields for a plan. All money in Q centavos; omit to leave unchanged. */
+export interface UpdatePlanPricingInput {
+    monthlyFeeCents?: number;
+    annualFeeCents?: number;
+    trialDays?: number;
+    adFeeCents?: number;
+    highlightFeeCents?: number;
+    includedTransactions?: number;
+    overagePerTxCents?: number;
+    maxLocations?: number;
+    maxEnrolledDevices?: number;
+    maxLoyaltyMembers?: number;
+    maxConcurrentWsSessions?: number;
+    maxActiveAdCampaigns?: number;
+    adRevenueTakeRateBps?: number;
+    welcomeRewardVariantsMax?: number;
+    includedPromoPushPerMonth?: number;
+    promoPushOveragePerPushCents?: number;
+    loyaltyBoostFeeCents?: number;
+}
+/**
+ * A time-bound promotional price for a plan. Applies to NEW sign-ups only:
+ * the active offer's price is snapshotted/locked onto the subscription at
+ * opt-in (existing subscribers are unaffected). Ads/highlights are never on
+ * offer here — they bill from day 1 at the plan's add-on fees.
+ */
+export interface PlanOffer {
+    id: string;
+    tier: PlanTier;
+    promoMonthlyFeeCents: number;
+    promoAnnualFeeCents: number | null;
+    startsAt: string;
+    endsAt: string;
+    note: string | null;
+    createdAt: string;
+}
+export interface CreatePlanOfferInput {
+    tier: PlanTier;
+    promoMonthlyFeeCents: number;
+    promoAnnualFeeCents?: number | null;
+    startsAt: string;
+    endsAt: string;
+    note?: string;
 }
 //# sourceMappingURL=subscription.d.ts.map

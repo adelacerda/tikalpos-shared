@@ -25,7 +25,7 @@ exports.isPlanTier = isPlanTier;
 exports.isBillingCycle = isBillingCycle;
 exports.isSubscriptionStatus = isSubscriptionStatus;
 exports.isSubscriptionEventKind = isSubscriptionEventKind;
-exports.PLAN_TIERS = ['STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
+exports.PLAN_TIERS = ['LOYALTY_LITE', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
 function isPlanTier(value) {
     return typeof value === 'string' && exports.PLAN_TIERS.includes(value);
 }
@@ -45,10 +45,37 @@ function isSubscriptionStatus(value) {
 }
 const UNLIMITED = 999999;
 exports.PLAN_LIMITS = {
+    // Loyalty-only plan: no POS, no transaction billing — just the loyalty layer.
+    LOYALTY_LITE: {
+        tier: 'LOYALTY_LITE',
+        monthlyFeeCents: 9900,
+        annualFeeCents: 95000,
+        trialDays: 14,
+        adFeeCents: 8,
+        highlightFeeCents: 40,
+        includedTransactions: 0, // no POS transactions
+        overagePerTxCents: 0,
+        maxLocations: 1,
+        maxEnrolledDevices: 0, // no POS devices
+        maxLoyaltyMembers: 500,
+        maxConcurrentWsSessions: 5,
+        maxActiveAdCampaigns: 1,
+        adRevenueTakeRateBps: 2500,
+        welcomeRewardVariantsMax: 1,
+        adSegmentationKinds: ['NONE'],
+        includedPromoPushPerMonth: 1000,
+        promoPushOveragePerPushCents: 2,
+        promoPushSegmentationKinds: ['NONE'],
+        promoPushSchedulingKinds: ['IMMEDIATE'],
+        loyaltyBoostFeeCents: 6000,
+    },
     STARTER: {
         tier: 'STARTER',
         monthlyFeeCents: 24900,
         annualFeeCents: 239000,
+        trialDays: 14,
+        adFeeCents: 8,
+        highlightFeeCents: 40,
         includedTransactions: 500,
         overagePerTxCents: 50,
         maxLocations: 1,
@@ -69,6 +96,9 @@ exports.PLAN_LIMITS = {
         tier: 'PRO',
         monthlyFeeCents: 74900,
         annualFeeCents: 719000,
+        trialDays: 14,
+        adFeeCents: 6,
+        highlightFeeCents: 30,
         includedTransactions: 5000,
         overagePerTxCents: 30,
         maxLocations: 5,
@@ -89,6 +119,9 @@ exports.PLAN_LIMITS = {
         tier: 'SCALE',
         monthlyFeeCents: 199900,
         annualFeeCents: 1919000,
+        trialDays: 14,
+        adFeeCents: 4,
+        highlightFeeCents: 20,
         includedTransactions: 25000,
         overagePerTxCents: 20,
         maxLocations: 25,
@@ -109,6 +142,9 @@ exports.PLAN_LIMITS = {
         tier: 'ENTERPRISE',
         monthlyFeeCents: 0, // negotiated per contract
         annualFeeCents: 0,
+        trialDays: 0, // no trial — negotiated per contract
+        adFeeCents: 0, // negotiated per contract
+        highlightFeeCents: 0, // negotiated per contract
         includedTransactions: 0, // unlimited / negotiated
         overagePerTxCents: 0,
         maxLocations: UNLIMITED,
