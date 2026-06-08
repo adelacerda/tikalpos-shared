@@ -48,6 +48,8 @@ exports.PLAN_LIMITS = {
     // Loyalty-only plan: no POS, no transaction billing — just the loyalty layer.
     LOYALTY_LITE: {
         tier: 'LOYALTY_LITE',
+        includedHighlightImpressions: 500,
+        includedAdImpressions: 500,
         monthlyFeeCents: 9900,
         annualFeeCents: 95000,
         trialDays: 14,
@@ -60,8 +62,6 @@ exports.PLAN_LIMITS = {
         maxLoyaltyMembers: 500,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
-        adRevenueTakeRateBps: 2500,
-        welcomeRewardVariantsMax: 1,
         adSegmentationKinds: ['NONE'],
         includedPromoPushPerMonth: 1000,
         promoPushOveragePerPushCents: 2,
@@ -70,6 +70,8 @@ exports.PLAN_LIMITS = {
     },
     STARTER: {
         tier: 'STARTER',
+        includedHighlightImpressions: 1000,
+        includedAdImpressions: 1000,
         monthlyFeeCents: 24900,
         annualFeeCents: 239000,
         trialDays: 14,
@@ -82,8 +84,6 @@ exports.PLAN_LIMITS = {
         maxLoyaltyMembers: 200,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
-        adRevenueTakeRateBps: 2500,
-        welcomeRewardVariantsMax: 1,
         adSegmentationKinds: ['NONE'],
         includedPromoPushPerMonth: 0,
         promoPushOveragePerPushCents: 0,
@@ -92,6 +92,8 @@ exports.PLAN_LIMITS = {
     },
     PRO: {
         tier: 'PRO',
+        includedHighlightImpressions: 5000,
+        includedAdImpressions: 5000,
         monthlyFeeCents: 74900,
         annualFeeCents: 719000,
         trialDays: 14,
@@ -104,8 +106,6 @@ exports.PLAN_LIMITS = {
         maxLoyaltyMembers: 2000,
         maxConcurrentWsSessions: 30,
         maxActiveAdCampaigns: 5,
-        adRevenueTakeRateBps: 2000,
-        welcomeRewardVariantsMax: 3,
         adSegmentationKinds: ['NONE', 'BY_TIER'],
         includedPromoPushPerMonth: 5000,
         promoPushOveragePerPushCents: 2,
@@ -114,6 +114,8 @@ exports.PLAN_LIMITS = {
     },
     SCALE: {
         tier: 'SCALE',
+        includedHighlightImpressions: 25000,
+        includedAdImpressions: 25000,
         monthlyFeeCents: 199900,
         annualFeeCents: 1919000,
         trialDays: 14,
@@ -126,8 +128,6 @@ exports.PLAN_LIMITS = {
         maxLoyaltyMembers: 20000,
         maxConcurrentWsSessions: 150,
         maxActiveAdCampaigns: 20,
-        adRevenueTakeRateBps: 1500,
-        welcomeRewardVariantsMax: 10,
         adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY'],
         includedPromoPushPerMonth: 50000,
         promoPushOveragePerPushCents: 2, // 1.5¢ rounds up to 2 for billing simplicity
@@ -136,6 +136,8 @@ exports.PLAN_LIMITS = {
     },
     ENTERPRISE: {
         tier: 'ENTERPRISE',
+        includedHighlightImpressions: UNLIMITED,
+        includedAdImpressions: UNLIMITED,
         monthlyFeeCents: 0, // negotiated per contract
         annualFeeCents: 0,
         trialDays: 0, // no trial — negotiated per contract
@@ -148,8 +150,6 @@ exports.PLAN_LIMITS = {
         maxLoyaltyMembers: UNLIMITED,
         maxConcurrentWsSessions: UNLIMITED,
         maxActiveAdCampaigns: UNLIMITED,
-        adRevenueTakeRateBps: 1000,
-        welcomeRewardVariantsMax: UNLIMITED,
         adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY', 'CUSTOM_RULES'],
         includedPromoPushPerMonth: UNLIMITED,
         promoPushOveragePerPushCents: 0,
