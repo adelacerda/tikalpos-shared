@@ -118,9 +118,6 @@ export interface PlanLimits {
   promoPushOveragePerPushCents: number;
   promoPushSegmentationKinds: readonly PushSegmentationKind[];
   promoPushSchedulingKinds: readonly PushSchedulingKind[];
-
-  // FT-GROWTH-017 §Canal 2 — featured reward neon boost (à-la-carte fee per boost)
-  loyaltyBoostFeeCents: number;
 }
 
 const UNLIMITED = 999_999;
@@ -148,7 +145,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     promoPushOveragePerPushCents: 2,
     promoPushSegmentationKinds: ['NONE'],
     promoPushSchedulingKinds: ['IMMEDIATE'],
-    loyaltyBoostFeeCents: 6_000,
   },
   STARTER: {
     tier: 'STARTER',
@@ -171,7 +167,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     promoPushOveragePerPushCents: 0,
     promoPushSegmentationKinds: ['NONE'],
     promoPushSchedulingKinds: [],
-    loyaltyBoostFeeCents: 6_000,
   },
   PRO: {
     tier: 'PRO',
@@ -194,7 +189,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     promoPushOveragePerPushCents: 2,
     promoPushSegmentationKinds: ['BY_TIER', 'BY_LOCATION'],
     promoPushSchedulingKinds: ['IMMEDIATE', 'SCHEDULED'],
-    loyaltyBoostFeeCents: 5_000,
   },
   SCALE: {
     tier: 'SCALE',
@@ -217,7 +211,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     promoPushOveragePerPushCents: 2, // 1.5¢ rounds up to 2 for billing simplicity
     promoPushSegmentationKinds: ['BY_TIER', 'BY_LOCATION', 'BY_LAST_VISIT', 'BY_PURCHASE'],
     promoPushSchedulingKinds: ['IMMEDIATE', 'SCHEDULED', 'RECURRING'],
-    loyaltyBoostFeeCents: 4_000,
   },
   ENTERPRISE: {
     tier: 'ENTERPRISE',
@@ -252,7 +245,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
       'AB_TEST',
       'EVENT_TRIGGERED',
     ],
-    loyaltyBoostFeeCents: 0, // negotiated per contract
   },
 } as const;
 
@@ -413,7 +405,6 @@ export interface UpdatePlanPricingInput {
   welcomeRewardVariantsMax?: number;
   includedPromoPushPerMonth?: number;
   promoPushOveragePerPushCents?: number;
-  loyaltyBoostFeeCents?: number;
 }
 
 /**

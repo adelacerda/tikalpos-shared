@@ -60,7 +60,6 @@ export const PLAN_LIMITS = {
         promoPushOveragePerPushCents: 2,
         promoPushSegmentationKinds: ['NONE'],
         promoPushSchedulingKinds: ['IMMEDIATE'],
-        loyaltyBoostFeeCents: 6000,
     },
     STARTER: {
         tier: 'STARTER',
@@ -83,7 +82,6 @@ export const PLAN_LIMITS = {
         promoPushOveragePerPushCents: 0,
         promoPushSegmentationKinds: ['NONE'],
         promoPushSchedulingKinds: [],
-        loyaltyBoostFeeCents: 6000,
     },
     PRO: {
         tier: 'PRO',
@@ -106,7 +104,6 @@ export const PLAN_LIMITS = {
         promoPushOveragePerPushCents: 2,
         promoPushSegmentationKinds: ['BY_TIER', 'BY_LOCATION'],
         promoPushSchedulingKinds: ['IMMEDIATE', 'SCHEDULED'],
-        loyaltyBoostFeeCents: 5000,
     },
     SCALE: {
         tier: 'SCALE',
@@ -129,7 +126,6 @@ export const PLAN_LIMITS = {
         promoPushOveragePerPushCents: 2, // 1.5¢ rounds up to 2 for billing simplicity
         promoPushSegmentationKinds: ['BY_TIER', 'BY_LOCATION', 'BY_LAST_VISIT', 'BY_PURCHASE'],
         promoPushSchedulingKinds: ['IMMEDIATE', 'SCHEDULED', 'RECURRING'],
-        loyaltyBoostFeeCents: 4000,
     },
     ENTERPRISE: {
         tier: 'ENTERPRISE',
@@ -164,7 +160,6 @@ export const PLAN_LIMITS = {
             'AB_TEST',
             'EVENT_TRIGGERED',
         ],
-        loyaltyBoostFeeCents: 0, // negotiated per contract
     },
 };
 export const SUBSCRIPTION_EVENT_KINDS = [

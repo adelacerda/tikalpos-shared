@@ -31,7 +31,6 @@ export interface PlanLimits {
     promoPushOveragePerPushCents: number;
     promoPushSegmentationKinds: readonly PushSegmentationKind[];
     promoPushSchedulingKinds: readonly PushSchedulingKind[];
-    loyaltyBoostFeeCents: number;
 }
 export declare const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>>;
 export interface Subscription {
@@ -129,7 +128,6 @@ export interface UpdatePlanPricingInput {
     welcomeRewardVariantsMax?: number;
     includedPromoPushPerMonth?: number;
     promoPushOveragePerPushCents?: number;
-    loyaltyBoostFeeCents?: number;
 }
 /**
  * A time-bound promotional price for a plan. Applies to NEW sign-ups only:
