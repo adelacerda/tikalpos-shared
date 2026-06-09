@@ -12,6 +12,10 @@ export interface LoyaltyMobileProfile {
     email: string;
     phone?: string | null;
     avatarUrl?: string | null;
+    /** City — used for push-promotion city targeting (matches branch cities). */
+    city?: string | null;
+    /** Explicit opt-in to marketing/promotional push (Apple 4.5.4). */
+    marketingPushOptIn?: boolean;
 }
 export interface LoyaltyMobileSession {
     guestId: string;
