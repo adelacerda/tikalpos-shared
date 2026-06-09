@@ -114,6 +114,8 @@ export interface ListSubscriptionEventsQuery {
 export interface PlanPricing extends PlanLimits {
     countryCode: string;
     currency: string;
+    isActive: boolean;
+    isNeon: boolean;
     updatedAt: string;
 }
 /** Editable fields for a plan. Money in the country's centavos; omit to keep. */
@@ -134,6 +136,8 @@ export interface UpdatePlanPricingInput {
     maxActiveAdCampaigns?: number;
     includedPromoPushPerMonth?: number;
     promoPushOveragePerPushCents?: number;
+    isActive?: boolean;
+    isNeon?: boolean;
 }
 /**
  * A time-bound promotional price for a plan. Applies to NEW sign-ups only:
