@@ -114,6 +114,7 @@ export interface ListSubscriptionEventsQuery {
 export interface PlanPricing extends PlanLimits {
     countryCode: string;
     currency: string;
+    isVisible: boolean;
     isActive: boolean;
     isNeon: boolean;
     updatedAt: string;
@@ -136,6 +137,7 @@ export interface UpdatePlanPricingInput {
     maxActiveAdCampaigns?: number;
     includedPromoPushPerMonth?: number;
     promoPushOveragePerPushCents?: number;
+    isVisible?: boolean;
     isActive?: boolean;
     isNeon?: boolean;
 }

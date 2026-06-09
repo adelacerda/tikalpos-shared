@@ -392,8 +392,10 @@ export interface ListSubscriptionEventsQuery {
 export interface PlanPricing extends PlanLimits {
   countryCode: string; // ISO-3166 alpha-2 (e.g. 'GT')
   currency: string; // ISO-4217 (e.g. 'GTQ')
-  // Availability: when false the website blurs the price + shows a "Coming soon"
-  // seal over the plan (and it can't be contracted yet).
+  // Visibility: when false the plan is hidden from the website pricing grid.
+  isVisible: boolean;
+  // Availability: when false (but visible) the website blurs the price + shows a
+  // "Coming soon" seal over the plan, and it can't be contracted/migrated to.
   isActive: boolean;
   // Marketing emphasis: when true the website renders this plan with the neon
   // highlighted treatment (replaces the old hardcoded "recommended" plan).
@@ -419,6 +421,7 @@ export interface UpdatePlanPricingInput {
   maxActiveAdCampaigns?: number;
   includedPromoPushPerMonth?: number;
   promoPushOveragePerPushCents?: number;
+  isVisible?: boolean;
   isActive?: boolean;
   isNeon?: boolean;
 }
