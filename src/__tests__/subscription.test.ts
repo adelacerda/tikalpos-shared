@@ -103,7 +103,7 @@ describe('PLAN_LIMITS — pricing matrix (Q centavos)', () => {
     expect(p.includedTransactions).toBe(5_000);
     expect(p.overagePerTxCents).toBe(30);
     expect(p.maxLocations).toBe(5);
-    expect(p.adRevenueTakeRateBps).toBe(2000); // 20%
+    expect(p.includedHighlightImpressions).toBe(5_000);
     expect(p.includedPromoPushPerMonth).toBe(5_000);
   });
 
@@ -114,7 +114,7 @@ describe('PLAN_LIMITS — pricing matrix (Q centavos)', () => {
     expect(p.includedTransactions).toBe(25_000);
     expect(p.overagePerTxCents).toBe(20);
     expect(p.maxLocations).toBe(25);
-    expect(p.adRevenueTakeRateBps).toBe(1500); // 15%
+    expect(p.includedHighlightImpressions).toBe(25_000);
     expect(p.includedPromoPushPerMonth).toBe(50_000);
   });
 
@@ -124,7 +124,7 @@ describe('PLAN_LIMITS — pricing matrix (Q centavos)', () => {
     expect(p.maxLocations).toBeGreaterThanOrEqual(999_999);
     expect(p.maxEnrolledDevices).toBeGreaterThanOrEqual(999_999);
     expect(p.maxConcurrentWsSessions).toBeGreaterThanOrEqual(999_999);
-    expect(p.adRevenueTakeRateBps).toBe(1000); // 10% — lowest take rate
+    expect(p.includedHighlightImpressions).toBeGreaterThanOrEqual(999_999);
   });
 
   it('annual fee is exactly 12× monthly minus 20% (with rounding tolerance)', () => {
@@ -137,15 +137,12 @@ describe('PLAN_LIMITS — pricing matrix (Q centavos)', () => {
     }
   });
 
-  it('take rate decreases monotonically as tier grows (incentive to upgrade)', () => {
-    expect(PLAN_LIMITS.STARTER.adRevenueTakeRateBps).toBeGreaterThan(
-      PLAN_LIMITS.PRO.adRevenueTakeRateBps,
+  it('included highlight impressions grow with tier', () => {
+    expect(PLAN_LIMITS.PRO.includedHighlightImpressions).toBeGreaterThan(
+      PLAN_LIMITS.STARTER.includedHighlightImpressions,
     );
-    expect(PLAN_LIMITS.PRO.adRevenueTakeRateBps).toBeGreaterThan(
-      PLAN_LIMITS.SCALE.adRevenueTakeRateBps,
-    );
-    expect(PLAN_LIMITS.SCALE.adRevenueTakeRateBps).toBeGreaterThan(
-      PLAN_LIMITS.ENTERPRISE.adRevenueTakeRateBps,
+    expect(PLAN_LIMITS.SCALE.includedHighlightImpressions).toBeGreaterThan(
+      PLAN_LIMITS.PRO.includedHighlightImpressions,
     );
   });
 

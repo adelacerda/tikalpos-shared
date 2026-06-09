@@ -17,6 +17,8 @@ export interface PlanLimits {
     trialDays: number;
     adFeeCents: number;
     highlightFeeCents: number;
+    includedHighlightImpressions: number;
+    includedAdImpressions: number;
     includedTransactions: number;
     overagePerTxCents: number;
     maxLocations: number;
@@ -24,8 +26,6 @@ export interface PlanLimits {
     maxLoyaltyMembers: number;
     maxConcurrentWsSessions: number;
     maxActiveAdCampaigns: number;
-    adRevenueTakeRateBps: number;
-    welcomeRewardVariantsMax: number;
     adSegmentationKinds: readonly AdSegmentationKind[];
     includedPromoPushPerMonth: number;
     promoPushOveragePerPushCents: number;
@@ -106,17 +106,25 @@ export interface ListSubscriptionEventsQuery {
     cursor?: string;
     limit?: number;
 }
-/** A plan's live pricing/limits row (DB-backed, editable). Mirrors PlanLimits. */
+/**
+ * A plan's live pricing/limits row (DB-backed, editable). Mirrors PlanLimits.
+ * Pricing is per-country: one row per (countryCode, tier). Money values are in
+ * the country's currency (centavos). `currency` is the ISO code (e.g. 'GTQ').
+ */
 export interface PlanPricing extends PlanLimits {
+    countryCode: string;
+    currency: string;
     updatedAt: string;
 }
-/** Editable fields for a plan. All money in Q centavos; omit to leave unchanged. */
+/** Editable fields for a plan. Money in the country's centavos; omit to keep. */
 export interface UpdatePlanPricingInput {
     monthlyFeeCents?: number;
     annualFeeCents?: number;
     trialDays?: number;
     adFeeCents?: number;
     highlightFeeCents?: number;
+    includedHighlightImpressions?: number;
+    includedAdImpressions?: number;
     includedTransactions?: number;
     overagePerTxCents?: number;
     maxLocations?: number;
@@ -124,8 +132,6 @@ export interface UpdatePlanPricingInput {
     maxLoyaltyMembers?: number;
     maxConcurrentWsSessions?: number;
     maxActiveAdCampaigns?: number;
-    adRevenueTakeRateBps?: number;
-    welcomeRewardVariantsMax?: number;
     includedPromoPushPerMonth?: number;
     promoPushOveragePerPushCents?: number;
 }
@@ -137,6 +143,7 @@ export interface UpdatePlanPricingInput {
  */
 export interface PlanOffer {
     id: string;
+    countryCode: string;
     tier: PlanTier;
     promoMonthlyFeeCents: number;
     promoAnnualFeeCents: number | null;
@@ -146,6 +153,7 @@ export interface PlanOffer {
     createdAt: string;
 }
 export interface CreatePlanOfferInput {
+    countryCode: string;
     tier: PlanTier;
     promoMonthlyFeeCents: number;
     promoAnnualFeeCents?: number | null;

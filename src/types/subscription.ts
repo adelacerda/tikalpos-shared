@@ -93,9 +93,13 @@ export interface PlanLimits {
   // Ads & highlights are NEVER on trial — they bill from day 1 regardless.
   trialDays: number;
 
-  // Loyalty add-on impression fees, per plan (Q centavos per user/day impression)
+  // Loyalty add-on impression fees, per plan (centavos per user/day impression).
+  // Each plan INCLUDES an allotment of impressions in the monthly fee; only the
+  // excess (used − included) is billed at period close, like transactions.
   adFeeCents: number;
   highlightFeeCents: number;
+  includedHighlightImpressions: number;
+  includedAdImpressions: number;
 
   // Transaction quota + overage
   includedTransactions: number;
@@ -103,14 +107,12 @@ export interface PlanLimits {
 
   // Hardware + capacity caps
   maxLocations: number;
-  maxEnrolledDevices: number;
+  maxEnrolledDevices: number; // iOS/Android devices (web app does not count)
   maxLoyaltyMembers: number;
-  maxConcurrentWsSessions: number;
+  maxConcurrentWsSessions: number; // concurrent chat sessions
 
   // FT-GROWTH-017 — Ad carousel monetization
   maxActiveAdCampaigns: number;
-  adRevenueTakeRateBps: number; // 2500 = 25%
-  welcomeRewardVariantsMax: number;
   adSegmentationKinds: readonly AdSegmentationKind[];
 
   // FT-GROWTH-017 — Promo push monetization
@@ -126,6 +128,8 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
   // Loyalty-only plan: no POS, no transaction billing — just the loyalty layer.
   LOYALTY_LITE: {
     tier: 'LOYALTY_LITE',
+    includedHighlightImpressions: 500,
+    includedAdImpressions: 500,
     monthlyFeeCents: 9_900,
     annualFeeCents: 95_000,
     trialDays: 14,
@@ -138,8 +142,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLoyaltyMembers: 500,
     maxConcurrentWsSessions: 5,
     maxActiveAdCampaigns: 1,
-    adRevenueTakeRateBps: 2500,
-    welcomeRewardVariantsMax: 1,
     adSegmentationKinds: ['NONE'],
     includedPromoPushPerMonth: 1_000,
     promoPushOveragePerPushCents: 2,
@@ -148,6 +150,8 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
   },
   STARTER: {
     tier: 'STARTER',
+    includedHighlightImpressions: 1_000,
+    includedAdImpressions: 1_000,
     monthlyFeeCents: 24_900,
     annualFeeCents: 239_000,
     trialDays: 14,
@@ -160,8 +164,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLoyaltyMembers: 200,
     maxConcurrentWsSessions: 5,
     maxActiveAdCampaigns: 1,
-    adRevenueTakeRateBps: 2500,
-    welcomeRewardVariantsMax: 1,
     adSegmentationKinds: ['NONE'],
     includedPromoPushPerMonth: 0,
     promoPushOveragePerPushCents: 0,
@@ -170,6 +172,8 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
   },
   PRO: {
     tier: 'PRO',
+    includedHighlightImpressions: 5_000,
+    includedAdImpressions: 5_000,
     monthlyFeeCents: 74_900,
     annualFeeCents: 719_000,
     trialDays: 14,
@@ -182,8 +186,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLoyaltyMembers: 2_000,
     maxConcurrentWsSessions: 30,
     maxActiveAdCampaigns: 5,
-    adRevenueTakeRateBps: 2000,
-    welcomeRewardVariantsMax: 3,
     adSegmentationKinds: ['NONE', 'BY_TIER'],
     includedPromoPushPerMonth: 5_000,
     promoPushOveragePerPushCents: 2,
@@ -192,6 +194,8 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
   },
   SCALE: {
     tier: 'SCALE',
+    includedHighlightImpressions: 25_000,
+    includedAdImpressions: 25_000,
     monthlyFeeCents: 199_900,
     annualFeeCents: 1_919_000,
     trialDays: 14,
@@ -204,8 +208,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLoyaltyMembers: 20_000,
     maxConcurrentWsSessions: 150,
     maxActiveAdCampaigns: 20,
-    adRevenueTakeRateBps: 1500,
-    welcomeRewardVariantsMax: 10,
     adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY'],
     includedPromoPushPerMonth: 50_000,
     promoPushOveragePerPushCents: 2, // 1.5¢ rounds up to 2 for billing simplicity
@@ -214,6 +216,8 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
   },
   ENTERPRISE: {
     tier: 'ENTERPRISE',
+    includedHighlightImpressions: UNLIMITED,
+    includedAdImpressions: UNLIMITED,
     monthlyFeeCents: 0, // negotiated per contract
     annualFeeCents: 0,
     trialDays: 0, // no trial — negotiated per contract
@@ -226,8 +230,6 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLoyaltyMembers: UNLIMITED,
     maxConcurrentWsSessions: UNLIMITED,
     maxActiveAdCampaigns: UNLIMITED,
-    adRevenueTakeRateBps: 1000,
-    welcomeRewardVariantsMax: UNLIMITED,
     adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY', 'CUSTOM_RULES'],
     includedPromoPushPerMonth: UNLIMITED,
     promoPushOveragePerPushCents: 0,
@@ -382,18 +384,26 @@ export interface ListSubscriptionEventsQuery {
 // DB and are surfaced through these types for the system-admin pricing screen
 // and the public website pricing endpoint.
 
-/** A plan's live pricing/limits row (DB-backed, editable). Mirrors PlanLimits. */
+/**
+ * A plan's live pricing/limits row (DB-backed, editable). Mirrors PlanLimits.
+ * Pricing is per-country: one row per (countryCode, tier). Money values are in
+ * the country's currency (centavos). `currency` is the ISO code (e.g. 'GTQ').
+ */
 export interface PlanPricing extends PlanLimits {
+  countryCode: string; // ISO-3166 alpha-2 (e.g. 'GT')
+  currency: string; // ISO-4217 (e.g. 'GTQ')
   updatedAt: string; // ISO 8601
 }
 
-/** Editable fields for a plan. All money in Q centavos; omit to leave unchanged. */
+/** Editable fields for a plan. Money in the country's centavos; omit to keep. */
 export interface UpdatePlanPricingInput {
   monthlyFeeCents?: number;
   annualFeeCents?: number;
   trialDays?: number;
   adFeeCents?: number;
   highlightFeeCents?: number;
+  includedHighlightImpressions?: number;
+  includedAdImpressions?: number;
   includedTransactions?: number;
   overagePerTxCents?: number;
   maxLocations?: number;
@@ -401,8 +411,6 @@ export interface UpdatePlanPricingInput {
   maxLoyaltyMembers?: number;
   maxConcurrentWsSessions?: number;
   maxActiveAdCampaigns?: number;
-  adRevenueTakeRateBps?: number;
-  welcomeRewardVariantsMax?: number;
   includedPromoPushPerMonth?: number;
   promoPushOveragePerPushCents?: number;
 }
@@ -415,6 +423,7 @@ export interface UpdatePlanPricingInput {
  */
 export interface PlanOffer {
   id: string;
+  countryCode: string; // ISO-3166 alpha-2 — offer applies to this country's catalog
   tier: PlanTier;
   promoMonthlyFeeCents: number;
   promoAnnualFeeCents: number | null; // null = offer applies to monthly only
@@ -425,6 +434,7 @@ export interface PlanOffer {
 }
 
 export interface CreatePlanOfferInput {
+  countryCode: string;
   tier: PlanTier;
   promoMonthlyFeeCents: number;
   promoAnnualFeeCents?: number | null;
