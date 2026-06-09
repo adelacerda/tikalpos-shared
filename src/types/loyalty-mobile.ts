@@ -324,4 +324,8 @@ export interface UpdateLoyaltyProfileInput {
   phone?: string | null;
   avatarUrl?: string | null;
   locale?: 'es' | 'en';
+  /** City for push-promotion targeting (matches branch cities). */
+  city?: string | null;
+  /** Marketing/promotional push consent toggle (Apple 4.5.4). */
+  marketingPushOptIn?: boolean;
 }
