@@ -23,14 +23,16 @@ export const PAYMENT_METHODS = ['CARD', 'BANK_TRANSFER', 'CASH'] as const;
 export type InvoicePaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 // Canonical charge lines — every invoice carries all of them, even at 0.
+// HIGHLIGHT_IMPRESSIONS is the Discovery-carousel "destacado" billed per
+// impression/user/day; AD_IMPRESSIONS is the ad carousel billed the same way.
+// (Legacy REWARD_BOOST / DISCOVERY_HIGHLIGHT channels were dropped — boosts were
+// never charged and the discovery highlight is billed via HIGHLIGHT_IMPRESSIONS.)
 export const INVOICE_LINE_KINDS = [
   'PLAN_FEE',
   'TRANSACTION_OVERAGE',
   'HIGHLIGHT_IMPRESSIONS',
   'AD_IMPRESSIONS',
   'PROMO_PUSH_OVERAGE',
-  'REWARD_BOOST',
-  'DISCOVERY_HIGHLIGHT',
 ] as const;
 export type InvoiceLineKind = (typeof INVOICE_LINE_KINDS)[number];
 
