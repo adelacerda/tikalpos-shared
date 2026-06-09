@@ -411,3 +411,25 @@ export {
   isSubscriptionStatus,
   isSubscriptionEventKind,
 } from './types/subscription';
+
+// Billing & Invoicing (Facturación) — see docs/feature-billing-invoicing.md
+export type {
+  InvoiceStatus,
+  InvoiceCloseType,
+  InvoicePaymentMethod,
+  InvoiceLineKind,
+  InvoiceLineItem,
+  InvoicePayment,
+  Invoice,
+  ClosePeriodInput,
+  RecordPaymentInput,
+  ListInvoicesQuery,
+} from './types/invoice';
+export {
+  INVOICE_STATUSES,
+  INVOICE_CLOSE_TYPES,
+  PAYMENT_METHODS,
+  INVOICE_LINE_KINDS,
+  isInvoiceStatus,
+  isInvoicePaymentMethod,
+} from './types/invoice';
