@@ -11,6 +11,8 @@ export type { LoyaltyConfig, TierThreshold, LoyaltyTransaction, LoyaltyTransacti
 export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, } from './types/loyalty';
 export type { LoyaltyAd, CreateLoyaltyAdInput, AdImpressionPricing, CreateAdImpressionPricingInput, } from './types/ad';
 export { isLoyaltyAdActive } from './types/ad';
+export type { PushPromotion, CreatePushPromotionInput, PushPromotionTarget, } from './types/push-promotion';
+export { isPushPromotionActive } from './types/push-promotion';
 export type { SyncEntityType, SyncAction, SyncChangeRecord, SyncPushRequest, SyncPushResponse, SyncConflict, SyncPullRequest, SyncPullResponse, } from './types/sync';
 export type { KdsTicket, KdsTicketItem, KdsTicketStatus, KdsItemStatus, SendToKdsRequest, SendToKdsResponse, } from './types/kds';
 export type { Reservation, ReservationStatus, CreateReservationInput, UpdateReservationInput, } from './types/reservation';

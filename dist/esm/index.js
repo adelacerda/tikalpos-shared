@@ -3,6 +3,7 @@ export { STAFF_ROLES, isStaffRole, allowedStaffRolesFor, allowedDeviceRolesFor, 
 export { SUPPORTED_LOCALES, isSupportedLocale, COUNTRY_CATALOG, getCatalogEntry, phoneDigits, toE164, nationalPart, isValidNationalPhone, isValidTaxId, } from './types/country';
 export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, } from './types/loyalty';
 export { isLoyaltyAdActive } from './types/ad';
+export { isPushPromotionActive } from './types/push-promotion';
 export { DEVICE_ROLES, isDeviceRole } from './types/device';
 export { TELEMETRY_BUFFER_CAPS, TELEMETRY_FLUSH_INTERVAL_MS, } from './types/telemetry';
 export { MIGRATION_SOURCES, isMigrationSource, MIGRATION_LIMITS, } from './types/migration';

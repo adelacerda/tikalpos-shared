@@ -126,6 +126,14 @@ export type {
 } from './types/ad';
 export { isLoyaltyAdActive } from './types/ad';
 
+// Push Promotion system (FT-GROWTH-017 / reward-wizard)
+export type {
+  PushPromotion,
+  CreatePushPromotionInput,
+  PushPromotionTarget,
+} from './types/push-promotion';
+export { isPushPromotionActive } from './types/push-promotion';
+
 // Sync protocol
 export type {
   SyncEntityType,
