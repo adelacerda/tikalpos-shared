@@ -91,6 +91,7 @@ export interface LoyaltyRewardCard {
     costPoints: number;
     originalCostPoints?: number | null;
     imageUrl?: string | null;
+    verticalImageUrl?: string | null;
     promotionEndsAt?: string | null;
     redeemableUntil?: string | null;
     featured?: boolean;
@@ -195,6 +196,7 @@ export interface LoyaltyDiscoveryCard {
     branding: LoyaltyFranchiseBranding;
     reward: LoyaltyRewardCard;
     highlighted: boolean;
+    tags: string[];
 }
 /**
  * A page of the discovery reward feed (the "Ver todas" screen). The feed is a

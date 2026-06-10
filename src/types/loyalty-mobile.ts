@@ -152,7 +152,8 @@ export interface LoyaltyRewardCard {
   description: string;
   costPoints: number;
   originalCostPoints?: number | null; // populated when a promotion is active
-  imageUrl?: string | null;
+  imageUrl?: string | null;           // landscape 2:1 (1200×600) — carousel card banner
+  verticalImageUrl?: string | null;   // portrait 3:4 (1080×1440) — discover card strip
   promotionEndsAt?: string | null;
   redeemableUntil?: string | null;
   featured?: boolean; // FT-GROWTH-017 §Canal 2 — neon-boosted highlight
@@ -286,6 +287,7 @@ export interface LoyaltyDiscoveryCard {
   branding: LoyaltyFranchiseBranding;
   reward: LoyaltyRewardCard; // a reward from a franchise the guest hasn't joined
   highlighted: boolean;      // a paid discovery-highlight reward (shown + billed)
+  tags: string[];            // the franchise's category tags (badge shows ≤2, client picks at random)
 }
 
 /**
