@@ -28,6 +28,7 @@ export type {
   Guest,
   LoyaltyTier,
 } from './types/tenant';
+export { CITIES_BY_COUNTRY, citiesForCountry } from './types/cities';
 export {
   STAFF_ROLES,
   isStaffRole,
