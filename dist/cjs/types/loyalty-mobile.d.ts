@@ -135,6 +135,9 @@ export interface LoyaltyFranchiseDetail {
 export interface LoyaltyLocation {
     name: string;
     address: string | null;
+    /** Branch coordinates → drives the in-app "navigate" (Waze/Maps) button. */
+    latitude?: number | null;
+    longitude?: number | null;
 }
 export interface LoyaltyMerchantSearchResult {
     orgId: string;

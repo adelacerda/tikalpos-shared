@@ -47,6 +47,9 @@ export interface Location {
   address: string;
   /** Structured city — used for push-promotion targeting (FT-GROWTH-017). */
   city?: string | null;
+  /** Branch coordinates for "navigate" deep links (Waze / Maps). */
+  latitude?: number | null;
+  longitude?: number | null;
   status: LocationStatus;
   settings: LocationSettings;
   createdAt: string;
