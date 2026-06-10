@@ -34,6 +34,8 @@ export interface Location {
     organizationId: string;
     name: string;
     address: string;
+    /** Structured city — used for push-promotion targeting (FT-GROWTH-017). */
+    city?: string | null;
     status: LocationStatus;
     settings: LocationSettings;
     createdAt: string;
