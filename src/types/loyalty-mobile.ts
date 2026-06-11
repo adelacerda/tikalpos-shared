@@ -226,14 +226,59 @@ export interface LoyaltyMerchantSearchResponse {
 
 // ── Redemption holds (QR-based pre-authorization) ──────────────────────────
 
+/**
+ * REDEEM     — the guest is cashing in a reward they own; the merchant scan can
+ *              redeem it and/or apply the tier discount.
+ * POINTS_ONLY— "Obtener puntos por compra": no reward is redeemed, the merchant
+ *              just records the spend (and optionally the tier discount).
+ */
+export type RedemptionHoldMode = 'REDEEM' | 'POINTS_ONLY';
+
 export interface LoyaltyRedemptionHold {
   id: string;
   nonce: string;            // opaque token included in QR payload
   rewardId: string;
   orgId: string;
   qrPayload: string;        // base64url-encoded JSON the staff tablet scans
-  expiresAt: string;        // ISO-8601 — typically now() + 10 min
+  mode: RedemptionHoldMode;
+  expiresAt: string;        // ISO-8601
   consumedAt?: string | null;
+}
+
+/** Mobile → create a hold for the merchant to scan. */
+export interface CreateRedemptionHoldInput {
+  mode: RedemptionHoldMode;
+  /** The owned GiftedReward to redeem (REDEEM mode only). */
+  giftedRewardId?: string;
+}
+
+/** Web (owner) resolves a scanned hold before consuming it. */
+export interface RedemptionResolveResult {
+  nonce: string;
+  mode: RedemptionHoldMode;
+  expiresAt: string;
+  consumedAt: string | null;
+  orgId: string;
+  currency: string;
+  guest: { id: string; name: string | null };
+  /** Present in REDEEM mode — the reward being cashed in. */
+  reward: { giftedRewardId: string; name: string; minCheckAmountCents: number } | null;
+  tier: string | null;
+  tierDiscountBps: number; // the guest's tier discount (0 if none)
+}
+
+/** Web (owner) consumes the hold after entering the spend + choices. */
+export interface RedemptionConsumeInput {
+  amountCents: number;       // amount spent, before any discount
+  applyReward: boolean;      // redeem the owned reward (ignored in POINTS_ONLY)
+  applyTierDiscount: boolean; // apply the tier discount
+}
+
+export interface RedemptionConsumeResult {
+  chargeCents: number;        // what to actually charge after discounts
+  rewardRedeemed: boolean;
+  tierDiscountApplied: boolean;
+  pointsAwarded: number;
 }
 
 export interface ReserveRewardInput {
