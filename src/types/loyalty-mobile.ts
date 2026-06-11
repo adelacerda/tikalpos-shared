@@ -263,8 +263,15 @@ export interface RedemptionResolveResult {
   orgId: string;
   currency: string;
   guest: { id: string; name: string | null };
-  /** Present in REDEEM mode — the reward being cashed in. */
-  reward: { giftedRewardId: string; name: string; minCheckAmountCents: number } | null;
+  /** Present in REDEEM mode — the reward being cashed in. `discountType` /
+   * `discountValue` let the web preview the charge live before consuming. */
+  reward: {
+    giftedRewardId: string;
+    name: string;
+    minCheckAmountCents: number;
+    discountType: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT' | null;
+    discountValue: number; // cents for FIXED_AMOUNT/ITEM_COST, percent for PERCENTAGE
+  } | null;
   tier: string | null;
   tierDiscountBps: number; // the guest's tier discount (0 if none)
 }
