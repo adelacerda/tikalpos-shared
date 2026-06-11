@@ -186,11 +186,14 @@ export interface RedemptionResolveResult {
         id: string;
         name: string | null;
     };
-    /** Present in REDEEM mode — the reward being cashed in. */
+    /** Present in REDEEM mode — the reward being cashed in. `discountType` /
+     * `discountValue` let the web preview the charge live before consuming. */
     reward: {
         giftedRewardId: string;
         name: string;
         minCheckAmountCents: number;
+        discountType: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT' | null;
+        discountValue: number;
     } | null;
     tier: string | null;
     tierDiscountBps: number;
