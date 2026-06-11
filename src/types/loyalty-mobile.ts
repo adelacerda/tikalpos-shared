@@ -187,6 +187,8 @@ export interface LoyaltyGiftedRewardCard {
 
 export interface LoyaltyFranchiseDetail {
   branding: LoyaltyFranchiseBranding;
+  /** True when the franchise is on the LOYALTY_LITE plan → in-store QR redemption. */
+  isLoyaltyLite: boolean;
   pointsBalance: number;
   lifetimePoints: number;
   tier?: string | null;
