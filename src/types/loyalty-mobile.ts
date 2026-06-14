@@ -208,6 +208,9 @@ export interface LoyaltyLocation {
   /** Branch coordinates → drives the in-app "navigate" (Waze/Maps) button. */
   latitude?: number | null;
   longitude?: number | null;
+  /** Branch WhatsApp (E.164) → drives the in-app "contact via WhatsApp" button.
+   *  Null/absent = no button. */
+  whatsapp?: string | null;
 }
 
 // ── Merchant search ─────────────────────────────────────────────────────────
