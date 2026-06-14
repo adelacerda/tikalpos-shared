@@ -15,8 +15,12 @@ export interface LoyaltyAd {
   title: string;
   /** Brand icon, 512×512, rendered ~44pt circular over the creative. */
   iconUrl: string;
-  /** Full-screen creative, 1080×2400 (9:20), rendered cover. */
-  imageUrl: string;
+  /** Full-screen creative, 1080×2400 (9:20), rendered cover. Image OR video
+   *  (exactly one); null when the ad is video-only. */
+  imageUrl?: string | null;
+  /** Optional 8-second video creative. When set, the loyalty app plays it
+   *  (muted, no loop, capped at 8s) instead of the static image. */
+  videoUrl?: string | null;
   /** Big bottom CTA button label. */
   ctaLabel: string;
   startsAt: string; // ISO-8601 — run window / opt-in
@@ -33,7 +37,10 @@ export interface CreateLoyaltyAdInput {
   title: string;
   /** @deprecated The ad icon is the franchise logo, served at runtime. */
   iconUrl?: string;
-  imageUrl: string;
+  /** Image OR video (exactly one). Image is also the video poster when both. */
+  imageUrl?: string | null;
+  /** Optional 8s video creative URL (uploaded via /media/upload-video). */
+  videoUrl?: string | null;
   ctaLabel: string;
   startsAt: string; // ISO-8601
   endsAt: string; // ISO-8601

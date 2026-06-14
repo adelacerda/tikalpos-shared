@@ -241,7 +241,10 @@ export interface LoyaltyAdCard {
     sponsoredByOrgName: string;
     title: string;
     iconUrl: string;
-    imageUrl: string;
+    imageUrl?: string | null;
+    /** Optional 8s video creative. When present the app plays it (muted, no loop,
+     *  capped at 8s) instead of the image. */
+    videoUrl?: string | null;
     ctaLabel: string;
     /** True when the guest already belongs to this franchise. */
     isMember: boolean;
