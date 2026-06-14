@@ -50,6 +50,9 @@ export interface Location {
   /** Branch coordinates for "navigate" deep links (Waze / Maps). */
   latitude?: number | null;
   longitude?: number | null;
+  /** Branch WhatsApp contact, stored E.164 (e.g. "+50255551234"). Drives the
+   *  "contact via WhatsApp" button in the loyalty app. Null = no button. */
+  whatsapp?: string | null;
   status: LocationStatus;
   settings: LocationSettings;
   createdAt: string;
