@@ -44,6 +44,9 @@ export interface Subscription {
     suspendedAt: string | null;
     suspendedReason: string | null;
     billingMetadata: Record<string, unknown> | null;
+    lockedMonthlyFeeCents?: number | null;
+    lockedAnnualFeeCents?: number | null;
+    priceChangeEffectiveAt?: string | null;
 }
 export interface UsageWindow {
     organizationId: string;
