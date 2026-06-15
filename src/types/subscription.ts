@@ -21,12 +21,22 @@
 
 // ── Plan tiers and billing ────────────────────────────────────────────────
 
-export type PlanTier = 'LOYALTY_LITE' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+export type PlanTier = 'LOYALTY_LITE' | 'LOYALTY_PRO' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
 
-export const PLAN_TIERS: readonly PlanTier[] = ['LOYALTY_LITE', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
+export const PLAN_TIERS: readonly PlanTier[] = ['LOYALTY_LITE', 'LOYALTY_PRO', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
 
 export function isPlanTier(value: unknown): value is PlanTier {
   return typeof value === 'string' && (PLAN_TIERS as readonly string[]).includes(value);
+}
+
+/**
+ * Loyalty-only plans (no POS / menu / devices): LOYALTY_LITE and LOYALTY_PRO.
+ * They share the exact same admin permissions and feature gating — only their
+ * branch limit (maxLocations) differs. Use this everywhere a feature is gated
+ * "is this a loyalty-only plan?" instead of comparing to 'LOYALTY_LITE'.
+ */
+export function isLoyaltyOnlyPlan(tier: PlanTier | string | null | undefined): boolean {
+  return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO';
 }
 
 export type BillingCycle = 'MONTHLY' | 'ANNUAL';
@@ -138,6 +148,30 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     includedTransactions: 0, // no POS transactions
     overagePerTxCents: 0,
     maxLocations: 1,
+    maxEnrolledDevices: 0, // no POS devices
+    maxLoyaltyMembers: 500,
+    maxConcurrentWsSessions: 5,
+    maxActiveAdCampaigns: 1,
+    adSegmentationKinds: ['NONE'],
+    includedPromoPushPerMonth: 1_000,
+    promoPushOveragePerPushCents: 2,
+    promoPushSegmentationKinds: ['NONE'],
+    promoPushSchedulingKinds: ['IMMEDIATE'],
+  },
+  // Exact copy of LOYALTY_LITE — same admin permissions/feature gating — except
+  // the branch limit is 5 (vs 1). Loyalty-only: no POS, no transaction billing.
+  LOYALTY_PRO: {
+    tier: 'LOYALTY_PRO',
+    includedHighlightImpressions: 500,
+    includedAdImpressions: 500,
+    monthlyFeeCents: 9_900,
+    annualFeeCents: 95_000,
+    trialDays: 14,
+    adFeeCents: 8,
+    highlightFeeCents: 40,
+    includedTransactions: 0, // no POS transactions
+    overagePerTxCents: 0,
+    maxLocations: 5, // ← only difference vs Loyalty Lite
     maxEnrolledDevices: 0, // no POS devices
     maxLoyaltyMembers: 500,
     maxConcurrentWsSessions: 5,
