@@ -18,9 +18,18 @@
 // Money convention: every monetary value is stored as integer Q centavos
 // (the same convention used by tikalpos-backend's pricing arithmetic).
 // 1 Q = 100 cents. Q 249/mes → 24_900.
-export const PLAN_TIERS = ['LOYALTY_LITE', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
+export const PLAN_TIERS = ['LOYALTY_LITE', 'LOYALTY_PRO', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
 export function isPlanTier(value) {
     return typeof value === 'string' && PLAN_TIERS.includes(value);
+}
+/**
+ * Loyalty-only plans (no POS / menu / devices): LOYALTY_LITE and LOYALTY_PRO.
+ * They share the exact same admin permissions and feature gating — only their
+ * branch limit (maxLocations) differs. Use this everywhere a feature is gated
+ * "is this a loyalty-only plan?" instead of comparing to 'LOYALTY_LITE'.
+ */
+export function isLoyaltyOnlyPlan(tier) {
+    return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO';
 }
 export const BILLING_CYCLES = ['MONTHLY', 'ANNUAL'];
 export function isBillingCycle(value) {
@@ -51,6 +60,30 @@ export const PLAN_LIMITS = {
         includedTransactions: 0, // no POS transactions
         overagePerTxCents: 0,
         maxLocations: 1,
+        maxEnrolledDevices: 0, // no POS devices
+        maxLoyaltyMembers: 500,
+        maxConcurrentWsSessions: 5,
+        maxActiveAdCampaigns: 1,
+        adSegmentationKinds: ['NONE'],
+        includedPromoPushPerMonth: 1000,
+        promoPushOveragePerPushCents: 2,
+        promoPushSegmentationKinds: ['NONE'],
+        promoPushSchedulingKinds: ['IMMEDIATE'],
+    },
+    // Exact copy of LOYALTY_LITE — same admin permissions/feature gating — except
+    // the branch limit is 5 (vs 1). Loyalty-only: no POS, no transaction billing.
+    LOYALTY_PRO: {
+        tier: 'LOYALTY_PRO',
+        includedHighlightImpressions: 500,
+        includedAdImpressions: 500,
+        monthlyFeeCents: 9900,
+        annualFeeCents: 95000,
+        trialDays: 14,
+        adFeeCents: 8,
+        highlightFeeCents: 40,
+        includedTransactions: 0, // no POS transactions
+        overagePerTxCents: 0,
+        maxLocations: 5, // ← only difference vs Loyalty Lite
         maxEnrolledDevices: 0, // no POS devices
         maxLoyaltyMembers: 500,
         maxConcurrentWsSessions: 5,

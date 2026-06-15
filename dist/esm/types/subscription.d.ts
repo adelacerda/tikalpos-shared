@@ -1,6 +1,13 @@
-export type PlanTier = 'LOYALTY_LITE' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+export type PlanTier = 'LOYALTY_LITE' | 'LOYALTY_PRO' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
 export declare const PLAN_TIERS: readonly PlanTier[];
 export declare function isPlanTier(value: unknown): value is PlanTier;
+/**
+ * Loyalty-only plans (no POS / menu / devices): LOYALTY_LITE and LOYALTY_PRO.
+ * They share the exact same admin permissions and feature gating — only their
+ * branch limit (maxLocations) differs. Use this everywhere a feature is gated
+ * "is this a loyalty-only plan?" instead of comparing to 'LOYALTY_LITE'.
+ */
+export declare function isLoyaltyOnlyPlan(tier: PlanTier | string | null | undefined): boolean;
 export type BillingCycle = 'MONTHLY' | 'ANNUAL';
 export declare const BILLING_CYCLES: readonly BillingCycle[];
 export declare function isBillingCycle(value: unknown): value is BillingCycle;
