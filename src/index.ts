@@ -421,6 +421,7 @@ export {
   SUBSCRIPTION_EVENT_KINDS,
   PLAN_LIMITS,
   isPlanTier,
+  isLoyaltyOnlyPlan,
   isBillingCycle,
   isSubscriptionStatus,
   isSubscriptionEventKind,

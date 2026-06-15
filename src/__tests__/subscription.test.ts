@@ -6,6 +6,7 @@ import {
   SUBSCRIPTION_EVENT_KINDS,
   PLAN_LIMITS,
   isPlanTier,
+  isLoyaltyOnlyPlan,
   isBillingCycle,
   isSubscriptionStatus,
   isSubscriptionEventKind,
@@ -20,7 +21,7 @@ import {
 
 describe('PLAN_TIERS (runtime constant)', () => {
   it('contains the supported tiers in business order', () => {
-    expect(PLAN_TIERS).toEqual(['LOYALTY_LITE', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE']);
+    expect(PLAN_TIERS).toEqual(['LOYALTY_LITE', 'LOYALTY_PRO', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE']);
   });
 });
 
@@ -188,8 +189,31 @@ describe('PLAN_LIMITS — pricing matrix (Q centavos)', () => {
   });
 });
 
+describe('Loyalty Pro plan', () => {
+  it('is an exact copy of Loyalty Lite except the branch limit (5 vs 1)', () => {
+    const { tier: _l, maxLocations: liteMax, ...liteRest } = PLAN_LIMITS.LOYALTY_LITE;
+    const { tier: _p, maxLocations: proMax, ...proRest } = PLAN_LIMITS.LOYALTY_PRO;
+    expect(liteMax).toBe(1);
+    expect(proMax).toBe(5);
+    expect(proRest).toEqual(liteRest); // everything else identical
+  });
+
+  it('isLoyaltyOnlyPlan covers both LITE and PRO, not POS tiers', () => {
+    expect(isLoyaltyOnlyPlan('LOYALTY_LITE')).toBe(true);
+    expect(isLoyaltyOnlyPlan('LOYALTY_PRO')).toBe(true);
+    expect(isLoyaltyOnlyPlan('STARTER')).toBe(false);
+    expect(isLoyaltyOnlyPlan('ENTERPRISE')).toBe(false);
+    expect(isLoyaltyOnlyPlan(null)).toBe(false);
+  });
+
+  it('LOYALTY_PRO is a recognized plan tier', () => {
+    expect(isPlanTier('LOYALTY_PRO')).toBe(true);
+    expect(PLAN_TIERS).toContain('LOYALTY_PRO');
+  });
+});
+
 describe('Type-level contracts', () => {
   it('PlanTier is the union of PLAN_TIERS literals', () => {
-    expectTypeOf<PlanTier>().toEqualTypeOf<'LOYALTY_LITE' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE'>();
+    expectTypeOf<PlanTier>().toEqualTypeOf<'LOYALTY_LITE' | 'LOYALTY_PRO' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE'>();
   });
 });
