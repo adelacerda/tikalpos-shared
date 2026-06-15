@@ -263,6 +263,12 @@ export interface Subscription {
   suspendedAt: string | null;
   suspendedReason: string | null;
   billingMetadata: Record<string, unknown> | null;
+  // Price lock (grandfathering): the contracted plan fee the franchise keeps.
+  // Null until first locked. `priceChangeEffectiveAt` is a system-admin-scheduled
+  // date on which the lock refreshes to the plan's then-current price.
+  lockedMonthlyFeeCents?: number | null;
+  lockedAnnualFeeCents?: number | null;
+  priceChangeEffectiveAt?: string | null;
 }
 
 // ── Usage tracking ────────────────────────────────────────────────────────
