@@ -284,6 +284,7 @@ export interface RedemptionConsumeInput {
   amountCents: number;       // amount spent, before any discount
   applyReward: boolean;      // redeem the owned reward (ignored in POINTS_ONLY)
   applyTierDiscount: boolean; // apply the tier discount
+  orderRef?: string;         // optional external order/check number (owner control)
 }
 
 export interface RedemptionConsumeResult {

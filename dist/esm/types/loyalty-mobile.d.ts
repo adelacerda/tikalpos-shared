@@ -206,6 +206,7 @@ export interface RedemptionConsumeInput {
     amountCents: number;
     applyReward: boolean;
     applyTierDiscount: boolean;
+    orderRef?: string;
 }
 export interface RedemptionConsumeResult {
     chargeCents: number;
