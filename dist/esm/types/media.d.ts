@@ -29,5 +29,8 @@ export declare const MEDIA_LIMITS: {
     readonly HASH_LENGTH: 32;
     readonly ALLOWED_MIME: readonly ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
     readonly CACHE_CONTROL: "public, max-age=31536000, immutable";
+    readonly VIDEO_MAX_BYTES: number;
+    readonly VIDEO_MAX_SECONDS: 8;
+    readonly VIDEO_ALLOWED_MIME: readonly ["video/mp4", "video/webm", "video/quicktime"];
 };
 //# sourceMappingURL=media.d.ts.map

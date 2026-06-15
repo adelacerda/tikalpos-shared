@@ -17,5 +17,10 @@ exports.MEDIA_LIMITS = {
     HASH_LENGTH: 32,
     ALLOWED_MIME: ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'],
     CACHE_CONTROL: 'public, max-age=31536000, immutable',
+    // Ad video creatives (loyalty ads). ≤8s clips, stored as-is. The 8s cap is
+    // enforced at playback in the loyalty app.
+    VIDEO_MAX_BYTES: 12 * 1024 * 1024,
+    VIDEO_MAX_SECONDS: 8,
+    VIDEO_ALLOWED_MIME: ['video/mp4', 'video/webm', 'video/quicktime'],
 };
 //# sourceMappingURL=media.js.map
