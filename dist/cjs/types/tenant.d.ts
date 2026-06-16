@@ -23,6 +23,11 @@ export interface Organization {
     /** Free-text coverage area shown when offersAtHome is on
      *  (e.g. "Zonas 9, 10, 14 · Antigua"). Null when not applicable. */
     coverageArea?: string | null;
+    /** Org-level WhatsApp contact (E.164) for "Agendar a domicilio" — used when the
+     *  business has no physical branch (pure at-home). Null = no button. */
+    whatsapp?: string | null;
+    /** Prefilled message template for the WhatsApp scheduling deep-link. */
+    whatsappTemplate?: string | null;
     createdAt: string;
     updatedAt: string;
 }
