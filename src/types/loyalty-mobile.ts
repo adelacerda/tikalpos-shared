@@ -204,6 +204,20 @@ export interface LoyaltyFranchiseDetail {
   offersAtHome?: boolean;
   /** Free-text coverage area shown when offersAtHome is on. */
   coverageArea?: string | null;
+  /** Org-level WhatsApp (E.164) + template → "Agendar a domicilio" button. */
+  whatsapp?: string | null;
+  whatsappTemplate?: string | null;
+  // ── Stamp card ("tarjeta de sellos") — opt-in, off by default ──
+  /** True when the merchant enabled the stamp card. When false the app shows
+   *  the classic points UI only (current behavior, untouched). */
+  stampsEnabled?: boolean;
+  /** Stamps needed to complete the card (e.g. 10). UI + grant threshold. */
+  stampGoal?: number | null;
+  /** When true, a valid scan grants points AND a stamp; when false, only a
+   *  stamp (no points). Fixed in the merchant's stamp panel. */
+  stampsAlsoEarnPoints?: boolean;
+  /** This member's current stamps toward the goal (0..stampGoal-1 after wrap). */
+  stampCount?: number;
 }
 
 /** A franchise location (name + address) shown in a reward's "Válida en". */
@@ -297,6 +311,13 @@ export interface RedemptionConsumeResult {
   rewardRedeemed: boolean;
   tierDiscountApplied: boolean;
   pointsAwarded: number;
+  /** Stamp card: a stamp was granted on this scan (only when stampsEnabled and
+   *  the net charge met the configured minimum). */
+  stampEarned?: boolean;
+  /** Member's stamp count after this scan (post-wrap when a reward was granted). */
+  stampCount?: number;
+  /** A stamp reward was auto-granted because the goal was reached this scan. */
+  stampRewardGranted?: boolean;
 }
 
 export interface ReserveRewardInput {
