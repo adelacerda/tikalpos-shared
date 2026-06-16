@@ -133,6 +133,11 @@ export interface LoyaltyFranchiseDetail {
     rewards: LoyaltyRewardCard[];
     /** Franchise locations where rewards can be redeemed. */
     locations: LoyaltyLocation[];
+    /** True when the business offers "Atención a domicilio" (services at the
+     *  customer's location). Drives the at-home badge/section in the app. */
+    offersAtHome?: boolean;
+    /** Free-text coverage area shown when offersAtHome is on. */
+    coverageArea?: string | null;
 }
 /** A franchise location (name + address) shown in a reward's "Válida en". */
 export interface LoyaltyLocation {
