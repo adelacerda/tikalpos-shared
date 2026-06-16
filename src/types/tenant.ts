@@ -25,6 +25,12 @@ export interface Organization {
   settings: OrganizationSettings;
   /** Owner-defined category tags (e.g. "belleza", "comida china"). Normalized lowercase. */
   tags: string[];
+  /** True when the business offers its services at the customer's location
+   *  ("Atención a domicilio" — services, NOT product delivery). Default false. */
+  offersAtHome: boolean;
+  /** Free-text coverage area shown when offersAtHome is on
+   *  (e.g. "Zonas 9, 10, 14 · Antigua"). Null when not applicable. */
+  coverageArea?: string | null;
   createdAt: string;
   updatedAt: string;
 }
