@@ -151,6 +151,14 @@ export interface LoyaltyFranchiseDetail {
     stampsAlsoEarnPoints?: boolean;
     /** This member's current stamps toward the goal (0..stampGoal-1 after wrap). */
     stampCount?: number;
+    /** True when the merchant enabled referrals. Drives the "Invita y ganen" UI. */
+    referralEnabled?: boolean;
+    /** This member's shareable referral code (present only when referrals are on). */
+    referralCode?: string | null;
+    /** Points the referrer earns when a referred member completes their first service. */
+    referrerRewardPoints?: number;
+    /** Points the referred member earns on their first service. */
+    referredRewardPoints?: number;
 }
 /** A franchise location (name + address) shown in a reward's "Válida en". */
 export interface LoyaltyLocation {
