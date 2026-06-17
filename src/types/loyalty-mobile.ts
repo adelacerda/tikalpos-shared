@@ -233,6 +233,74 @@ export interface LoyaltyFranchiseDetail {
   /** Simple service catalog (name + optional price/duration/note). Informational
    *  — not a POS; tapping one pre-fills the "book" message. */
   services?: LoyaltyServiceItem[];
+  // ── Reviews (home-services Fase 4) — opt-in, off by default ──
+  /** True when the merchant turned reviews on. When false the app shows a neutral
+   *  "reviews not enabled" state instead of an empty void. */
+  reviewsEnabled?: boolean;
+  /** Aggregate of PUBLISHED reviews. `average` is null until the minimum count. */
+  reviewSummary?: LoyaltyReviewSummary;
+  /** Published reviews (most recent first), with the merchant's reply if any. */
+  reviews?: LoyaltyReview[];
+  /** This member's own review (any status), so they can see/edit/retract it. */
+  myReview?: LoyaltyReview | null;
+}
+
+/** Aggregate rating shown on the merchant profile. */
+export interface LoyaltyReviewSummary {
+  /** Mean rating, or null until at least `minForAverage` published reviews exist. */
+  average: number | null;
+  /** Count of PUBLISHED reviews. */
+  count: number;
+  /** Minimum published reviews required before `average` is shown. */
+  minForAverage: number;
+}
+
+export type LoyaltyReviewStatus = 'PENDING_WINDOW' | 'PUBLISHED' | 'HIDDEN';
+
+/** A single review as shown in the app. */
+export interface LoyaltyReview {
+  id: string;
+  rating: number; // 1..5
+  text?: string | null;
+  /** Light identity — first name or initial, never fully anonymous. */
+  authorName: string;
+  /** Always true: only verified customers can review. */
+  verified: boolean;
+  status: LoyaltyReviewStatus;
+  createdAt: string;
+  /** ISO time the review becomes (or became) public. */
+  publishAt: string;
+  /** Merchant's single public reply, if any. */
+  merchantReply?: string | null;
+  merchantReplyAt?: string | null;
+}
+
+export interface CreateReviewInput {
+  rating: number; // 1..5
+  text?: string;
+}
+
+export type ReviewReportReason =
+  | 'FALSE_DEFAMATORY'
+  | 'ABUSIVE'
+  | 'PERSONAL_DATA'
+  | 'SPAM'
+  | 'CONFLICT_OF_INTEREST'
+  | 'EXTORTION'
+  | 'OFF_TOPIC';
+
+export const REVIEW_REPORT_REASONS: readonly ReviewReportReason[] = [
+  'FALSE_DEFAMATORY',
+  'ABUSIVE',
+  'PERSONAL_DATA',
+  'SPAM',
+  'CONFLICT_OF_INTEREST',
+  'EXTORTION',
+  'OFF_TOPIC',
+] as const;
+
+export function isReviewReportReason(value: unknown): value is ReviewReportReason {
+  return typeof value === 'string' && (REVIEW_REPORT_REASONS as readonly string[]).includes(value);
 }
 
 /** A single informational service in the merchant's mini-catalog. */

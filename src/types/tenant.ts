@@ -38,6 +38,8 @@ export interface Organization {
   whatsappTemplate?: string | null;
   /** Portfolio photos (ordered media URLs) for the merchant profile (home-services). */
   gallery?: string[];
+  /** True when the merchant enabled customer reviews (opt-in, off by default). */
+  reviewsEnabled?: boolean;
   createdAt: string;
   updatedAt: string;
 }
