@@ -36,6 +36,8 @@ export interface Organization {
   whatsapp?: string | null;
   /** Prefilled message template for the WhatsApp scheduling deep-link. */
   whatsappTemplate?: string | null;
+  /** Portfolio photos (ordered media URLs) for the merchant profile (home-services). */
+  gallery?: string[];
   createdAt: string;
   updatedAt: string;
 }

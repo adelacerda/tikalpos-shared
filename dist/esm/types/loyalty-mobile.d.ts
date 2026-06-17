@@ -159,6 +159,21 @@ export interface LoyaltyFranchiseDetail {
     referrerRewardPoints?: number;
     /** Points the referred member earns on their first service. */
     referredRewardPoints?: number;
+    /** Portfolio photos (ordered media URLs) shown in the merchant profile. */
+    gallery?: string[];
+    /** Simple service catalog (name + optional price/duration/note). Informational
+     *  — not a POS; tapping one pre-fills the "book" message. */
+    services?: LoyaltyServiceItem[];
+}
+/** A single informational service in the merchant's mini-catalog. */
+export interface LoyaltyServiceItem {
+    name: string;
+    /** Optional price in cents (org currency). Omitted = "consultar". */
+    priceCents?: number;
+    /** Optional duration in minutes. */
+    durationMin?: number;
+    /** Optional short note. */
+    note?: string;
 }
 /** A franchise location (name + address) shown in a reward's "Válida en". */
 export interface LoyaltyLocation {
