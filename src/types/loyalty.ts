@@ -52,6 +52,9 @@ export interface RewardCatalogItem {
   minCheckAmount?: number;
   /** Locations where this reward is valid/redeemable. Empty/undefined = ALL. */
   locationIds?: string[];
+  /** Redeemable as an at-home service (home-services). Offered in the reward
+   *  wizard's locations step only when the merchant has offersAtHome on. */
+  validAtHome?: boolean;
   redemptionWindowDays?: number;
   discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT';
   discountValue?: number;

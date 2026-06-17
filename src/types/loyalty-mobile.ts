@@ -163,6 +163,8 @@ export interface LoyaltyRewardCard {
   minCheckAmount?: number; // minimum check total in cents (0 = none)
   /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
   validLocations?: LoyaltyLocation[];
+  /** Redeemable as an at-home service (home-services). Shown alongside locations. */
+  validAtHome?: boolean;
 }
 
 /**
@@ -183,6 +185,8 @@ export interface LoyaltyGiftedRewardCard {
   minCheckAmount?: number; // minimum check total in cents (0 = none)
   /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
   validLocations?: LoyaltyLocation[];
+  /** Redeemable as an at-home service (home-services). Shown alongside locations. */
+  validAtHome?: boolean;
 }
 
 export interface LoyaltyFranchiseDetail {

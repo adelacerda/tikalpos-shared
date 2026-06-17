@@ -100,6 +100,8 @@ export interface LoyaltyRewardCard {
     minCheckAmount?: number;
     /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
     validLocations?: LoyaltyLocation[];
+    /** Redeemable as an at-home service (home-services). Shown alongside locations. */
+    validAtHome?: boolean;
 }
 /**
  * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
@@ -118,6 +120,8 @@ export interface LoyaltyGiftedRewardCard {
     minCheckAmount?: number;
     /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
     validLocations?: LoyaltyLocation[];
+    /** Redeemable as an at-home service (home-services). Shown alongside locations. */
+    validAtHome?: boolean;
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
