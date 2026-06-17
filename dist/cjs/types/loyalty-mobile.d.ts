@@ -100,6 +100,8 @@ export interface LoyaltyRewardCard {
     minCheckAmount?: number;
     /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
     validLocations?: LoyaltyLocation[];
+    /** Redeemable as an at-home service (home-services). Shown alongside locations. */
+    validAtHome?: boolean;
 }
 /**
  * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
@@ -118,6 +120,8 @@ export interface LoyaltyGiftedRewardCard {
     minCheckAmount?: number;
     /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
     validLocations?: LoyaltyLocation[];
+    /** Redeemable as an at-home service (home-services). Shown alongside locations. */
+    validAtHome?: boolean;
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
@@ -133,6 +137,90 @@ export interface LoyaltyFranchiseDetail {
     rewards: LoyaltyRewardCard[];
     /** Franchise locations where rewards can be redeemed. */
     locations: LoyaltyLocation[];
+    /** True when the business offers "Atención a domicilio" (services at the
+     *  customer's location). Drives the at-home badge/section in the app. */
+    offersAtHome?: boolean;
+    /** Free-text coverage area shown when offersAtHome is on. */
+    coverageArea?: string | null;
+    /** Org-level WhatsApp (E.164) + template → "Agendar a domicilio" button. */
+    whatsapp?: string | null;
+    whatsappTemplate?: string | null;
+    /** True when the merchant enabled the stamp card. When false the app shows
+     *  the classic points UI only (current behavior, untouched). */
+    stampsEnabled?: boolean;
+    /** Stamps needed to complete the card (e.g. 10). UI + grant threshold. */
+    stampGoal?: number | null;
+    /** When true, a valid scan grants points AND a stamp; when false, only a
+     *  stamp (no points). Fixed in the merchant's stamp panel. */
+    stampsAlsoEarnPoints?: boolean;
+    /** This member's current stamps toward the goal (0..stampGoal-1 after wrap). */
+    stampCount?: number;
+    /** True when the merchant enabled referrals. Drives the "Invita y ganen" UI. */
+    referralEnabled?: boolean;
+    /** This member's shareable referral code (present only when referrals are on). */
+    referralCode?: string | null;
+    /** Points the referrer earns when a referred member completes their first service. */
+    referrerRewardPoints?: number;
+    /** Points the referred member earns on their first service. */
+    referredRewardPoints?: number;
+    /** Portfolio photos (ordered media URLs) shown in the merchant profile. */
+    gallery?: string[];
+    /** Simple service catalog (name + optional price/duration/note). Informational
+     *  — not a POS; tapping one pre-fills the "book" message. */
+    services?: LoyaltyServiceItem[];
+    /** True when the merchant turned reviews on. When false the app shows a neutral
+     *  "reviews not enabled" state instead of an empty void. */
+    reviewsEnabled?: boolean;
+    /** Aggregate of PUBLISHED reviews. `average` is null until the minimum count. */
+    reviewSummary?: LoyaltyReviewSummary;
+    /** Published reviews (most recent first), with the merchant's reply if any. */
+    reviews?: LoyaltyReview[];
+    /** This member's own review (any status), so they can see/edit/retract it. */
+    myReview?: LoyaltyReview | null;
+}
+/** Aggregate rating shown on the merchant profile. */
+export interface LoyaltyReviewSummary {
+    /** Mean rating, or null until at least `minForAverage` published reviews exist. */
+    average: number | null;
+    /** Count of PUBLISHED reviews. */
+    count: number;
+    /** Minimum published reviews required before `average` is shown. */
+    minForAverage: number;
+}
+export type LoyaltyReviewStatus = 'PENDING_WINDOW' | 'PUBLISHED' | 'HIDDEN';
+/** A single review as shown in the app. */
+export interface LoyaltyReview {
+    id: string;
+    rating: number;
+    text?: string | null;
+    /** Light identity — first name or initial, never fully anonymous. */
+    authorName: string;
+    /** Always true: only verified customers can review. */
+    verified: boolean;
+    status: LoyaltyReviewStatus;
+    createdAt: string;
+    /** ISO time the review becomes (or became) public. */
+    publishAt: string;
+    /** Merchant's single public reply, if any. */
+    merchantReply?: string | null;
+    merchantReplyAt?: string | null;
+}
+export interface CreateReviewInput {
+    rating: number;
+    text?: string;
+}
+export type ReviewReportReason = 'FALSE_DEFAMATORY' | 'ABUSIVE' | 'PERSONAL_DATA' | 'SPAM' | 'CONFLICT_OF_INTEREST' | 'EXTORTION' | 'OFF_TOPIC';
+export declare const REVIEW_REPORT_REASONS: readonly ReviewReportReason[];
+export declare function isReviewReportReason(value: unknown): value is ReviewReportReason;
+/** A single informational service in the merchant's mini-catalog. */
+export interface LoyaltyServiceItem {
+    name: string;
+    /** Optional price in cents (org currency). Omitted = "consultar". */
+    priceCents?: number;
+    /** Optional duration in minutes. */
+    durationMin?: number;
+    /** Optional short note. */
+    note?: string;
 }
 /** A franchise location (name + address) shown in a reward's "Válida en". */
 export interface LoyaltyLocation {
@@ -213,6 +301,13 @@ export interface RedemptionConsumeResult {
     rewardRedeemed: boolean;
     tierDiscountApplied: boolean;
     pointsAwarded: number;
+    /** Stamp card: a stamp was granted on this scan (only when stampsEnabled and
+     *  the net charge met the configured minimum). */
+    stampEarned?: boolean;
+    /** Member's stamp count after this scan (post-wrap when a reward was granted). */
+    stampCount?: number;
+    /** A stamp reward was auto-granted because the goal was reached this scan. */
+    stampRewardGranted?: boolean;
 }
 export interface ReserveRewardInput {
     note?: string;

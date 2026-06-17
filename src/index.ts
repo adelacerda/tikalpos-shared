@@ -350,14 +350,22 @@ export type {
   LoyaltyFranchisePreview,
   LoyaltyPushSubscribeInput,
   UpdateLoyaltyProfileInput,
+  LoyaltyServiceItem,
+  LoyaltyReviewSummary,
+  LoyaltyReviewStatus,
+  LoyaltyReview,
+  CreateReviewInput,
+  ReviewReportReason,
 } from './types/loyalty-mobile';
 export {
   LOYALTY_AUTH_PROVIDERS,
   LOYALTY_TRANSACTION_KINDS,
   LOYALTY_PUSH_TOPICS,
+  REVIEW_REPORT_REASONS,
   isLoyaltyAuthProvider,
   isLoyaltyTransactionKind,
   isLoyaltyPushTopic,
+  isReviewReportReason,
 } from './types/loyalty-mobile';
 
 // Corporate Employee Benefits (FT-GROWTH-018 §Canal 1)

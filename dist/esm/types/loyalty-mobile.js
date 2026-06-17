@@ -36,4 +36,16 @@ export const LOYALTY_PUSH_TOPICS = [
 export function isLoyaltyPushTopic(value) {
     return typeof value === 'string' && LOYALTY_PUSH_TOPICS.includes(value);
 }
+export const REVIEW_REPORT_REASONS = [
+    'FALSE_DEFAMATORY',
+    'ABUSIVE',
+    'PERSONAL_DATA',
+    'SPAM',
+    'CONFLICT_OF_INTEREST',
+    'EXTORTION',
+    'OFF_TOPIC',
+];
+export function isReviewReportReason(value) {
+    return typeof value === 'string' && REVIEW_REPORT_REASONS.includes(value);
+}
 //# sourceMappingURL=loyalty-mobile.js.map

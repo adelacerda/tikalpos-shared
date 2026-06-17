@@ -25,6 +25,21 @@ export interface Organization {
   settings: OrganizationSettings;
   /** Owner-defined category tags (e.g. "belleza", "comida china"). Normalized lowercase. */
   tags: string[];
+  /** True when the business offers its services at the customer's location
+   *  ("Atención a domicilio" — services, NOT product delivery). Default false. */
+  offersAtHome: boolean;
+  /** Free-text coverage area shown when offersAtHome is on
+   *  (e.g. "Zonas 9, 10, 14 · Antigua"). Null when not applicable. */
+  coverageArea?: string | null;
+  /** Org-level WhatsApp contact (E.164) for "Agendar a domicilio" — used when the
+   *  business has no physical branch (pure at-home). Null = no button. */
+  whatsapp?: string | null;
+  /** Prefilled message template for the WhatsApp scheduling deep-link. */
+  whatsappTemplate?: string | null;
+  /** Portfolio photos (ordered media URLs) for the merchant profile (home-services). */
+  gallery?: string[];
+  /** True when the merchant enabled customer reviews (opt-in, off by default). */
+  reviewsEnabled?: boolean;
   createdAt: string;
   updatedAt: string;
 }
