@@ -350,6 +350,7 @@ export type {
   LoyaltyFranchisePreview,
   LoyaltyPushSubscribeInput,
   UpdateLoyaltyProfileInput,
+  LoyaltyServiceItem,
 } from './types/loyalty-mobile';
 export {
   LOYALTY_AUTH_PROVIDERS,
