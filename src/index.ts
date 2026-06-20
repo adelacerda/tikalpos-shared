@@ -400,6 +400,18 @@ export type {
   CreateDiscoveryHighlightPricingInput,
 } from './types/discovery';
 
+// System-admin — all loyalty members across franchises
+export type {
+  LoyaltyMemberPlatform,
+  LoyaltySessionReportInput,
+  SystemLoyaltyMemberEnrollment,
+  SystemLoyaltyMember,
+  SystemLoyaltyMemberSort,
+  SystemLoyaltyMembersQuery,
+  SystemLoyaltyMembersResponse,
+} from './types/system-loyalty-members';
+export { LOYALTY_MEMBER_PLATFORMS } from './types/system-loyalty-members';
+
 // Subscription Tiers & Monetization (FT-MONETIZATION-001, Sprint 11.1)
 export type {
   PlanTier,
