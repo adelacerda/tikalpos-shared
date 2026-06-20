@@ -400,6 +400,17 @@ export type {
   CreateDiscoveryHighlightPricingInput,
 } from './types/discovery';
 
+// MFA — two-step verification (TOTP / authenticator app)
+export type {
+  MfaSetupResponse,
+  MfaEnableInput,
+  MfaEnableResponse,
+  MfaVerifyInput,
+  MfaChallenge,
+  MfaResetInput,
+} from './types/mfa';
+export { MFA_TRUST_DEVICE_DAYS, MFA_BACKUP_CODE_COUNT } from './types/mfa';
+
 // System-admin — all loyalty members across franchises
 export type {
   LoyaltyMemberPlatform,

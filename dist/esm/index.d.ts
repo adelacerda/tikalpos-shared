@@ -39,6 +39,8 @@ export { CORPORATE_ACCOUNT_STATUSES, CORPORATE_MEMBERSHIP_STATUSES, } from './ty
 export type { CoalitionStatus, CoalitionMemberOrg, Coalition, CreateCoalitionInput, LoyaltyCoalitionFranchise, LoyaltyCoalitionSummary, CoalitionSettlement, } from './types/coalition';
 export { COALITION_STATUSES } from './types/coalition';
 export type { DiscoveryHighlightPricing, CreateDiscoveryHighlightPricingInput, } from './types/discovery';
+export type { MfaSetupResponse, MfaEnableInput, MfaEnableResponse, MfaVerifyInput, MfaChallenge, MfaResetInput, } from './types/mfa';
+export { MFA_TRUST_DEVICE_DAYS, MFA_BACKUP_CODE_COUNT } from './types/mfa';
 export type { LoyaltyMemberPlatform, LoyaltySessionReportInput, SystemLoyaltyMemberEnrollment, SystemLoyaltyMember, SystemLoyaltyMemberSort, SystemLoyaltyMembersQuery, SystemLoyaltyMembersResponse, } from './types/system-loyalty-members';
 export { LOYALTY_MEMBER_PLATFORMS } from './types/system-loyalty-members';
 export type { PlanTier, BillingCycle, SubscriptionStatus, SubscriptionEventKind, AdSegmentationKind, PushSegmentationKind, PushSchedulingKind, PlanLimits, Subscription, UsageWindow, SubscriptionEvent, UsageSnapshot, UpdateSubscriptionInput, ListUsageWindowsQuery, ListSubscriptionEventsQuery, PlanPricing, UpdatePlanPricingInput, PlanOffer, CreatePlanOfferInput, } from './types/subscription';
