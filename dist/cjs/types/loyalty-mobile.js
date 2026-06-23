@@ -10,7 +10,7 @@
 // concerns: social auth providers, push topics, ad-carousel cards, and
 // redemption holds (QR-based pre-authorizations).
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.REVIEW_REPORT_REASONS = exports.LOYALTY_PUSH_TOPICS = exports.LOYALTY_TRANSACTION_KINDS = exports.LOYALTY_AUTH_PROVIDERS = void 0;
+exports.REVIEW_REPORT_REASONS = exports.DEMO_MODE_HEADER = exports.LOYALTY_PUSH_TOPICS = exports.LOYALTY_TRANSACTION_KINDS = exports.LOYALTY_AUTH_PROVIDERS = void 0;
 exports.isLoyaltyAuthProvider = isLoyaltyAuthProvider;
 exports.isLoyaltyTransactionKind = isLoyaltyTransactionKind;
 exports.isLoyaltyPushTopic = isLoyaltyPushTopic;
@@ -43,6 +43,9 @@ exports.LOYALTY_PUSH_TOPICS = [
 function isLoyaltyPushTopic(value) {
     return typeof value === 'string' && exports.LOYALTY_PUSH_TOPICS.includes(value);
 }
+/** HTTP header the app sends on feed requests while demo mode is active. The
+ *  backend honors it only when the authenticated guest is isDemo. */
+exports.DEMO_MODE_HEADER = 'x-demo-mode';
 exports.REVIEW_REPORT_REASONS = [
     'FALSE_DEFAMATORY',
     'ABUSIVE',

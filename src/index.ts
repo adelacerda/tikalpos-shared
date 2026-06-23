@@ -356,12 +356,14 @@ export type {
   LoyaltyReview,
   CreateReviewInput,
   ReviewReportReason,
+  LoyaltyDemoActivateInput,
 } from './types/loyalty-mobile';
 export {
   LOYALTY_AUTH_PROVIDERS,
   LOYALTY_TRANSACTION_KINDS,
   LOYALTY_PUSH_TOPICS,
   REVIEW_REPORT_REASONS,
+  DEMO_MODE_HEADER,
   isLoyaltyAuthProvider,
   isLoyaltyTransactionKind,
   isLoyaltyPushTopic,

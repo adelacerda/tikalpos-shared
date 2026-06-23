@@ -36,6 +36,9 @@ export interface SystemLoyaltyMember {
     avgSessionSeconds: number | null;
     /** Number of foreground sessions recorded. */
     sessionCount: number;
+    /** Demo member: allowed to enter demo mode in the app (sales rep / test
+     *  account). System-admin toggle. Does NOT affect franchise reports. */
+    isDemo: boolean;
     /** Franchises the member is enrolled in (for the expanded row). */
     enrollments: SystemLoyaltyMemberEnrollment[];
 }

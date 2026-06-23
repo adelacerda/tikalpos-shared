@@ -36,6 +36,9 @@ export const LOYALTY_PUSH_TOPICS = [
 export function isLoyaltyPushTopic(value) {
     return typeof value === 'string' && LOYALTY_PUSH_TOPICS.includes(value);
 }
+/** HTTP header the app sends on feed requests while demo mode is active. The
+ *  backend honors it only when the authenticated guest is isDemo. */
+export const DEMO_MODE_HEADER = 'x-demo-mode';
 export const REVIEW_REPORT_REASONS = [
     'FALSE_DEFAMATORY',
     'ABUSIVE',

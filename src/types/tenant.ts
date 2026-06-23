@@ -40,6 +40,9 @@ export interface Organization {
   gallery?: string[];
   /** True when the merchant enabled customer reviews (opt-in, off by default). */
   reviewsEnabled?: boolean;
+  /** Demo franchise: hidden from the normal loyalty feed; shown ONLY to a guest
+   *  whose session is in demo mode (vendor demoing to a prospect). Default false. */
+  isDemo?: boolean;
   createdAt: string;
   updatedAt: string;
 }
