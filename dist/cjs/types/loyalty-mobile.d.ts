@@ -16,7 +16,19 @@ export interface LoyaltyMobileProfile {
     city?: string | null;
     /** Explicit opt-in to marketing/promotional push (Apple 4.5.4). */
     marketingPushOptIn?: boolean;
+    /** True when this account is allowed to enter demo mode (sales rep / test
+     *  account). Set by system-admin. Only effect: gates demo-mode activation —
+     *  does NOT affect reports. Default false/undefined. */
+    isDemo?: boolean;
 }
+/** Body for activating demo mode: the global demo PIN (validated server-side
+ *  against SystemConfig.demoPin). Only succeeds when the guest is isDemo. */
+export interface LoyaltyDemoActivateInput {
+    pin: string;
+}
+/** HTTP header the app sends on feed requests while demo mode is active. The
+ *  backend honors it only when the authenticated guest is isDemo. */
+export declare const DEMO_MODE_HEADER = "x-demo-mode";
 export interface LoyaltyMobileSession {
     guestId: string;
     token: string;
