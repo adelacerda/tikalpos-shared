@@ -63,6 +63,8 @@ export interface Commission {
   kind: CommissionKind;
   invoiceId: string;
   invoiceNumber?: string;
+  /** Status of the source invoice (so sellers can chase unpaid ones). */
+  invoiceStatus?: string;
   organizationId: string;
   organizationName?: string;
   /** For OVERRIDE rows: the downline seller whose sale produced it. */
@@ -147,4 +149,27 @@ export interface SellerCommissionsQuery {
   payoutPeriod?: string; // YYYY-MM
   status?: CommissionStatus;
   kind?: CommissionKind;
+}
+
+// ── Payouts (the 5th-of-month seller payment record) ─────────────────────────
+
+/** Records that a seller's commissions for a month were paid/deposited, with an
+ *  optional transfer-receipt URL. One per (seller, payoutPeriod). */
+export interface CommissionPayout {
+  id: string;
+  sellerId: string;
+  sellerName?: string;
+  payoutPeriod: string; // YYYY-MM
+  totalCents: number;
+  paidAt: string;
+  receiptUrl: string | null;
+  note: string | null;
+  createdAt: string;
+}
+
+export interface MarkCommissionsPaidInput {
+  sellerId: string;
+  payoutPeriod: string; // YYYY-MM
+  receiptUrl?: string | null;
+  note?: string | null;
 }

@@ -498,4 +498,6 @@ export type {
   SellerClient,
   CommissionTotals,
   SellerCommissionsQuery,
+  CommissionPayout,
+  MarkCommissionsPaidInput,
 } from './types/seller';
