@@ -55,6 +55,9 @@ export interface RewardCatalogItem {
   /** Redeemable as an at-home service (home-services). Offered in the reward
    *  wizard's locations step only when the merchant has offersAtHome on. */
   validAtHome?: boolean;
+  /** Age-restricted product (alcohol, vape, etc.). Shows a label + a one-time
+   *  age-confirmation gate in the app. Set per reward in the wizard. */
+  ageRestricted?: boolean;
   redemptionWindowDays?: number;
   discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT';
   discountValue?: number;
