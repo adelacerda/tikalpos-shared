@@ -43,6 +43,10 @@ export interface Organization {
   /** Demo franchise: hidden from the normal loyalty feed; shown ONLY to a guest
    *  whose session is in demo mode (vendor demoing to a prospect). Default false. */
   isDemo?: boolean;
+  /** Merchant fiscal/billing address (for sellers to invoice/collect). */
+  fiscalAddress?: string | null;
+  /** Merchant contact phone (E.164 or local), shown to sellers. */
+  contactPhone?: string | null;
   createdAt: string;
   updatedAt: string;
 }
