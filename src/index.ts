@@ -481,3 +481,21 @@ export {
   isInvoiceStatus,
   isInvoicePaymentMethod,
 } from './types/invoice';
+
+// Platform sellers + commissions (FT-SELLERS)
+export type {
+  CommissionKind,
+  CommissionStatus,
+  Seller,
+  CreateSellerInput,
+  UpdateSellerInput,
+  CommissionConfig,
+  UpdateCommissionConfigInput,
+  Commission,
+  AdjustCommissionInput,
+  SetLockedFeeInput,
+  SellerClientInvoice,
+  SellerClient,
+  CommissionTotals,
+  SellerCommissionsQuery,
+} from './types/seller';
