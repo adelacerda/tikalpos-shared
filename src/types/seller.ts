@@ -30,7 +30,7 @@ export interface Seller {
 export interface CreateSellerInput {
   name: string;
   email: string;
-  password: string;
+  // No password: the seller sets it via an emailed invite link.
   leaderId?: string | null;
   sellerMonthlyBps?: number | null;
   sellerAnnualBps?: number | null;
@@ -38,10 +38,8 @@ export interface CreateSellerInput {
   overrideAnnualBps?: number | null;
 }
 
-export type UpdateSellerInput = Partial<Omit<CreateSellerInput, 'password'>> & {
+export type UpdateSellerInput = Partial<CreateSellerInput> & {
   active?: boolean;
-  /** Optional password reset. */
-  password?: string;
 };
 
 /** Global, editable commission/tax parameters (basis points). */

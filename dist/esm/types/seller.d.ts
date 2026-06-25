@@ -20,17 +20,14 @@ export interface Seller {
 export interface CreateSellerInput {
     name: string;
     email: string;
-    password: string;
     leaderId?: string | null;
     sellerMonthlyBps?: number | null;
     sellerAnnualBps?: number | null;
     overrideMonthlyBps?: number | null;
     overrideAnnualBps?: number | null;
 }
-export type UpdateSellerInput = Partial<Omit<CreateSellerInput, 'password'>> & {
+export type UpdateSellerInput = Partial<CreateSellerInput> & {
     active?: boolean;
-    /** Optional password reset. */
-    password?: string;
 };
 /** Global, editable commission/tax parameters (basis points). */
 export interface CommissionConfig {
