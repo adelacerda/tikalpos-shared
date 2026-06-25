@@ -132,6 +132,10 @@ export interface SellerClient {
   lockedMonthlyFeeCents: number | null;
   lockedAnnualFeeCents: number | null;
   currency: string;
+  /** Fiscal address + contact phone (to invoice/contact the client). */
+  fiscalAddress: string | null;
+  contactPhone: string | null;
+  taxId: string | null;
   invoices: SellerClientInvoice[];
 }
 
