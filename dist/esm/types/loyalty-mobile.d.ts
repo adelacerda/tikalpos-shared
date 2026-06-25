@@ -114,6 +114,8 @@ export interface LoyaltyRewardCard {
     validLocations?: LoyaltyLocation[];
     /** Redeemable as an at-home service (home-services). Shown alongside locations. */
     validAtHome?: boolean;
+    /** Age-restricted product — show label + one-time age gate. */
+    ageRestricted?: boolean;
 }
 /**
  * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
@@ -134,6 +136,8 @@ export interface LoyaltyGiftedRewardCard {
     validLocations?: LoyaltyLocation[];
     /** Redeemable as an at-home service (home-services). Shown alongside locations. */
     validAtHome?: boolean;
+    /** Age-restricted product (alcohol, vape…). Shows a 🔞 badge + a one-time gate. */
+    ageRestricted?: boolean;
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
