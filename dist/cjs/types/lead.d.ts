@@ -35,6 +35,8 @@ export interface Lead {
     statusHistory: LeadEvent[];
     metaUserAgent?: string | null;
     metaIpHash?: string | null;
+    /** Platform seller this lead is assigned to (FT-SELLERS). */
+    assignedSellerId?: string | null;
     createdAt: string;
     updatedAt: string;
 }
