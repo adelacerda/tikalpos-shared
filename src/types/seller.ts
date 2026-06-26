@@ -177,3 +177,89 @@ export interface MarkCommissionsPaidInput {
   receiptUrl?: string | null;
   note?: string | null;
 }
+
+/** Register a (possibly partial) commission payment for a (seller, period).
+ *  Multiple payments per period are allowed; pending = owed − sum(payments). */
+export interface RegisterPayoutInput {
+  sellerId: string;
+  payoutPeriod: string; // YYYY-MM
+  amountCents: number;
+  receiptUrl?: string | null;
+  note?: string | null;
+}
+
+// ── Seller documents: expense invoices + commission FEL (with file upload) ─────
+
+/** EXPENSE = operating-expense invoice (FEL to the company NIT) presented while
+ *  the seller cannot yet invoice commissions. COMMISSION_FEL = the seller's own
+ *  commission invoice once registered with SAT. */
+export type SellerDocumentKind = 'EXPENSE' | 'COMMISSION_FEL';
+export type SellerDocumentStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
+export interface SellerDocument {
+  id: string;
+  sellerId: string;
+  sellerName?: string;
+  kind: SellerDocumentKind;
+  /** Commission month this document applies to (YYYY-MM). */
+  payoutPeriod: string;
+  amountCents: number;
+  description: string | null;
+  /** Authenticated download path (not a public URL). */
+  fileUrl: string;
+  fileMimeType: string;
+  fileName: string | null;
+  status: SellerDocumentStatus;
+  reviewNote: string | null;
+  reviewedByActorId: string | null;
+  reviewedAt: string | null;
+  createdAt: string;
+}
+
+/** Metadata sent alongside the multipart file upload. */
+export interface UploadSellerDocumentInput {
+  kind: SellerDocumentKind;
+  payoutPeriod: string; // YYYY-MM
+  amountCents: number;
+  description?: string | null;
+}
+
+export interface ReviewSellerDocumentInput {
+  status: Extract<SellerDocumentStatus, 'APPROVED' | 'REJECTED'>;
+  reviewNote?: string | null;
+}
+
+export interface SellerDocumentsQuery {
+  sellerId?: string;
+  payoutPeriod?: string; // YYYY-MM
+  status?: SellerDocumentStatus;
+  kind?: SellerDocumentKind;
+}
+
+// ── Monthly statement: owed vs paid vs pending, with surplus carry-over ────────
+
+/** Per-month financial summary for a seller. Surplus from approved expenses that
+ *  exceed the month's commissions carries forward as `creditOutCents`. */
+export interface SellerPeriodStatement {
+  payoutPeriod: string; // YYYY-MM
+  /** Commissions owed (earned, excluding reversed) for the month. */
+  commissionsCents: number;
+  /** Approved expense + commission-FEL documents applied to the month. */
+  approvedDocsCents: number;
+  /** Total actually paid out so far for the month. */
+  paidCents: number;
+  /** Still owed: max(0, commissions − paid). */
+  pendingCents: number;
+  /** Credit brought in from the previous month's surplus. */
+  creditInCents: number;
+  /** Surplus carried out to the next month (needs accounting/admin approval via
+   *  approving the underlying expense documents). */
+  creditOutCents: number;
+  currency: string;
+}
+
+/** File-size + type limits for seller document uploads. */
+export const SELLER_DOC_LIMITS = {
+  MAX_BYTES: 10 * 1024 * 1024, // 10 MB
+  MIME_TYPES: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'] as const,
+} as const;

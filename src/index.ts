@@ -500,4 +500,13 @@ export type {
   SellerCommissionsQuery,
   CommissionPayout,
   MarkCommissionsPaidInput,
+  RegisterPayoutInput,
+  SellerDocumentKind,
+  SellerDocumentStatus,
+  SellerDocument,
+  UploadSellerDocumentInput,
+  ReviewSellerDocumentInput,
+  SellerDocumentsQuery,
+  SellerPeriodStatement,
 } from './types/seller';
+export { SELLER_DOC_LIMITS } from './types/seller';
