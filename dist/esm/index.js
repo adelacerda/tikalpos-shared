@@ -18,4 +18,5 @@ export { MFA_TRUST_DEVICE_DAYS, MFA_BACKUP_CODE_COUNT } from './types/mfa';
 export { LOYALTY_MEMBER_PLATFORMS } from './types/system-loyalty-members';
 export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS, PLAN_LIMITS, isPlanTier, isLoyaltyOnlyPlan, isBillingCycle, isSubscriptionStatus, isSubscriptionEventKind, } from './types/subscription';
 export { INVOICE_STATUSES, INVOICE_CLOSE_TYPES, PAYMENT_METHODS, INVOICE_LINE_KINDS, isInvoiceStatus, isInvoicePaymentMethod, } from './types/invoice';
+export { SELLER_DOC_LIMITS } from './types/seller';
 //# sourceMappingURL=index.js.map
