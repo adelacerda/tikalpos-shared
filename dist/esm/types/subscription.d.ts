@@ -8,6 +8,39 @@ export declare function isPlanTier(value: unknown): value is PlanTier;
  * "is this a loyalty-only plan?" instead of comparing to 'LOYALTY_LITE'.
  */
 export declare function isLoyaltyOnlyPlan(tier: PlanTier | string | null | undefined): boolean;
+/** Plan families: a franchise should only be recommended to upgrade WITHIN its
+ *  family (Loyalty → Loyalty, POS → POS). */
+export declare const LOYALTY_PLAN_LADDER: readonly PlanTier[];
+export declare const POS_PLAN_LADDER: readonly PlanTier[];
+/** The next plan up within the same family, or null if already at the top. */
+export declare function nextPlanInFamily(tier: PlanTier): PlanTier | null;
+/** One metered resource's current usage vs its plan allotment. */
+export interface PlanUsageMetric {
+    /** Stable key: 'members' | 'highlights' | 'ads' | 'pushes' | 'locations'. */
+    key: 'members' | 'highlights' | 'ads' | 'pushes' | 'locations';
+    used: number;
+    included: number;
+    /** 0–100+ (can exceed 100 when over). included=0/unlimited → 0. */
+    percent: number;
+    /** used >= 90% of included. */
+    nearLimit: boolean;
+    /** used > included. */
+    over: boolean;
+    /** Per-unit overage fee in centavos (0 when not billed as overage). */
+    overageUnitCents: number;
+}
+/** Plan usage snapshot for a franchise (powers Mi Plan + the dashboard banner). */
+export interface PlanUsage {
+    planTier: PlanTier;
+    currency: string;
+    metrics: PlanUsageMetric[];
+    /** Next plan to recommend within the same family, or null if at the top. */
+    recommendedUpgrade: PlanTier | null;
+    /** Any metric at/over 90%. */
+    anyNearLimit: boolean;
+    /** Any metric over its included allotment. */
+    anyOver: boolean;
+}
 export type BillingCycle = 'MONTHLY' | 'ANNUAL';
 export declare const BILLING_CYCLES: readonly BillingCycle[];
 export declare function isBillingCycle(value: unknown): value is BillingCycle;
@@ -31,6 +64,9 @@ export interface PlanLimits {
     maxLocations: number;
     maxEnrolledDevices: number;
     maxLoyaltyMembers: number;
+    /** Soft cap: members beyond maxLoyaltyMembers are billed this much per
+     *  member/month at period close (0 = no overage charge). Configurable per plan. */
+    loyaltyMemberOverageCents: number;
     maxConcurrentWsSessions: number;
     maxActiveAdCampaigns: number;
     adSegmentationKinds: readonly AdSegmentationKind[];
@@ -143,6 +179,7 @@ export interface UpdatePlanPricingInput {
     maxLocations?: number;
     maxEnrolledDevices?: number;
     maxLoyaltyMembers?: number;
+    loyaltyMemberOverageCents?: number;
     maxConcurrentWsSessions?: number;
     maxActiveAdCampaigns?: number;
     includedPromoPushPerMonth?: number;

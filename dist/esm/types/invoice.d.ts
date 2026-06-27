@@ -5,7 +5,7 @@ export declare const INVOICE_CLOSE_TYPES: readonly ["MANUAL", "AUTO"];
 export type InvoiceCloseType = (typeof INVOICE_CLOSE_TYPES)[number];
 export declare const PAYMENT_METHODS: readonly ["CARD", "BANK_TRANSFER", "CASH"];
 export type InvoicePaymentMethod = (typeof PAYMENT_METHODS)[number];
-export declare const INVOICE_LINE_KINDS: readonly ["PLAN_FEE", "TRANSACTION_OVERAGE", "HIGHLIGHT_IMPRESSIONS", "AD_IMPRESSIONS", "PROMO_PUSH_OVERAGE"];
+export declare const INVOICE_LINE_KINDS: readonly ["PLAN_FEE", "TRANSACTION_OVERAGE", "HIGHLIGHT_IMPRESSIONS", "AD_IMPRESSIONS", "PROMO_PUSH_OVERAGE", "LOYALTY_MEMBER_OVERAGE"];
 export type InvoiceLineKind = (typeof INVOICE_LINE_KINDS)[number];
 export interface InvoiceLineItem {
     kind: InvoiceLineKind;
