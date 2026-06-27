@@ -31,6 +31,16 @@ export function isPlanTier(value) {
 export function isLoyaltyOnlyPlan(tier) {
     return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO';
 }
+/** Plan families: a franchise should only be recommended to upgrade WITHIN its
+ *  family (Loyalty → Loyalty, POS → POS). */
+export const LOYALTY_PLAN_LADDER = ['LOYALTY_LITE', 'LOYALTY_PRO'];
+export const POS_PLAN_LADDER = ['STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
+/** The next plan up within the same family, or null if already at the top. */
+export function nextPlanInFamily(tier) {
+    const ladder = isLoyaltyOnlyPlan(tier) ? LOYALTY_PLAN_LADDER : POS_PLAN_LADDER;
+    const i = ladder.indexOf(tier);
+    return i >= 0 && i < ladder.length - 1 ? ladder[i + 1] : null;
+}
 export const BILLING_CYCLES = ['MONTHLY', 'ANNUAL'];
 export function isBillingCycle(value) {
     return typeof value === 'string' && BILLING_CYCLES.includes(value);
@@ -62,6 +72,7 @@ export const PLAN_LIMITS = {
         maxLocations: 1,
         maxEnrolledDevices: 0, // no POS devices
         maxLoyaltyMembers: 500,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
         adSegmentationKinds: ['NONE'],
@@ -86,6 +97,7 @@ export const PLAN_LIMITS = {
         maxLocations: 5, // ← only difference vs Loyalty Lite
         maxEnrolledDevices: 0, // no POS devices
         maxLoyaltyMembers: 500,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
         adSegmentationKinds: ['NONE'],
@@ -108,6 +120,7 @@ export const PLAN_LIMITS = {
         maxLocations: 1,
         maxEnrolledDevices: 1,
         maxLoyaltyMembers: 200,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
         adSegmentationKinds: ['NONE'],
@@ -130,6 +143,7 @@ export const PLAN_LIMITS = {
         maxLocations: 5,
         maxEnrolledDevices: 5,
         maxLoyaltyMembers: 2000,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 30,
         maxActiveAdCampaigns: 5,
         adSegmentationKinds: ['NONE', 'BY_TIER'],
@@ -152,6 +166,7 @@ export const PLAN_LIMITS = {
         maxLocations: 25,
         maxEnrolledDevices: 25,
         maxLoyaltyMembers: 20000,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 150,
         maxActiveAdCampaigns: 20,
         adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY'],
@@ -174,6 +189,7 @@ export const PLAN_LIMITS = {
         maxLocations: UNLIMITED,
         maxEnrolledDevices: UNLIMITED,
         maxLoyaltyMembers: UNLIMITED,
+        loyaltyMemberOverageCents: 0,
         maxConcurrentWsSessions: UNLIMITED,
         maxActiveAdCampaigns: UNLIMITED,
         adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY', 'CUSTOM_RULES'],
