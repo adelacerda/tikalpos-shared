@@ -39,6 +39,47 @@ export function isLoyaltyOnlyPlan(tier: PlanTier | string | null | undefined): b
   return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO';
 }
 
+/** Plan families: a franchise should only be recommended to upgrade WITHIN its
+ *  family (Loyalty → Loyalty, POS → POS). */
+export const LOYALTY_PLAN_LADDER: readonly PlanTier[] = ['LOYALTY_LITE', 'LOYALTY_PRO'] as const;
+export const POS_PLAN_LADDER: readonly PlanTier[] = ['STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
+
+/** The next plan up within the same family, or null if already at the top. */
+export function nextPlanInFamily(tier: PlanTier): PlanTier | null {
+  const ladder = isLoyaltyOnlyPlan(tier) ? LOYALTY_PLAN_LADDER : POS_PLAN_LADDER;
+  const i = ladder.indexOf(tier);
+  return i >= 0 && i < ladder.length - 1 ? ladder[i + 1] : null;
+}
+
+/** One metered resource's current usage vs its plan allotment. */
+export interface PlanUsageMetric {
+  /** Stable key: 'members' | 'highlights' | 'ads' | 'pushes' | 'locations'. */
+  key: 'members' | 'highlights' | 'ads' | 'pushes' | 'locations';
+  used: number;
+  included: number;
+  /** 0–100+ (can exceed 100 when over). included=0/unlimited → 0. */
+  percent: number;
+  /** used >= 90% of included. */
+  nearLimit: boolean;
+  /** used > included. */
+  over: boolean;
+  /** Per-unit overage fee in centavos (0 when not billed as overage). */
+  overageUnitCents: number;
+}
+
+/** Plan usage snapshot for a franchise (powers Mi Plan + the dashboard banner). */
+export interface PlanUsage {
+  planTier: PlanTier;
+  currency: string;
+  metrics: PlanUsageMetric[];
+  /** Next plan to recommend within the same family, or null if at the top. */
+  recommendedUpgrade: PlanTier | null;
+  /** Any metric at/over 90%. */
+  anyNearLimit: boolean;
+  /** Any metric over its included allotment. */
+  anyOver: boolean;
+}
+
 export type BillingCycle = 'MONTHLY' | 'ANNUAL';
 
 export const BILLING_CYCLES: readonly BillingCycle[] = ['MONTHLY', 'ANNUAL'] as const;
@@ -119,6 +160,9 @@ export interface PlanLimits {
   maxLocations: number;
   maxEnrolledDevices: number; // iOS/Android devices (web app does not count)
   maxLoyaltyMembers: number;
+  /** Soft cap: members beyond maxLoyaltyMembers are billed this much per
+   *  member/month at period close (0 = no overage charge). Configurable per plan. */
+  loyaltyMemberOverageCents: number;
   maxConcurrentWsSessions: number; // concurrent chat sessions
 
   // FT-GROWTH-017 — Ad carousel monetization
@@ -150,6 +194,7 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLocations: 1,
     maxEnrolledDevices: 0, // no POS devices
     maxLoyaltyMembers: 500,
+    loyaltyMemberOverageCents: 40,
     maxConcurrentWsSessions: 5,
     maxActiveAdCampaigns: 1,
     adSegmentationKinds: ['NONE'],
@@ -174,6 +219,7 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLocations: 5, // ← only difference vs Loyalty Lite
     maxEnrolledDevices: 0, // no POS devices
     maxLoyaltyMembers: 500,
+    loyaltyMemberOverageCents: 40,
     maxConcurrentWsSessions: 5,
     maxActiveAdCampaigns: 1,
     adSegmentationKinds: ['NONE'],
@@ -196,6 +242,7 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLocations: 1,
     maxEnrolledDevices: 1,
     maxLoyaltyMembers: 200,
+    loyaltyMemberOverageCents: 40,
     maxConcurrentWsSessions: 5,
     maxActiveAdCampaigns: 1,
     adSegmentationKinds: ['NONE'],
@@ -218,6 +265,7 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLocations: 5,
     maxEnrolledDevices: 5,
     maxLoyaltyMembers: 2_000,
+    loyaltyMemberOverageCents: 40,
     maxConcurrentWsSessions: 30,
     maxActiveAdCampaigns: 5,
     adSegmentationKinds: ['NONE', 'BY_TIER'],
@@ -240,6 +288,7 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLocations: 25,
     maxEnrolledDevices: 25,
     maxLoyaltyMembers: 20_000,
+    loyaltyMemberOverageCents: 40,
     maxConcurrentWsSessions: 150,
     maxActiveAdCampaigns: 20,
     adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY'],
@@ -262,6 +311,7 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLocations: UNLIMITED,
     maxEnrolledDevices: UNLIMITED,
     maxLoyaltyMembers: UNLIMITED,
+    loyaltyMemberOverageCents: 0,
     maxConcurrentWsSessions: UNLIMITED,
     maxActiveAdCampaigns: UNLIMITED,
     adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY', 'CUSTOM_RULES'],
@@ -457,6 +507,7 @@ export interface UpdatePlanPricingInput {
   maxLocations?: number;
   maxEnrolledDevices?: number;
   maxLoyaltyMembers?: number;
+  loyaltyMemberOverageCents?: number;
   maxConcurrentWsSessions?: number;
   maxActiveAdCampaigns?: number;
   includedPromoPushPerMonth?: number;

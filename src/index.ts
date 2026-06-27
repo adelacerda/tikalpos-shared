@@ -446,6 +446,8 @@ export type {
   UpdatePlanPricingInput,
   PlanOffer,
   CreatePlanOfferInput,
+  PlanUsage,
+  PlanUsageMetric,
 } from './types/subscription';
 export {
   PLAN_TIERS,
@@ -453,8 +455,11 @@ export {
   SUBSCRIPTION_STATUSES,
   SUBSCRIPTION_EVENT_KINDS,
   PLAN_LIMITS,
+  LOYALTY_PLAN_LADDER,
+  POS_PLAN_LADDER,
   isPlanTier,
   isLoyaltyOnlyPlan,
+  nextPlanInFamily,
   isBillingCycle,
   isSubscriptionStatus,
   isSubscriptionEventKind,

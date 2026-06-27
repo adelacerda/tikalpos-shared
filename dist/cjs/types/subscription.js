@@ -20,9 +20,10 @@
 // (the same convention used by tikalpos-backend's pricing arithmetic).
 // 1 Q = 100 cents. Q 249/mes → 24_900.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SUBSCRIPTION_EVENT_KINDS = exports.PLAN_LIMITS = exports.SUBSCRIPTION_STATUSES = exports.BILLING_CYCLES = exports.PLAN_TIERS = void 0;
+exports.SUBSCRIPTION_EVENT_KINDS = exports.PLAN_LIMITS = exports.SUBSCRIPTION_STATUSES = exports.BILLING_CYCLES = exports.POS_PLAN_LADDER = exports.LOYALTY_PLAN_LADDER = exports.PLAN_TIERS = void 0;
 exports.isPlanTier = isPlanTier;
 exports.isLoyaltyOnlyPlan = isLoyaltyOnlyPlan;
+exports.nextPlanInFamily = nextPlanInFamily;
 exports.isBillingCycle = isBillingCycle;
 exports.isSubscriptionStatus = isSubscriptionStatus;
 exports.isSubscriptionEventKind = isSubscriptionEventKind;
@@ -38,6 +39,16 @@ function isPlanTier(value) {
  */
 function isLoyaltyOnlyPlan(tier) {
     return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO';
+}
+/** Plan families: a franchise should only be recommended to upgrade WITHIN its
+ *  family (Loyalty → Loyalty, POS → POS). */
+exports.LOYALTY_PLAN_LADDER = ['LOYALTY_LITE', 'LOYALTY_PRO'];
+exports.POS_PLAN_LADDER = ['STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
+/** The next plan up within the same family, or null if already at the top. */
+function nextPlanInFamily(tier) {
+    const ladder = isLoyaltyOnlyPlan(tier) ? exports.LOYALTY_PLAN_LADDER : exports.POS_PLAN_LADDER;
+    const i = ladder.indexOf(tier);
+    return i >= 0 && i < ladder.length - 1 ? ladder[i + 1] : null;
 }
 exports.BILLING_CYCLES = ['MONTHLY', 'ANNUAL'];
 function isBillingCycle(value) {
@@ -70,6 +81,7 @@ exports.PLAN_LIMITS = {
         maxLocations: 1,
         maxEnrolledDevices: 0, // no POS devices
         maxLoyaltyMembers: 500,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
         adSegmentationKinds: ['NONE'],
@@ -94,6 +106,7 @@ exports.PLAN_LIMITS = {
         maxLocations: 5, // ← only difference vs Loyalty Lite
         maxEnrolledDevices: 0, // no POS devices
         maxLoyaltyMembers: 500,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
         adSegmentationKinds: ['NONE'],
@@ -116,6 +129,7 @@ exports.PLAN_LIMITS = {
         maxLocations: 1,
         maxEnrolledDevices: 1,
         maxLoyaltyMembers: 200,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
         adSegmentationKinds: ['NONE'],
@@ -138,6 +152,7 @@ exports.PLAN_LIMITS = {
         maxLocations: 5,
         maxEnrolledDevices: 5,
         maxLoyaltyMembers: 2000,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 30,
         maxActiveAdCampaigns: 5,
         adSegmentationKinds: ['NONE', 'BY_TIER'],
@@ -160,6 +175,7 @@ exports.PLAN_LIMITS = {
         maxLocations: 25,
         maxEnrolledDevices: 25,
         maxLoyaltyMembers: 20000,
+        loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 150,
         maxActiveAdCampaigns: 20,
         adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY'],
@@ -182,6 +198,7 @@ exports.PLAN_LIMITS = {
         maxLocations: UNLIMITED,
         maxEnrolledDevices: UNLIMITED,
         maxLoyaltyMembers: UNLIMITED,
+        loyaltyMemberOverageCents: 0,
         maxConcurrentWsSessions: UNLIMITED,
         maxActiveAdCampaigns: UNLIMITED,
         adSegmentationKinds: ['NONE', 'BY_TIER', 'BY_LOCATION', 'BY_CATEGORY', 'CUSTOM_RULES'],

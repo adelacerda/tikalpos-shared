@@ -23,6 +23,7 @@ export const INVOICE_LINE_KINDS = [
     'HIGHLIGHT_IMPRESSIONS',
     'AD_IMPRESSIONS',
     'PROMO_PUSH_OVERAGE',
+    'LOYALTY_MEMBER_OVERAGE',
 ];
 // ── Type guards ──────────────────────────────────────────────────────────────
 export function isInvoiceStatus(value) {
