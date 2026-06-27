@@ -1,4 +1,4 @@
-export type PlanTier = 'LOYALTY_LITE' | 'LOYALTY_PRO' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+export type PlanTier = 'LOYALTY_LITE' | 'LOYALTY_PRO' | 'LOYALTY_MAX' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
 export declare const PLAN_TIERS: readonly PlanTier[];
 export declare function isPlanTier(value: unknown): value is PlanTier;
 /**

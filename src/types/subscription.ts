@@ -21,9 +21,9 @@
 
 // ── Plan tiers and billing ────────────────────────────────────────────────
 
-export type PlanTier = 'LOYALTY_LITE' | 'LOYALTY_PRO' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+export type PlanTier = 'LOYALTY_LITE' | 'LOYALTY_PRO' | 'LOYALTY_MAX' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE';
 
-export const PLAN_TIERS: readonly PlanTier[] = ['LOYALTY_LITE', 'LOYALTY_PRO', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
+export const PLAN_TIERS: readonly PlanTier[] = ['LOYALTY_LITE', 'LOYALTY_PRO', 'LOYALTY_MAX', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
 
 export function isPlanTier(value: unknown): value is PlanTier {
   return typeof value === 'string' && (PLAN_TIERS as readonly string[]).includes(value);
@@ -36,12 +36,12 @@ export function isPlanTier(value: unknown): value is PlanTier {
  * "is this a loyalty-only plan?" instead of comparing to 'LOYALTY_LITE'.
  */
 export function isLoyaltyOnlyPlan(tier: PlanTier | string | null | undefined): boolean {
-  return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO';
+  return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO' || tier === 'LOYALTY_MAX';
 }
 
 /** Plan families: a franchise should only be recommended to upgrade WITHIN its
  *  family (Loyalty → Loyalty, POS → POS). */
-export const LOYALTY_PLAN_LADDER: readonly PlanTier[] = ['LOYALTY_LITE', 'LOYALTY_PRO'] as const;
+export const LOYALTY_PLAN_LADDER: readonly PlanTier[] = ['LOYALTY_LITE', 'LOYALTY_PRO', 'LOYALTY_MAX'] as const;
 export const POS_PLAN_LADDER: readonly PlanTier[] = ['STARTER', 'PRO', 'SCALE', 'ENTERPRISE'] as const;
 
 /** The next plan up within the same family, or null if already at the top. */
@@ -219,6 +219,30 @@ export const PLAN_LIMITS: Readonly<Record<PlanTier, PlanLimits>> = {
     maxLocations: 5, // ← only difference vs Loyalty Lite
     maxEnrolledDevices: 0, // no POS devices
     maxLoyaltyMembers: 500,
+    loyaltyMemberOverageCents: 40,
+    maxConcurrentWsSessions: 5,
+    maxActiveAdCampaigns: 1,
+    adSegmentationKinds: ['NONE'],
+    includedPromoPushPerMonth: 1_000,
+    promoPushOveragePerPushCents: 2,
+    promoPushSegmentationKinds: ['NONE'],
+    promoPushSchedulingKinds: ['IMMEDIATE'],
+  },
+  // Top Loyalty plan — loyalty-only, unlimited locations, bigger allowances.
+  LOYALTY_MAX: {
+    tier: 'LOYALTY_MAX',
+    includedHighlightImpressions: 1_000,
+    includedAdImpressions: 500,
+    monthlyFeeCents: 89_900,
+    annualFeeCents: 898_900,
+    trialDays: 14,
+    adFeeCents: 50,
+    highlightFeeCents: 25,
+    includedTransactions: 0, // no POS transactions
+    overagePerTxCents: 0,
+    maxLocations: UNLIMITED, // unlimited branches
+    maxEnrolledDevices: 0, // no POS devices
+    maxLoyaltyMembers: 5_000,
     loyaltyMemberOverageCents: 40,
     maxConcurrentWsSessions: 5,
     maxActiveAdCampaigns: 1,

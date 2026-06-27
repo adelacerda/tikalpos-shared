@@ -18,7 +18,7 @@
 // Money convention: every monetary value is stored as integer Q centavos
 // (the same convention used by tikalpos-backend's pricing arithmetic).
 // 1 Q = 100 cents. Q 249/mes → 24_900.
-export const PLAN_TIERS = ['LOYALTY_LITE', 'LOYALTY_PRO', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
+export const PLAN_TIERS = ['LOYALTY_LITE', 'LOYALTY_PRO', 'LOYALTY_MAX', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
 export function isPlanTier(value) {
     return typeof value === 'string' && PLAN_TIERS.includes(value);
 }
@@ -29,11 +29,11 @@ export function isPlanTier(value) {
  * "is this a loyalty-only plan?" instead of comparing to 'LOYALTY_LITE'.
  */
 export function isLoyaltyOnlyPlan(tier) {
-    return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO';
+    return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO' || tier === 'LOYALTY_MAX';
 }
 /** Plan families: a franchise should only be recommended to upgrade WITHIN its
  *  family (Loyalty → Loyalty, POS → POS). */
-export const LOYALTY_PLAN_LADDER = ['LOYALTY_LITE', 'LOYALTY_PRO'];
+export const LOYALTY_PLAN_LADDER = ['LOYALTY_LITE', 'LOYALTY_PRO', 'LOYALTY_MAX'];
 export const POS_PLAN_LADDER = ['STARTER', 'PRO', 'SCALE', 'ENTERPRISE'];
 /** The next plan up within the same family, or null if already at the top. */
 export function nextPlanInFamily(tier) {
@@ -97,6 +97,30 @@ export const PLAN_LIMITS = {
         maxLocations: 5, // ← only difference vs Loyalty Lite
         maxEnrolledDevices: 0, // no POS devices
         maxLoyaltyMembers: 500,
+        loyaltyMemberOverageCents: 40,
+        maxConcurrentWsSessions: 5,
+        maxActiveAdCampaigns: 1,
+        adSegmentationKinds: ['NONE'],
+        includedPromoPushPerMonth: 1000,
+        promoPushOveragePerPushCents: 2,
+        promoPushSegmentationKinds: ['NONE'],
+        promoPushSchedulingKinds: ['IMMEDIATE'],
+    },
+    // Top Loyalty plan — loyalty-only, unlimited locations, bigger allowances.
+    LOYALTY_MAX: {
+        tier: 'LOYALTY_MAX',
+        includedHighlightImpressions: 1000,
+        includedAdImpressions: 500,
+        monthlyFeeCents: 89900,
+        annualFeeCents: 898900,
+        trialDays: 14,
+        adFeeCents: 50,
+        highlightFeeCents: 25,
+        includedTransactions: 0, // no POS transactions
+        overagePerTxCents: 0,
+        maxLocations: UNLIMITED, // unlimited branches
+        maxEnrolledDevices: 0, // no POS devices
+        maxLoyaltyMembers: 5000,
         loyaltyMemberOverageCents: 40,
         maxConcurrentWsSessions: 5,
         maxActiveAdCampaigns: 1,
