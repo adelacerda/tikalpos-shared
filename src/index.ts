@@ -515,3 +515,14 @@ export type {
   SellerPeriodStatement,
 } from './types/seller';
 export { SELLER_DOC_LIMITS } from './types/seller';
+
+// Loyalty operators ("cajeros")
+export type {
+  LoyaltyOperator,
+  CreateLoyaltyOperatorInput,
+  UpdateLoyaltyOperatorInput,
+  LoyaltyOperatorsView,
+  OperatorLoginInput,
+  OperatorSession,
+} from './types/loyalty-operator';
+export { OPERATOR_PIN_REGEX, OPERATOR_LOGIN_CODE_REGEX } from './types/loyalty-operator';

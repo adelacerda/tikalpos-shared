@@ -49,4 +49,6 @@ export type { InvoiceStatus, InvoiceCloseType, InvoicePaymentMethod, InvoiceLine
 export { INVOICE_STATUSES, INVOICE_CLOSE_TYPES, PAYMENT_METHODS, INVOICE_LINE_KINDS, isInvoiceStatus, isInvoicePaymentMethod, } from './types/invoice';
 export type { CommissionKind, CommissionStatus, Seller, CreateSellerInput, UpdateSellerInput, CommissionConfig, UpdateCommissionConfigInput, Commission, AdjustCommissionInput, SetLockedFeeInput, SellerClientInvoice, SellerClient, CommissionTotals, SellerCommissionsQuery, CommissionPayout, MarkCommissionsPaidInput, RegisterPayoutInput, SellerDocumentKind, SellerDocumentStatus, SellerDocument, UploadSellerDocumentInput, ReviewSellerDocumentInput, SellerDocumentsQuery, SellerPeriodStatement, } from './types/seller';
 export { SELLER_DOC_LIMITS } from './types/seller';
+export type { LoyaltyOperator, CreateLoyaltyOperatorInput, UpdateLoyaltyOperatorInput, LoyaltyOperatorsView, OperatorLoginInput, OperatorSession, } from './types/loyalty-operator';
+export { OPERATOR_PIN_REGEX, OPERATOR_LOGIN_CODE_REGEX } from './types/loyalty-operator';
 //# sourceMappingURL=index.d.ts.map
