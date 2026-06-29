@@ -16,7 +16,47 @@ export interface TierDiscount {
     minPoints: number;
     discountBps: number;
 }
-export type LoyaltyTransactionType = 'EARN' | 'REDEEM' | 'ADJUST' | 'EXPIRE';
+export type LoyaltyTransactionType = 'EARN' | 'REDEEM' | 'ADJUST' | 'EXPIRE' | 'CASHBACK_EARN' | 'CASHBACK_SPEND';
+/**
+ * How a franchise rewards members:
+ * - `POINTS`   — points + reward catalog + tiers (the classic model).
+ * - `CASHBACK` — a Q balance that pays down the bill (no catalog, no tiers).
+ * - `BOTH`     — both available; the member picks per-franchise (one OR the other per purchase).
+ */
+export type LoyaltyMode = 'POINTS' | 'CASHBACK' | 'BOTH';
+/** In BOTH mode, what the member earns at this franchise (stored on the enrollment). */
+export type EarnPreference = 'POINTS' | 'CASHBACK';
+/** Block-based expiry cadence the merchant picks (balances in a block share one expiry date). */
+export type ExpiryBlock = 'MONTHLY' | 'QUARTERLY' | 'SEMIANNUAL' | 'ANNUAL';
+/** Hold mode signalling the member wants to apply their cashback balance to the bill. */
+export declare const CASHBACK_APPLY_MODE: "CASHBACK_APPLY";
+/** Org-level cashback configuration (lives on the loyalty rule). */
+export interface CashbackConfig {
+    /** Cashback earn rate in basis points of the net paid (500 = 5%). */
+    cashbackRateBps: number;
+    /** Max % of the bill payable with cashback balance (e.g. 50). */
+    cashbackBillCapPct: number;
+    /** Optional minimum bill (cents) required to apply cashback (0 = none). */
+    cashbackMinCheckCents: number;
+    /** Active boost multiplier on the rate (e.g. 2 = double), with its window. Null = no boost. */
+    cashbackBoostMultiplier: number | null;
+    cashbackBoostStartsAt: string | null;
+    cashbackBoostEndsAt: string | null;
+}
+/** Expiry policy — separate cadence for points and cashback (null = no expiry). */
+export interface ExpiryPolicy {
+    pointsExpiryBlock: ExpiryBlock | null;
+    cashbackExpiryBlock: ExpiryBlock | null;
+}
+/**
+ * Effective cashback rate multiplier right now: boostMultiplier if its window is
+ * active, else 1. Pure helper shared by backend (earn) and web/app (preview).
+ */
+export declare function activeCashbackMultiplier(cfg: Pick<CashbackConfig, 'cashbackBoostMultiplier' | 'cashbackBoostStartsAt' | 'cashbackBoostEndsAt'>, now?: Date): number;
+/** Cashback earned (cents) on a net-paid amount, applying the active boost. */
+export declare function cashbackEarnedCents(netPaidCents: number, cashbackRateBps: number, multiplier?: number): number;
+/** Cashback applicable to a bill: min(balance, cap% × total). Pure; backend stays source of truth. */
+export declare function cashbackApplicableCents(balanceCents: number, billTotalCents: number, billCapPct: number): number;
 export interface LoyaltyTransaction {
     id: string;
     guestId: string;
