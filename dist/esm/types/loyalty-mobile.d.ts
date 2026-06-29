@@ -116,6 +116,9 @@ export interface LoyaltyRewardCard {
     validAtHome?: boolean;
     /** Age-restricted product — show label + one-time age gate. */
     ageRestricted?: boolean;
+    /** Reward kind (config vocabulary). FREE_PRODUCT/GIFT render as "gratis"/"Obsequio"
+     *  instead of a "-Q" discount label. Absent = legacy DISCOUNT. */
+    rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
 }
 /**
  * A reward the member already OWNS — a free GiftedReward (e.g. the welcome
@@ -138,6 +141,8 @@ export interface LoyaltyGiftedRewardCard {
     validAtHome?: boolean;
     /** Age-restricted product (alcohol, vape…). Shows a 🔞 badge + a one-time gate. */
     ageRestricted?: boolean;
+    /** Reward kind (config vocabulary). FREE_PRODUCT/GIFT render as "gratis"/"Obsequio". */
+    rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
@@ -299,8 +304,10 @@ export interface RedemptionResolveResult {
         giftedRewardId: string;
         name: string;
         minCheckAmountCents: number;
-        discountType: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT' | null;
+        discountType: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT' | 'NONE' | null;
         discountValue: number;
+        /** Reward kind — lets the web redemption screen show "Entregar: X" and skip the amount for GIFT. */
+        rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
     } | null;
     tier: string | null;
     tierDiscountBps: number;
