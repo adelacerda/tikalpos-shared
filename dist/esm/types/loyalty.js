@@ -1,6 +1,32 @@
 // ──────────────────────────────────────────────
 // Loyalty System
 // ──────────────────────────────────────────────
+/** Hold mode signalling the member wants to apply their cashback balance to the bill. */
+export const CASHBACK_APPLY_MODE = 'CASHBACK_APPLY';
+/**
+ * Effective cashback rate multiplier right now: boostMultiplier if its window is
+ * active, else 1. Pure helper shared by backend (earn) and web/app (preview).
+ */
+export function activeCashbackMultiplier(cfg, now = new Date()) {
+    const m = cfg.cashbackBoostMultiplier;
+    if (!m || m <= 1 || !cfg.cashbackBoostStartsAt || !cfg.cashbackBoostEndsAt)
+        return 1;
+    const t = now.getTime();
+    return t >= Date.parse(cfg.cashbackBoostStartsAt) && t <= Date.parse(cfg.cashbackBoostEndsAt) ? m : 1;
+}
+/** Cashback earned (cents) on a net-paid amount, applying the active boost. */
+export function cashbackEarnedCents(netPaidCents, cashbackRateBps, multiplier = 1) {
+    if (netPaidCents <= 0 || cashbackRateBps <= 0)
+        return 0;
+    return Math.round((netPaidCents * cashbackRateBps * multiplier) / 10000);
+}
+/** Cashback applicable to a bill: min(balance, cap% × total). Pure; backend stays source of truth. */
+export function cashbackApplicableCents(balanceCents, billTotalCents, billCapPct) {
+    if (balanceCents <= 0 || billTotalCents <= 0)
+        return 0;
+    const cap = Math.floor((billTotalCents * billCapPct) / 100);
+    return Math.max(0, Math.min(balanceCents, cap));
+}
 /** True when a catalog item has an active promotion at `now`. */
 export function isRewardPromotionActive(item, now = Date.now()) {
     return (typeof item.promoPointsCost === 'number' &&

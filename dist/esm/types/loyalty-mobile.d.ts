@@ -151,6 +151,21 @@ export interface LoyaltyFranchiseDetail {
     pointsBalance: number;
     lifetimePoints: number;
     tier?: string | null;
+    /** How this franchise rewards: POINTS (default) | CASHBACK | BOTH. */
+    loyaltyMode?: 'POINTS' | 'CASHBACK' | 'BOTH';
+    /** This member's cashback balance (cents). */
+    cashbackBalanceCents?: number;
+    /** Cashback earn rate (basis points) shown as the "%" hook. */
+    cashbackRateBps?: number;
+    /** Max % of a bill payable with cashback balance. */
+    cashbackBillCapPct?: number;
+    /** In BOTH mode, this member's chosen earn preference at this franchise. */
+    memberEarnPreference?: 'POINTS' | 'CASHBACK';
+    /** Active cashback boost (e.g. "doble cashback"), or null. */
+    cashbackBoost?: {
+        multiplier: number;
+        endsAt: string;
+    } | null;
     transactions: LoyaltyTransactionEntry[];
     /** Rewards the member already owns (gifted), e.g. the welcome gift. */
     myRewards: LoyaltyGiftedRewardCard[];
@@ -269,7 +284,7 @@ export interface LoyaltyMerchantSearchResponse {
  * POINTS_ONLY— "Obtener puntos por compra": no reward is redeemed, the merchant
  *              just records the spend (and optionally the tier discount).
  */
-export type RedemptionHoldMode = 'REDEEM' | 'POINTS_ONLY';
+export type RedemptionHoldMode = 'REDEEM' | 'POINTS_ONLY' | 'CASHBACK_APPLY';
 export interface LoyaltyRedemptionHold {
     id: string;
     nonce: string;
@@ -331,6 +346,10 @@ export interface RedemptionConsumeResult {
     stampCount?: number;
     /** A stamp reward was auto-granted because the goal was reached this scan. */
     stampRewardGranted?: boolean;
+    /** Cashback (cents) credited to the member's balance on this scan. */
+    cashbackEarnedCents?: number;
+    /** Cashback (cents) applied from the member's balance to this bill. */
+    cashbackAppliedCents?: number;
 }
 export interface ReserveRewardInput {
     note?: string;

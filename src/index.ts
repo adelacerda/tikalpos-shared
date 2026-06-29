@@ -111,11 +111,20 @@ export type {
   LoyaltyMutationOutcome,
   LoyaltyConflictReason,
   LoyaltyMutationEnvelope,
+  LoyaltyMode,
+  EarnPreference,
+  ExpiryBlock,
+  CashbackConfig,
+  ExpiryPolicy,
 } from './types/loyalty';
 export {
   isRewardPromotionActive,
   isRewardBoostActive,
   isDiscoveryHighlightActive,
+  CASHBACK_APPLY_MODE,
+  activeCashbackMultiplier,
+  cashbackEarnedCents,
+  cashbackApplicableCents,
 } from './types/loyalty';
 
 // Loyalty Ad system (FT-GROWTH-017 / reward-wizard SS5)
