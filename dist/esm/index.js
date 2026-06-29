@@ -2,7 +2,7 @@ export { FONT, COLOR, THEME, RADIUS, SPACE, MOTION, DEFAULT_MODE, getThemeColors
 export { CITIES_BY_COUNTRY, citiesForCountry } from './types/cities';
 export { STAFF_ROLES, isStaffRole, allowedStaffRolesFor, allowedDeviceRolesFor, } from './types/tenant';
 export { SUPPORTED_LOCALES, isSupportedLocale, COUNTRY_CATALOG, getCatalogEntry, phoneDigits, toE164, nationalPart, isValidNationalPhone, isValidTaxId, } from './types/country';
-export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, } from './types/loyalty';
+export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, CASHBACK_APPLY_MODE, activeCashbackMultiplier, cashbackEarnedCents, cashbackApplicableCents, } from './types/loyalty';
 export { isLoyaltyAdActive } from './types/ad';
 export { isPushPromotionActive } from './types/push-promotion';
 export { DEVICE_ROLES, isDeviceRole } from './types/device';
