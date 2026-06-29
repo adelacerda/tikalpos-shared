@@ -59,7 +59,17 @@ export interface RewardCatalogItem {
    *  age-confirmation gate in the app. Set per reward in the wizard. */
   ageRestricted?: boolean;
   redemptionWindowDays?: number;
-  discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT';
+  /**
+   * How the merchant thinks of this reward (config vocabulary, set in the wizard):
+   * - `DISCOUNT`     — % or fixed Q off the bill (discountType PERCENTAGE/FIXED_AMOUNT).
+   * - `FREE_PRODUCT` — a sellable product given free (e.g. "café gratis"); stored as
+   *                    FIXED_AMOUNT = the product's value, so it discounts the bill by that much.
+   * - `GIFT`         — an extra giveaway NOT on the bill (e.g. "vaso promocional"); discountType
+   *                    NONE, discountValue 0 — never touches the bill, just handed over.
+   * Absent = legacy reward; treat as DISCOUNT.
+   */
+  rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
+  discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT' | 'NONE';
   discountValue?: number;
   // Reward promotion (Sprint 12.5d / FT-GROWTH-002): a temporary reduced
   // point cost with an end date. A promotion is "active" when promoEndsAt is

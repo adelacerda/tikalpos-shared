@@ -21,7 +21,7 @@ import {
 
 describe('PLAN_TIERS (runtime constant)', () => {
   it('contains the supported tiers in business order', () => {
-    expect(PLAN_TIERS).toEqual(['LOYALTY_LITE', 'LOYALTY_PRO', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE']);
+    expect(PLAN_TIERS).toEqual(['LOYALTY_LITE', 'LOYALTY_PRO', 'LOYALTY_MAX', 'STARTER', 'PRO', 'SCALE', 'ENTERPRISE']);
   });
 });
 
@@ -214,6 +214,6 @@ describe('Loyalty Pro plan', () => {
 
 describe('Type-level contracts', () => {
   it('PlanTier is the union of PLAN_TIERS literals', () => {
-    expectTypeOf<PlanTier>().toEqualTypeOf<'LOYALTY_LITE' | 'LOYALTY_PRO' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE'>();
+    expectTypeOf<PlanTier>().toEqualTypeOf<'LOYALTY_LITE' | 'LOYALTY_PRO' | 'LOYALTY_MAX' | 'STARTER' | 'PRO' | 'SCALE' | 'ENTERPRISE'>();
   });
 });
