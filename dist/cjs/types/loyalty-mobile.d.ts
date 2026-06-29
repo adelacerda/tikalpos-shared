@@ -346,6 +346,10 @@ export interface RedemptionConsumeResult {
     stampCount?: number;
     /** A stamp reward was auto-granted because the goal was reached this scan. */
     stampRewardGranted?: boolean;
+    /** Cashback (cents) credited to the member's balance on this scan. */
+    cashbackEarnedCents?: number;
+    /** Cashback (cents) applied from the member's balance to this bill. */
+    cashbackAppliedCents?: number;
 }
 export interface ReserveRewardInput {
     note?: string;
