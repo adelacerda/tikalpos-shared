@@ -26,8 +26,9 @@ export type LoyaltyTransactionKind =
   | 'REDEEM'
   | 'EXPIRY'
   | 'ADJUSTMENT'
-  | 'CASHBACK_EARN'   // cashback credited (value in cents, rendered in Q)
-  | 'CASHBACK_SPEND'; // cashback balance applied to a bill (cents, rendered in Q)
+  | 'CASHBACK_EARN'    // cashback credited (value in cents, rendered in Q)
+  | 'CASHBACK_SPEND'   // cashback balance applied to a bill (cents, rendered in Q)
+  | 'CASHBACK_EXPIRY'; // cashback block expired unspent (cents, rendered in Q)
 
 export const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[] = [
   'EARN',
@@ -36,6 +37,7 @@ export const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[] = [
   'ADJUSTMENT',
   'CASHBACK_EARN',
   'CASHBACK_SPEND',
+  'CASHBACK_EXPIRY',
 ] as const;
 
 export function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind {

@@ -30,6 +30,7 @@ exports.LOYALTY_TRANSACTION_KINDS = [
     'ADJUSTMENT',
     'CASHBACK_EARN',
     'CASHBACK_SPEND',
+    'CASHBACK_EXPIRY',
 ];
 function isLoyaltyTransactionKind(value) {
     return typeof value === 'string' && exports.LOYALTY_TRANSACTION_KINDS.includes(value);

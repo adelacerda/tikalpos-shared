@@ -1,7 +1,7 @@
 export type LoyaltyAuthProvider = 'GOOGLE' | 'APPLE' | 'EMAIL';
 export declare const LOYALTY_AUTH_PROVIDERS: readonly LoyaltyAuthProvider[];
 export declare function isLoyaltyAuthProvider(value: unknown): value is LoyaltyAuthProvider;
-export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT' | 'CASHBACK_EARN' | 'CASHBACK_SPEND';
+export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT' | 'CASHBACK_EARN' | 'CASHBACK_SPEND' | 'CASHBACK_EXPIRY';
 export declare const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[];
 export declare function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind;
 export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING';
