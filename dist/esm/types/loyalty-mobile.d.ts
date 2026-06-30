@@ -174,6 +174,8 @@ export interface LoyaltyFranchiseDetail {
         multiplier: number;
         endsAt: string;
     } | null;
+    /** ISO-4217 currency of this franchise (e.g. "GTQ") — money rendered client-side. */
+    currency?: string;
     transactions: LoyaltyTransactionEntry[];
     /** Rewards the member already owns (gifted), e.g. the welcome gift. */
     myRewards: LoyaltyGiftedRewardCard[];
