@@ -468,6 +468,7 @@ export {
   POS_PLAN_LADDER,
   isPlanTier,
   isLoyaltyOnlyPlan,
+  isCashbackEligiblePlan,
   nextPlanInFamily,
   isBillingCycle,
   isSubscriptionStatus,

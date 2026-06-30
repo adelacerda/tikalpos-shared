@@ -8,6 +8,12 @@ export declare function isPlanTier(value: unknown): value is PlanTier;
  * "is this a loyalty-only plan?" instead of comparing to 'LOYALTY_LITE'.
  */
 export declare function isLoyaltyOnlyPlan(tier: PlanTier | string | null | undefined): boolean;
+/**
+ * Cashback (alternative loyalty mode) is available on every plan EXCEPT
+ * LOYALTY_LITE. Pro/Max and all POS plans qualify. Gate the cashback mode
+ * selector and the config endpoint with this.
+ */
+export declare function isCashbackEligiblePlan(tier: PlanTier | string | null | undefined): boolean;
 /** Plan families: a franchise should only be recommended to upgrade WITHIN its
  *  family (Loyalty → Loyalty, POS → POS). */
 export declare const LOYALTY_PLAN_LADDER: readonly PlanTier[];

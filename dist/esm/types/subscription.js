@@ -31,6 +31,14 @@ export function isPlanTier(value) {
 export function isLoyaltyOnlyPlan(tier) {
     return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO' || tier === 'LOYALTY_MAX';
 }
+/**
+ * Cashback (alternative loyalty mode) is available on every plan EXCEPT
+ * LOYALTY_LITE. Pro/Max and all POS plans qualify. Gate the cashback mode
+ * selector and the config endpoint with this.
+ */
+export function isCashbackEligiblePlan(tier) {
+    return tier !== 'LOYALTY_LITE' && tier != null;
+}
 /** Plan families: a franchise should only be recommended to upgrade WITHIN its
  *  family (Loyalty → Loyalty, POS → POS). */
 export const LOYALTY_PLAN_LADDER = ['LOYALTY_LITE', 'LOYALTY_PRO', 'LOYALTY_MAX'];
