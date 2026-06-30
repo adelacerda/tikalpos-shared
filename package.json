@@ -1,6 +1,6 @@
 {
   "name": "@tikalpos/shared",
-  "version": "0.7.2",
+  "version": "0.7.5",
   "description": "Shared TypeScript type definitions and utilities for Tikal POS.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

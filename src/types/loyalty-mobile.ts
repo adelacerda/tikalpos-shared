@@ -21,13 +21,23 @@ export function isLoyaltyAuthProvider(value: unknown): value is LoyaltyAuthProvi
   return typeof value === 'string' && (LOYALTY_AUTH_PROVIDERS as readonly string[]).includes(value);
 }
 
-export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT';
+export type LoyaltyTransactionKind =
+  | 'EARN'
+  | 'REDEEM'
+  | 'EXPIRY'
+  | 'ADJUSTMENT'
+  | 'CASHBACK_EARN'    // cashback credited (value in cents, rendered in Q)
+  | 'CASHBACK_SPEND'   // cashback balance applied to a bill (cents, rendered in Q)
+  | 'CASHBACK_EXPIRY'; // cashback block expired unspent (cents, rendered in Q)
 
 export const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[] = [
   'EARN',
   'REDEEM',
   'EXPIRY',
   'ADJUSTMENT',
+  'CASHBACK_EARN',
+  'CASHBACK_SPEND',
+  'CASHBACK_EXPIRY',
 ] as const;
 
 export function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind {
@@ -40,7 +50,9 @@ export type LoyaltyPushTopic =
   | 'REDEMPTION_READY'
   | 'BALANCE_MILESTONE'
   | 'WELCOME'
-  | 'ENGAGEMENT';
+  | 'ENGAGEMENT'
+  | 'MODE_CHANGE'       // loyalty mode (points/cashback/both) changed for an org
+  | 'BALANCE_EXPIRING'; // points or cashback balance block is about to expire
 
 export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'REWARD_EXPIRING',
@@ -49,6 +61,8 @@ export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'BALANCE_MILESTONE',
   'WELCOME',
   'ENGAGEMENT',
+  'MODE_CHANGE',
+  'BALANCE_EXPIRING',
 ] as const;
 
 export function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic {
@@ -146,6 +160,15 @@ export interface LoyaltyMemberSummary {
   lastActivityAt?: string | null;
   /** Points-redeemable rewards (asc by cost) for the next-reward progress bar. */
   rewardMilestones: LoyaltyRewardMilestone[];
+  // ── Cashback (alternative mode) — drives the home cashback chip + per-shop breakdown ──
+  /** How this franchise rewards: POINTS (default) | CASHBACK | BOTH. */
+  loyaltyMode?: 'POINTS' | 'CASHBACK' | 'BOTH';
+  /** This member's cashback balance at this franchise (cents). */
+  cashbackBalanceCents?: number;
+  /** ISO-4217 currency for this franchise (e.g. "GTQ") — money rendered client-side. */
+  currency?: string;
+  /** In BOTH mode, this member's chosen earn preference at this franchise. */
+  memberEarnPreference?: 'POINTS' | 'CASHBACK';
 }
 
 // ── Detail view ────────────────────────────────────────────────────────────
@@ -234,6 +257,8 @@ export interface LoyaltyFranchiseDetail {
   memberEarnPreference?: 'POINTS' | 'CASHBACK';
   /** Active cashback boost (e.g. "doble cashback"), or null. */
   cashbackBoost?: { multiplier: number; endsAt: string } | null;
+  /** ISO-4217 currency of this franchise (e.g. "GTQ") — money rendered client-side. */
+  currency?: string;
   transactions: LoyaltyTransactionEntry[];
   /** Rewards the member already owns (gifted), e.g. the welcome gift. */
   myRewards: LoyaltyGiftedRewardCard[];

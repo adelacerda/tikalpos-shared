@@ -57,6 +57,10 @@ export declare function activeCashbackMultiplier(cfg: Pick<CashbackConfig, 'cash
 export declare function cashbackEarnedCents(netPaidCents: number, cashbackRateBps: number, multiplier?: number): number;
 /** Cashback applicable to a bill: min(balance, cap% × total). Pure; backend stays source of truth. */
 export declare function cashbackApplicableCents(balanceCents: number, billTotalCents: number, billCapPct: number): number;
+/** Canonical key for the block containing `date` under a cadence (e.g. "2026-06", "2026-Q2", "2026-H1", "2026"). */
+export declare function expiryBlockKey(cadence: ExpiryBlock, date?: Date): string;
+/** Fixed expiry (last instant) of the block containing `date` under a cadence. */
+export declare function expiryBlockEndsAt(cadence: ExpiryBlock, date?: Date): Date;
 export interface LoyaltyTransaction {
     id: string;
     guestId: string;

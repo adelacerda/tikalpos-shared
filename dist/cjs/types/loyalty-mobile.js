@@ -28,6 +28,9 @@ exports.LOYALTY_TRANSACTION_KINDS = [
     'REDEEM',
     'EXPIRY',
     'ADJUSTMENT',
+    'CASHBACK_EARN',
+    'CASHBACK_SPEND',
+    'CASHBACK_EXPIRY',
 ];
 function isLoyaltyTransactionKind(value) {
     return typeof value === 'string' && exports.LOYALTY_TRANSACTION_KINDS.includes(value);
@@ -39,6 +42,8 @@ exports.LOYALTY_PUSH_TOPICS = [
     'BALANCE_MILESTONE',
     'WELCOME',
     'ENGAGEMENT',
+    'MODE_CHANGE',
+    'BALANCE_EXPIRING',
 ];
 function isLoyaltyPushTopic(value) {
     return typeof value === 'string' && exports.LOYALTY_PUSH_TOPICS.includes(value);

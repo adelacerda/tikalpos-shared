@@ -23,6 +23,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SUBSCRIPTION_EVENT_KINDS = exports.PLAN_LIMITS = exports.SUBSCRIPTION_STATUSES = exports.BILLING_CYCLES = exports.POS_PLAN_LADDER = exports.LOYALTY_PLAN_LADDER = exports.PLAN_TIERS = void 0;
 exports.isPlanTier = isPlanTier;
 exports.isLoyaltyOnlyPlan = isLoyaltyOnlyPlan;
+exports.isCashbackEligiblePlan = isCashbackEligiblePlan;
 exports.nextPlanInFamily = nextPlanInFamily;
 exports.isBillingCycle = isBillingCycle;
 exports.isSubscriptionStatus = isSubscriptionStatus;
@@ -39,6 +40,14 @@ function isPlanTier(value) {
  */
 function isLoyaltyOnlyPlan(tier) {
     return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO' || tier === 'LOYALTY_MAX';
+}
+/**
+ * Cashback (alternative loyalty mode) is available on every plan EXCEPT
+ * LOYALTY_LITE. Pro/Max and all POS plans qualify. Gate the cashback mode
+ * selector and the config endpoint with this.
+ */
+function isCashbackEligiblePlan(tier) {
+    return tier !== 'LOYALTY_LITE' && tier != null;
 }
 /** Plan families: a franchise should only be recommended to upgrade WITHIN its
  *  family (Loyalty → Loyalty, POS → POS). */

@@ -125,6 +125,8 @@ export {
   activeCashbackMultiplier,
   cashbackEarnedCents,
   cashbackApplicableCents,
+  expiryBlockKey,
+  expiryBlockEndsAt,
 } from './types/loyalty';
 
 // Loyalty Ad system (FT-GROWTH-017 / reward-wizard SS5)
@@ -468,6 +470,7 @@ export {
   POS_PLAN_LADDER,
   isPlanTier,
   isLoyaltyOnlyPlan,
+  isCashbackEligiblePlan,
   nextPlanInFamily,
   isBillingCycle,
   isSubscriptionStatus,

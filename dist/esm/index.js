@@ -2,7 +2,7 @@ export { FONT, COLOR, THEME, RADIUS, SPACE, MOTION, DEFAULT_MODE, getThemeColors
 export { CITIES_BY_COUNTRY, citiesForCountry } from './types/cities';
 export { STAFF_ROLES, isStaffRole, allowedStaffRolesFor, allowedDeviceRolesFor, } from './types/tenant';
 export { SUPPORTED_LOCALES, isSupportedLocale, COUNTRY_CATALOG, getCatalogEntry, phoneDigits, toE164, nationalPart, isValidNationalPhone, isValidTaxId, } from './types/country';
-export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, CASHBACK_APPLY_MODE, activeCashbackMultiplier, cashbackEarnedCents, cashbackApplicableCents, } from './types/loyalty';
+export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, CASHBACK_APPLY_MODE, activeCashbackMultiplier, cashbackEarnedCents, cashbackApplicableCents, expiryBlockKey, expiryBlockEndsAt, } from './types/loyalty';
 export { isLoyaltyAdActive } from './types/ad';
 export { isPushPromotionActive } from './types/push-promotion';
 export { DEVICE_ROLES, isDeviceRole } from './types/device';
@@ -16,7 +16,7 @@ export { CORPORATE_ACCOUNT_STATUSES, CORPORATE_MEMBERSHIP_STATUSES, } from './ty
 export { COALITION_STATUSES } from './types/coalition';
 export { MFA_TRUST_DEVICE_DAYS, MFA_BACKUP_CODE_COUNT } from './types/mfa';
 export { LOYALTY_MEMBER_PLATFORMS } from './types/system-loyalty-members';
-export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS, PLAN_LIMITS, LOYALTY_PLAN_LADDER, POS_PLAN_LADDER, isPlanTier, isLoyaltyOnlyPlan, nextPlanInFamily, isBillingCycle, isSubscriptionStatus, isSubscriptionEventKind, } from './types/subscription';
+export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_KINDS, PLAN_LIMITS, LOYALTY_PLAN_LADDER, POS_PLAN_LADDER, isPlanTier, isLoyaltyOnlyPlan, isCashbackEligiblePlan, nextPlanInFamily, isBillingCycle, isSubscriptionStatus, isSubscriptionEventKind, } from './types/subscription';
 export { INVOICE_STATUSES, INVOICE_CLOSE_TYPES, PAYMENT_METHODS, INVOICE_LINE_KINDS, isInvoiceStatus, isInvoicePaymentMethod, } from './types/invoice';
 export { SELLER_DOC_LIMITS } from './types/seller';
 export { OPERATOR_PIN_REGEX, OPERATOR_LOGIN_CODE_REGEX } from './types/loyalty-operator';
