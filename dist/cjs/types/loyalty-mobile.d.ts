@@ -1,10 +1,10 @@
 export type LoyaltyAuthProvider = 'GOOGLE' | 'APPLE' | 'EMAIL';
 export declare const LOYALTY_AUTH_PROVIDERS: readonly LoyaltyAuthProvider[];
 export declare function isLoyaltyAuthProvider(value: unknown): value is LoyaltyAuthProvider;
-export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT';
+export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT' | 'CASHBACK_EARN' | 'CASHBACK_SPEND' | 'CASHBACK_EXPIRY';
 export declare const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[];
 export declare function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind;
-export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT';
+export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING';
 export declare const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[];
 export declare function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic;
 export interface LoyaltyMobileProfile {
@@ -84,6 +84,14 @@ export interface LoyaltyMemberSummary {
     lastActivityAt?: string | null;
     /** Points-redeemable rewards (asc by cost) for the next-reward progress bar. */
     rewardMilestones: LoyaltyRewardMilestone[];
+    /** How this franchise rewards: POINTS (default) | CASHBACK | BOTH. */
+    loyaltyMode?: 'POINTS' | 'CASHBACK' | 'BOTH';
+    /** This member's cashback balance at this franchise (cents). */
+    cashbackBalanceCents?: number;
+    /** ISO-4217 currency for this franchise (e.g. "GTQ") — money rendered client-side. */
+    currency?: string;
+    /** In BOTH mode, this member's chosen earn preference at this franchise. */
+    memberEarnPreference?: 'POINTS' | 'CASHBACK';
 }
 export interface LoyaltyTransactionEntry {
     id: string;
@@ -166,6 +174,8 @@ export interface LoyaltyFranchiseDetail {
         multiplier: number;
         endsAt: string;
     } | null;
+    /** ISO-4217 currency of this franchise (e.g. "GTQ") — money rendered client-side. */
+    currency?: string;
     transactions: LoyaltyTransactionEntry[];
     /** Rewards the member already owns (gifted), e.g. the welcome gift. */
     myRewards: LoyaltyGiftedRewardCard[];
