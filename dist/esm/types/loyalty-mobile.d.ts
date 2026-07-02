@@ -79,6 +79,8 @@ export interface LoyaltyMemberSummary {
     branding: LoyaltyFranchiseBranding;
     pointsBalance: number;
     lifetimePoints: number;
+    /** Points that expire on/before the end of next month (block-based expiry). 0/omitted = none upcoming. */
+    expiringPoints?: number;
     tier?: string | null;
     joinedAt: string;
     lastActivityAt?: string | null;
@@ -158,6 +160,8 @@ export interface LoyaltyFranchiseDetail {
     isLoyaltyLite: boolean;
     pointsBalance: number;
     lifetimePoints: number;
+    /** Points that expire on/before the end of next month (block-based expiry). 0/omitted = none upcoming. */
+    expiringPoints?: number;
     tier?: string | null;
     /** How this franchise rewards: POINTS (default) | CASHBACK | BOTH. */
     loyaltyMode?: 'POINTS' | 'CASHBACK' | 'BOTH';
