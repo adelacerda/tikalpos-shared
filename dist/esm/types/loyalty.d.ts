@@ -27,7 +27,11 @@ export type LoyaltyMode = 'POINTS' | 'CASHBACK' | 'BOTH';
 /** In BOTH mode, what the member earns at this franchise (stored on the enrollment). */
 export type EarnPreference = 'POINTS' | 'CASHBACK';
 /** Block-based expiry cadence the merchant picks (balances in a block share one expiry date). */
-export type ExpiryBlock = 'MONTHLY' | 'QUARTERLY' | 'SEMIANNUAL' | 'ANNUAL';
+export type ExpiryBlock = 'MONTHLY' | 'BIMONTHLY' | 'QUARTERLY' | 'SEMIANNUAL' | 'ANNUAL';
+/** How many months each ExpiryBlock cadence spans. */
+export declare const EXPIRY_BLOCK_MONTHS: Record<ExpiryBlock, number>;
+/** Validity presets (months a block lives AFTER it closes). Merchant picks one. */
+export declare const EXPIRY_VALIDITY_MONTHS: readonly [3, 6, 12, 18, 24, 36];
 /** Hold mode signalling the member wants to apply their cashback balance to the bill. */
 export declare const CASHBACK_APPLY_MODE: "CASHBACK_APPLY";
 /** Org-level cashback configuration (lives on the loyalty rule). */
@@ -43,10 +47,16 @@ export interface CashbackConfig {
     cashbackBoostStartsAt: string | null;
     cashbackBoostEndsAt: string | null;
 }
-/** Expiry policy — separate cadence for points and cashback (null = no expiry). */
+/**
+ * Expiry policy — separate config for points and cashback (block = null → no expiry).
+ * A balance's fixed expiry = END of its block period + `validityMonths`. Example:
+ * block MONTHLY + validity 12 → everything earned in Jan-2026 expires 31-Jan-2027.
+ */
 export interface ExpiryPolicy {
     pointsExpiryBlock: ExpiryBlock | null;
+    pointsExpiryValidityMonths: number | null;
     cashbackExpiryBlock: ExpiryBlock | null;
+    cashbackExpiryValidityMonths: number | null;
 }
 /**
  * Effective cashback rate multiplier right now: boostMultiplier if its window is
@@ -59,8 +69,28 @@ export declare function cashbackEarnedCents(netPaidCents: number, cashbackRateBp
 export declare function cashbackApplicableCents(balanceCents: number, billTotalCents: number, billCapPct: number): number;
 /** Canonical key for the block containing `date` under a cadence (e.g. "2026-06", "2026-Q2", "2026-H1", "2026"). */
 export declare function expiryBlockKey(cadence: ExpiryBlock, date?: Date): string;
-/** Fixed expiry (last instant) of the block containing `date` under a cadence. */
+/** Start (first instant) of the block containing `date` under a cadence. */
+export declare function expiryBlockStartsAt(cadence: ExpiryBlock, date?: Date): Date;
+/** Fixed END (last instant) of the block containing `date` under a cadence. */
 export declare function expiryBlockEndsAt(cadence: ExpiryBlock, date?: Date): Date;
+/**
+ * Fixed expiry of a balance earned on `date`: END of its block + `validityMonths`.
+ * Computed off the next block's start (day=1) so month-end never overflows.
+ * Example: block MONTHLY, validity 12, earned 2026-01-15 → 2027-01-31 23:59:59.999.
+ */
+export declare function balanceExpiresAt(cadence: ExpiryBlock, validityMonths: number, date?: Date): Date;
+/** One example row for the config UI: a block period and when its balances expire. */
+export interface ExpiryExampleRow {
+    blockStart: Date;
+    blockEnd: Date;
+    expiresAt: Date;
+}
+/**
+ * Worked examples for the merchant configuring expiry: the current block + the
+ * next `count-1` blocks, each with its fixed expiry date. Pure — the UI formats
+ * the dates in the merchant's locale.
+ */
+export declare function expiryExamples(cadence: ExpiryBlock, validityMonths: number, now?: Date, count?: number): ExpiryExampleRow[];
 export interface LoyaltyTransaction {
     id: string;
     guestId: string;

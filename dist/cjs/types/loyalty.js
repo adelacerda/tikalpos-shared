@@ -3,15 +3,28 @@
 // Loyalty System
 // ──────────────────────────────────────────────
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CASHBACK_APPLY_MODE = void 0;
+exports.CASHBACK_APPLY_MODE = exports.EXPIRY_VALIDITY_MONTHS = exports.EXPIRY_BLOCK_MONTHS = void 0;
 exports.activeCashbackMultiplier = activeCashbackMultiplier;
 exports.cashbackEarnedCents = cashbackEarnedCents;
 exports.cashbackApplicableCents = cashbackApplicableCents;
 exports.expiryBlockKey = expiryBlockKey;
+exports.expiryBlockStartsAt = expiryBlockStartsAt;
 exports.expiryBlockEndsAt = expiryBlockEndsAt;
+exports.balanceExpiresAt = balanceExpiresAt;
+exports.expiryExamples = expiryExamples;
 exports.isRewardPromotionActive = isRewardPromotionActive;
 exports.isRewardBoostActive = isRewardBoostActive;
 exports.isDiscoveryHighlightActive = isDiscoveryHighlightActive;
+/** How many months each ExpiryBlock cadence spans. */
+exports.EXPIRY_BLOCK_MONTHS = {
+    MONTHLY: 1,
+    BIMONTHLY: 2,
+    QUARTERLY: 3,
+    SEMIANNUAL: 6,
+    ANNUAL: 12,
+};
+/** Validity presets (months a block lives AFTER it closes). Merchant picks one. */
+exports.EXPIRY_VALIDITY_MONTHS = [3, 6, 12, 18, 24, 36];
 /** Hold mode signalling the member wants to apply their cashback balance to the bill. */
 exports.CASHBACK_APPLY_MODE = 'CASHBACK_APPLY';
 /**
@@ -51,6 +64,8 @@ function expiryBlockKey(cadence, date = new Date()) {
     switch (cadence) {
         case 'MONTHLY':
             return `${y}-${String(m + 1).padStart(2, '0')}`;
+        case 'BIMONTHLY':
+            return `${y}-B${Math.floor(m / 2) + 1}`;
         case 'QUARTERLY':
             return `${y}-Q${Math.floor(m / 3) + 1}`;
         case 'SEMIANNUAL':
@@ -59,27 +74,49 @@ function expiryBlockKey(cadence, date = new Date()) {
             return `${y}`;
     }
 }
-/** Fixed expiry (last instant) of the block containing `date` under a cadence. */
-function expiryBlockEndsAt(cadence, date = new Date()) {
+/** Start (first instant) of the block containing `date` under a cadence. */
+function expiryBlockStartsAt(cadence, date = new Date()) {
     const y = date.getUTCFullYear();
-    const m = date.getUTCMonth(); // 0-11
-    // End instant = start of the next block minus 1ms.
-    let nextStart;
-    switch (cadence) {
-        case 'MONTHLY':
-            nextStart = new Date(Date.UTC(y, m + 1, 1));
-            break;
-        case 'QUARTERLY':
-            nextStart = new Date(Date.UTC(y, (Math.floor(m / 3) + 1) * 3, 1));
-            break;
-        case 'SEMIANNUAL':
-            nextStart = new Date(Date.UTC(y, m < 6 ? 6 : 12, 1));
-            break;
-        case 'ANNUAL':
-            nextStart = new Date(Date.UTC(y + 1, 0, 1));
-            break;
-    }
+    const m = date.getUTCMonth();
+    const span = exports.EXPIRY_BLOCK_MONTHS[cadence];
+    const startMonth = Math.floor(m / span) * span;
+    return new Date(Date.UTC(y, startMonth, 1));
+}
+/** Fixed END (last instant) of the block containing `date` under a cadence. */
+function expiryBlockEndsAt(cadence, date = new Date()) {
+    const start = expiryBlockStartsAt(cadence, date);
+    const nextStart = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + exports.EXPIRY_BLOCK_MONTHS[cadence], 1));
     return new Date(nextStart.getTime() - 1);
+}
+/**
+ * Fixed expiry of a balance earned on `date`: END of its block + `validityMonths`.
+ * Computed off the next block's start (day=1) so month-end never overflows.
+ * Example: block MONTHLY, validity 12, earned 2026-01-15 → 2027-01-31 23:59:59.999.
+ */
+function balanceExpiresAt(cadence, validityMonths, date = new Date()) {
+    const start = expiryBlockStartsAt(cadence, date);
+    const nextStart = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + exports.EXPIRY_BLOCK_MONTHS[cadence], 1));
+    const expiryStart = new Date(Date.UTC(nextStart.getUTCFullYear(), nextStart.getUTCMonth() + validityMonths, 1));
+    return new Date(expiryStart.getTime() - 1);
+}
+/**
+ * Worked examples for the merchant configuring expiry: the current block + the
+ * next `count-1` blocks, each with its fixed expiry date. Pure — the UI formats
+ * the dates in the merchant's locale.
+ */
+function expiryExamples(cadence, validityMonths, now = new Date(), count = 3) {
+    const rows = [];
+    const span = exports.EXPIRY_BLOCK_MONTHS[cadence];
+    const firstStart = expiryBlockStartsAt(cadence, now);
+    for (let i = 0; i < count; i++) {
+        const blockStart = new Date(Date.UTC(firstStart.getUTCFullYear(), firstStart.getUTCMonth() + i * span, 1));
+        rows.push({
+            blockStart,
+            blockEnd: expiryBlockEndsAt(cadence, blockStart),
+            expiresAt: balanceExpiresAt(cadence, validityMonths, blockStart),
+        });
+    }
+    return rows;
 }
 /** True when a catalog item has an active promotion at `now`. */
 function isRewardPromotionActive(item, now = Date.now()) {

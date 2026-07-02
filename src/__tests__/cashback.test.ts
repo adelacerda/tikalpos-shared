@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { activeCashbackMultiplier, cashbackEarnedCents, cashbackApplicableCents, expiryBlockKey, expiryBlockEndsAt } from '../types/loyalty';
+import { activeCashbackMultiplier, cashbackEarnedCents, cashbackApplicableCents, expiryBlockKey, expiryBlockEndsAt, balanceExpiresAt, expiryExamples } from '../types/loyalty';
 
 describe('activeCashbackMultiplier', () => {
   const win = { cashbackBoostMultiplier: 2, cashbackBoostStartsAt: '2026-12-01T00:00:00Z', cashbackBoostEndsAt: '2026-12-31T23:59:59Z' };
@@ -38,6 +38,34 @@ describe('cashbackApplicableCents', () => {
   it('is 0 with no balance or no bill', () => {
     expect(cashbackApplicableCents(0, 20000, 50)).toBe(0);
     expect(cashbackApplicableCents(15000, 0, 50)).toBe(0);
+  });
+});
+
+describe('balanceExpiresAt (block end + validity)', () => {
+  it("CEO example 1: monthly block + annual validity → Jan-2026 expires 31-Jan-2027", () => {
+    const earned = new Date(Date.UTC(2026, 0, 15)); // 15 Jan 2026
+    const exp = balanceExpiresAt('MONTHLY', 12, earned);
+    expect(exp.toISOString()).toBe('2027-01-31T23:59:59.999Z');
+  });
+
+  it("CEO example 2: semiannual block + annual validity → Jan-Jun 2026 expires 30-Jun-2027", () => {
+    const jan = balanceExpiresAt('SEMIANNUAL', 12, new Date(Date.UTC(2026, 0, 10)));
+    const jun = balanceExpiresAt('SEMIANNUAL', 12, new Date(Date.UTC(2026, 5, 28)));
+    expect(jan.toISOString()).toBe('2027-06-30T23:59:59.999Z');
+    expect(jun.toISOString()).toBe('2027-06-30T23:59:59.999Z'); // same block → same date
+  });
+
+  it('bimonthly block groups two months', () => {
+    expect(expiryBlockKey('BIMONTHLY', new Date(Date.UTC(2026, 2, 1)))).toBe('2026-B2'); // Mar → B2
+    const exp = balanceExpiresAt('BIMONTHLY', 6, new Date(Date.UTC(2026, 2, 1))); // Mar-Apr block ends Apr-30
+    expect(exp.toISOString()).toBe('2026-10-31T23:59:59.999Z'); // +6mo from Apr-30 end
+  });
+
+  it('expiryExamples returns consecutive blocks with their expiry dates', () => {
+    const rows = expiryExamples('MONTHLY', 12, new Date(Date.UTC(2026, 0, 5)), 2);
+    expect(rows).toHaveLength(2);
+    expect(rows[0].expiresAt.toISOString()).toBe('2027-01-31T23:59:59.999Z');
+    expect(rows[1].expiresAt.toISOString()).toBe('2027-02-28T23:59:59.999Z');
   });
 });
 
