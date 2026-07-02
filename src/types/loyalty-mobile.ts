@@ -545,9 +545,17 @@ export interface LoyaltyAdCard {
 export interface LoyaltyDiscoveryCard {
   orgId: string;
   branding: LoyaltyFranchiseBranding;
-  reward: LoyaltyRewardCard; // a reward from a franchise the guest hasn't joined
+  /** A reward from a franchise the guest hasn't joined. Null for cashback-only
+   *  franchises (no points catalog) — the card then leads with cashback info. */
+  reward: LoyaltyRewardCard | null;
   highlighted: boolean;      // a paid discovery-highlight reward (shown + billed)
   tags: string[];            // the franchise's category tags (badge shows ≤2, client picks at random)
+  /** How the franchise rewards → drives the points/cashback badges on the card. */
+  loyaltyMode: 'POINTS' | 'CASHBACK' | 'BOTH';
+  /** Cashback earn rate (basis points) — shown as "X%" when the franchise offers cashback. */
+  cashbackRateBps?: number;
+  /** ISO-4217 currency (e.g. "GTQ") — money rendered client-side. */
+  currency?: string;
 }
 
 /**
@@ -569,6 +577,12 @@ export interface LoyaltyFranchisePreview {
   branding: LoyaltyFranchiseBranding;
   welcomeReward: LoyaltyRewardCard | null;
   otherRewards: LoyaltyRewardCard[];
+  /** How the franchise rewards → drives points/cashback hooks on the preview. */
+  loyaltyMode?: 'POINTS' | 'CASHBACK' | 'BOTH';
+  /** Cashback earn rate (basis points) shown as "X%" when the franchise offers cashback. */
+  cashbackRateBps?: number;
+  /** ISO-4217 currency (e.g. "GTQ") — money rendered client-side. */
+  currency?: string;
 }
 
 // ── Push registration ──────────────────────────────────────────────────────
