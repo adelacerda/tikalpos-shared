@@ -116,6 +116,7 @@ export type {
   ExpiryBlock,
   CashbackConfig,
   ExpiryPolicy,
+  ExpiryExampleRow,
 } from './types/loyalty';
 export {
   isRewardPromotionActive,
@@ -126,7 +127,12 @@ export {
   cashbackEarnedCents,
   cashbackApplicableCents,
   expiryBlockKey,
+  expiryBlockStartsAt,
   expiryBlockEndsAt,
+  balanceExpiresAt,
+  expiryExamples,
+  EXPIRY_BLOCK_MONTHS,
+  EXPIRY_VALIDITY_MONTHS,
 } from './types/loyalty';
 
 // Loyalty Ad system (FT-GROWTH-017 / reward-wizard SS5)
