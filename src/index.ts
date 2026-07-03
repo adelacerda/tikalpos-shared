@@ -372,6 +372,7 @@ export type {
   LoyaltyReviewStatus,
   LoyaltyReview,
   CreateReviewInput,
+  LoyaltyReviewPrompt,
   ReviewReportReason,
   LoyaltyDemoActivateInput,
 } from './types/loyalty-mobile';
