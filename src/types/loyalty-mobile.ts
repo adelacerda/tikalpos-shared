@@ -310,10 +310,10 @@ export interface LoyaltyFranchiseDetail {
   reviewsEnabled?: boolean;
   /** Aggregate of PUBLISHED reviews. `average` is null until the minimum count. */
   reviewSummary?: LoyaltyReviewSummary;
-  /** Published reviews (most recent first), with the merchant's reply if any. */
+  /** Published reviews (most recent first), with the merchant's reply if any.
+   *  Read-only on the franchise screen — members add reviews via the post-visit
+   *  prompt (see LoyaltyReviewPrompt), not an inline box. */
   reviews?: LoyaltyReview[];
-  /** This member's own review (any status), so they can see/edit/retract it. */
-  myReview?: LoyaltyReview | null;
 }
 
 /** Aggregate rating shown on the merchant profile. */
@@ -349,6 +349,23 @@ export interface LoyaltyReview {
 export interface CreateReviewInput {
   rating: number; // 1..5
   text?: string;
+}
+
+/**
+ * A pending post-visit review prompt. The app shows a modal the day after a
+ * qualifying transaction (earned points/cashback or redeemed a reward — NOT a
+ * gifted-points adjustment). The member can review, snooze ("remind me later"),
+ * or dismiss ("don't remind me"). One prompt per transaction.
+ */
+export interface LoyaltyReviewPrompt {
+  /** The visit being reviewed — pass this back when submitting/snoozing/dismissing. */
+  loyaltyTransactionId: string;
+  orgId: string;
+  branding: LoyaltyFranchiseBranding;
+  /** What qualified the visit (drives the prompt copy). */
+  reason: 'EARN' | 'REDEEM' | 'CASHBACK_EARN';
+  /** ISO time of the transaction. */
+  occurredAt: string;
 }
 
 export type ReviewReportReason =
