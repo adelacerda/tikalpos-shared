@@ -1,17 +1,31 @@
+import { LoyaltyTier } from './tenant';
 /** Who a push campaign may reach. */
 export type PushPromotionTarget = 'NON_MEMBERS' | 'MEMBERS' | 'BOTH';
-/** A push campaign a franchise created to promote a catalog reward. */
+/**
+ * What a campaign is "about" — decides the tap deep-link and copy pre-fill:
+ *   - NONE          → free-form message, deep-links to the franchise screen.
+ *   - REWARD        → promotes a catalog reward, deep-links to that reward.
+ *   - CASHBACK_BOOST→ announces the org's scheduled cashback boost (a single
+ *                     slot on the loyalty rule), deep-links to the franchise
+ *                     screen (which already surfaces the active boost).
+ */
+export type PushPromotionAnchorType = 'NONE' | 'REWARD' | 'CASHBACK_BOOST';
+/** A push campaign a franchise created to reach loyalty users. */
 export interface PushPromotion {
     id: string;
     organizationId: string;
-    /** The catalog reward this push promotes (deep-link target on tap). */
-    rewardId: string;
+    /** What this campaign is anchored to (drives deep-link + copy pre-fill). */
+    anchorType: PushPromotionAnchorType;
+    /** The catalog reward this push promotes; null unless `anchorType === 'REWARD'`. */
+    rewardId: string | null;
     /** Notification title (merchant-authored). */
     title: string;
     /** Notification body (merchant-authored). */
     body: string;
     /** Eligible audience: acquisition, retention, or both. */
     target: PushPromotionTarget;
+    /** Restrict the MEMBER side to a single tier (e.g. GOLD); null = all tiers. Ignored for non-members. */
+    memberTier: LoyaltyTier | null;
     startsAt: string;
     endsAt: string;
     /** Per-delivery system rate snapshotted at opt-in. */
@@ -23,14 +37,52 @@ export interface PushPromotion {
 }
 /** Merchant-supplied fields when creating a push campaign. */
 export interface CreatePushPromotionInput {
-    rewardId: string;
+    anchorType: PushPromotionAnchorType;
+    /** Required when `anchorType === 'REWARD'`, otherwise omitted/null. */
+    rewardId?: string | null;
     title: string;
     body: string;
     target: PushPromotionTarget;
+    /** Optional single-tier filter for the member audience; null/omitted = all tiers. */
+    memberTier?: LoyaltyTier | null;
     startsAt: string;
     endsAt: string;
     maxDeliveries?: number | null;
 }
 /** True when a push campaign is live (active and within its window) at `now`. */
 export declare function isPushPromotionActive(p: PushPromotion, now?: number): boolean;
+/**
+ * The `tikalpos://` deep-link a campaign opens on tap. REWARD points at the
+ * reward; everything else (NONE, CASHBACK_BOOST) opens the franchise screen,
+ * which already renders the active cashback boost. Single source of truth for
+ * both the scheduler (send) and the web composer (preview).
+ */
+export declare function buildPushDeepLink(anchorType: PushPromotionAnchorType, organizationId: string, rewardId: string | null): string;
+/** The scheduled cashback boost a campaign may announce (subset of the rule config). */
+export interface CampaignCashbackBoost {
+    multiplier: number | null;
+    startsAt: string | null;
+    endsAt: string | null;
+}
+export interface CampaignAnchorValidation {
+    ok: boolean;
+    /** Hard error — block submit. */
+    error?: 'REWARD_REQUIRED' | 'CASHBACK_BOOST_NOT_CONFIGURED';
+    /** Soft warning — allow submit, surface an alert. */
+    warning?: 'CAMPAIGN_ENTIRELY_AFTER_ANCHOR_EXPIRY';
+}
+/**
+ * Validate a campaign's anchor against its own run window. Advertising a boost
+ * BEFORE or overlapping it is valid (that's the point — announce a December
+ * boost in November); only warn when the campaign runs entirely AFTER the
+ * anchor has already expired. Blocks when a REWARD anchor has no reward, or a
+ * CASHBACK_BOOST anchor points at a boost that is not configured.
+ */
+export declare function validateCampaignAnchor(input: {
+    anchorType: PushPromotionAnchorType;
+    rewardId?: string | null;
+    cashbackBoost?: CampaignCashbackBoost | null;
+    campaignStartsAt: string;
+    campaignEndsAt: string;
+}): CampaignAnchorValidation;
 //# sourceMappingURL=push-promotion.d.ts.map
