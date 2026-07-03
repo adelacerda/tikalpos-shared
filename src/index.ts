@@ -149,8 +149,11 @@ export type {
   PushPromotion,
   CreatePushPromotionInput,
   PushPromotionTarget,
+  PushPromotionAnchorType,
+  CampaignCashbackBoost,
+  CampaignAnchorValidation,
 } from './types/push-promotion';
-export { isPushPromotionActive } from './types/push-promotion';
+export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor } from './types/push-promotion';
 
 // Sync protocol
 export type {
