@@ -152,6 +152,8 @@ export type {
   PushPromotionAnchorType,
   CampaignCashbackBoost,
   CampaignAnchorValidation,
+  CampaignBatch,
+  CampaignProjection,
 } from './types/push-promotion';
 export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor } from './types/push-promotion';
 
