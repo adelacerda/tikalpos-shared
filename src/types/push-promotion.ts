@@ -106,6 +106,41 @@ export interface CampaignCashbackBoost {
   endsAt: string | null;
 }
 
+/** One send batch (deterministic assigned-hour bucket) for the current viewing day. */
+export interface CampaignBatch {
+  /** Local hour [10-19] of the branch's send window. */
+  hour: number;
+  /** Pending recipients assigned to this hour. */
+  count: number;
+  /** True when this hour already passed today (its people roll to the same slot tomorrow). */
+  passed: boolean;
+}
+
+/**
+ * Live projection of a campaign's reach + TODAY's send batches. Recomputed on
+ * every read, relative to the day the owner opens it — so entering tomorrow shows
+ * tomorrow's batches over whoever is still pending. It is an estimate: frequency
+ * caps and anti-repeat may defer some recipients to a later day.
+ */
+export interface CampaignProjection {
+  /** Total eligible recipients (opt-in + city + audience/tier + push token − muted). */
+  estimatedReach: number;
+  /** Actually delivered so far, across all days. */
+  delivered: number;
+  /** Eligible recipients not yet reached (the pool the batches draw from). */
+  pending: number;
+  /** Campaign run window end (ISO) — the campaign keeps sending until this date. */
+  campaignEndsAt: string;
+  /** Representative branch timezone the batch hours are expressed in. */
+  timezone: string;
+  /** The viewing day (YYYY-MM-DD) in `timezone` — what "today's batches" refers to. */
+  today: string;
+  windowStartHour: number;
+  windowEndHour: number;
+  /** Pending recipients bucketed by their deterministic assigned hour, for `today`. */
+  batches: CampaignBatch[];
+}
+
 export interface CampaignAnchorValidation {
   ok: boolean;
   /** Hard error — block submit. */

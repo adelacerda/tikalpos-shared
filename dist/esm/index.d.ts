@@ -12,7 +12,7 @@ export type { LoyaltyConfig, TierThreshold, LoyaltyTransaction, LoyaltyTransacti
 export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, CASHBACK_APPLY_MODE, activeCashbackMultiplier, cashbackEarnedCents, cashbackApplicableCents, expiryBlockKey, expiryBlockStartsAt, expiryBlockEndsAt, balanceExpiresAt, expiryExamples, EXPIRY_BLOCK_MONTHS, EXPIRY_VALIDITY_MONTHS, } from './types/loyalty';
 export type { LoyaltyAd, CreateLoyaltyAdInput, AdImpressionPricing, CreateAdImpressionPricingInput, } from './types/ad';
 export { isLoyaltyAdActive } from './types/ad';
-export type { PushPromotion, CreatePushPromotionInput, PushPromotionTarget, PushPromotionAnchorType, CampaignCashbackBoost, CampaignAnchorValidation, } from './types/push-promotion';
+export type { PushPromotion, CreatePushPromotionInput, PushPromotionTarget, PushPromotionAnchorType, CampaignCashbackBoost, CampaignAnchorValidation, CampaignBatch, CampaignProjection, } from './types/push-promotion';
 export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor } from './types/push-promotion';
 export type { SyncEntityType, SyncAction, SyncChangeRecord, SyncPushRequest, SyncPushResponse, SyncConflict, SyncPullRequest, SyncPullResponse, } from './types/sync';
 export type { KdsTicket, KdsTicketItem, KdsTicketStatus, KdsItemStatus, SendToKdsRequest, SendToKdsResponse, } from './types/kds';
