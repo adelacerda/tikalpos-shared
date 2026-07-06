@@ -84,7 +84,11 @@ export interface CampaignProjection {
     estimatedReach: number;
     /** Actually delivered so far, across all days. */
     delivered: number;
-    /** Eligible recipients not yet reached (the pool the batches draw from). */
+    /**
+     * Eligible recipients NOT currently in the merchant's anti-repeat cooldown
+     * (i.e. able to fire today) — the pool the batches draw from. Recipients in
+     * cooldown re-enter once it lapses, since the engine has no per-campaign dedup.
+     */
     pending: number;
     /** Campaign run window end (ISO) — the campaign keeps sending until this date. */
     campaignEndsAt: string;
