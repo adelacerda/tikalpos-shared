@@ -131,6 +131,8 @@ export interface ListLeadsQuery {
   search?: string;
   cursor?: string;
   limit?: number;
+  /** Filter by assigned platform seller. A seller id, or 'none' for unassigned. */
+  assignedSellerId?: string;
 }
 
 export interface ListLeadsResult {
