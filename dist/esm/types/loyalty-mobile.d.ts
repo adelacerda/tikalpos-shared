@@ -120,6 +120,8 @@ export interface LoyaltyRewardCard {
     corporateOnly?: boolean;
     requiredProducts?: string[];
     minCheckAmount?: number;
+    /** Max discount cap (cents) for a percentage reward — shown as a redemption condition. */
+    maxDiscountValue?: number;
     /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
     validLocations?: LoyaltyLocation[];
     /** Redeemable as an at-home service (home-services). Shown alongside locations. */
@@ -145,6 +147,8 @@ export interface LoyaltyGiftedRewardCard {
     expiresAt: string;
     requiredProducts?: string[];
     minCheckAmount?: number;
+    /** Max discount cap (cents) for a percentage reward — shown as a redemption condition. */
+    maxDiscountValue?: number;
     /** Locations where this reward is valid (resolved). Empty = all franchise locations. */
     validLocations?: LoyaltyLocation[];
     /** Redeemable as an at-home service (home-services). Shown alongside locations. */

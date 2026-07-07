@@ -135,6 +135,16 @@ export interface RewardCatalogItem {
     rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
     discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT' | 'NONE';
     discountValue?: number;
+    /**
+     * Worst-case cap (CENTS) for a PERCENTAGE discount, so a big ticket can't blow
+     * the margin. When set, the redeemed discount is min(ticket×%, maxDiscountValue).
+     * Advisory field from the points-advisor; only meaningful for DISCOUNT/PERCENTAGE.
+     */
+    maxDiscountValue?: number;
+    /** Avg ticket (CENTS) used when computing points for a PERCENTAGE reward. */
+    assistantTicketUsed?: number;
+    /** Target margin % (1-5) chosen in the advisor when points were recommended. */
+    assistantMarginPct?: number;
     promoPointsCost?: number;
     promoEndsAt?: string;
     featured?: boolean;

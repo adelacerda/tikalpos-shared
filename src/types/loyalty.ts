@@ -245,6 +245,18 @@ export interface RewardCatalogItem {
   rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
   discountType?: 'ITEM_COST' | 'PERCENTAGE' | 'FIXED_AMOUNT' | 'NONE';
   discountValue?: number;
+  /**
+   * Worst-case cap (CENTS) for a PERCENTAGE discount, so a big ticket can't blow
+   * the margin. When set, the redeemed discount is min(ticket×%, maxDiscountValue).
+   * Advisory field from the points-advisor; only meaningful for DISCOUNT/PERCENTAGE.
+   */
+  maxDiscountValue?: number;
+  // Points-advisor provenance (FT reward-points-advisor): what the recommended
+  // pointsCost was derived from, so we can flag drift and offer "recalcular".
+  /** Avg ticket (CENTS) used when computing points for a PERCENTAGE reward. */
+  assistantTicketUsed?: number;
+  /** Target margin % (1-5) chosen in the advisor when points were recommended. */
+  assistantMarginPct?: number;
   // Reward promotion (Sprint 12.5d / FT-GROWTH-002): a temporary reduced
   // point cost with an end date. A promotion is "active" when promoEndsAt is
   // in the future and promoPointsCost is below the regular pointsCost. When
