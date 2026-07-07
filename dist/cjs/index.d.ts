@@ -14,6 +14,8 @@ export type { LoyaltyAd, CreateLoyaltyAdInput, AdImpressionPricing, CreateAdImpr
 export { isLoyaltyAdActive } from './types/ad';
 export type { PushPromotion, CreatePushPromotionInput, PushPromotionTarget, PushPromotionAnchorType, CampaignCashbackBoost, CampaignAnchorValidation, CampaignBatch, CampaignProjection, } from './types/push-promotion';
 export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor } from './types/push-promotion';
+export type { RewardKind, RewardDiscountType, RewardProfitBand, ExpectedRewardCostInput, } from './types/reward-points-advisor';
+export { REWARD_MARGIN_GREEN_MAX, REWARD_MARGIN_YELLOW_MAX, REWARD_TICKET_DRIFT_RATIO, expectedRewardCostCents, requiredSpendCents, recommendedRewardPoints, profitabilityForPoints, bandForMargin, ticketDriftExceeds, } from './types/reward-points-advisor';
 export type { SyncEntityType, SyncAction, SyncChangeRecord, SyncPushRequest, SyncPushResponse, SyncConflict, SyncPullRequest, SyncPullResponse, } from './types/sync';
 export type { KdsTicket, KdsTicketItem, KdsTicketStatus, KdsItemStatus, SendToKdsRequest, SendToKdsResponse, } from './types/kds';
 export type { Reservation, ReservationStatus, CreateReservationInput, UpdateReservationInput, } from './types/reservation';

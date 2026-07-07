@@ -157,6 +157,25 @@ export type {
 } from './types/push-promotion';
 export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor } from './types/push-promotion';
 
+// Reward points advisor
+export type {
+  RewardKind,
+  RewardDiscountType,
+  RewardProfitBand,
+  ExpectedRewardCostInput,
+} from './types/reward-points-advisor';
+export {
+  REWARD_MARGIN_GREEN_MAX,
+  REWARD_MARGIN_YELLOW_MAX,
+  REWARD_TICKET_DRIFT_RATIO,
+  expectedRewardCostCents,
+  requiredSpendCents,
+  recommendedRewardPoints,
+  profitabilityForPoints,
+  bandForMargin,
+  ticketDriftExceeds,
+} from './types/reward-points-advisor';
+
 // Sync protocol
 export type {
   SyncEntityType,
