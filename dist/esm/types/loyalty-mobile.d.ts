@@ -63,6 +63,10 @@ export interface LoyaltyFranchiseBranding {
     slug: string;
     logoUrl?: string | null;
     primaryColorOklch?: string | null;
+    /** Org-level default images for discovery cards + the franchise page banner.
+     *  Overridden per-reward by the reward's own image when present. */
+    discoveryImageUrl?: string | null;
+    discoveryVerticalImageUrl?: string | null;
 }
 /**
  * A points-redeemable reward used as a milestone on the home progress bar.
