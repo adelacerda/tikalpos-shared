@@ -137,6 +137,10 @@ export interface LoyaltyFranchiseBranding {
   slug: string;
   logoUrl?: string | null;
   primaryColorOklch?: string | null; // e.g. "oklch(68% 0.21 250)"
+  /** Org-level default images for discovery cards + the franchise page banner.
+   *  Overridden per-reward by the reward's own image when present. */
+  discoveryImageUrl?: string | null;         // landscape 2:1 (carousel banner + franchise page hero)
+  discoveryVerticalImageUrl?: string | null; // portrait 3:4 (discover card strip)
 }
 
 /**
