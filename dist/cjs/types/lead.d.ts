@@ -7,12 +7,14 @@ export declare function isLeadSource(value: unknown): value is LeadSource;
 export type LeadVertical = 'RESTAURANT' | 'RETAIL' | 'SERVICE' | 'BOTH' | 'OTHER';
 export declare const LEAD_VERTICALS: readonly LeadVertical[];
 export declare function isLeadVertical(value: unknown): value is LeadVertical;
-export type LeadEventKind = 'CREATED' | 'STATUS_CHANGED' | 'NOTE_ADDED' | 'CONTACTED' | 'CONVERTED';
+export type LeadEventKind = 'CREATED' | 'STATUS_CHANGED' | 'NOTE_ADDED' | 'EDITED' | 'CONTACTED' | 'CONVERTED';
 export interface LeadEvent {
     kind: LeadEventKind;
     fromStatus?: LeadStatus;
     toStatus?: LeadStatus;
     note?: string;
+    /** For 'EDITED' events: which contact/business fields were changed. */
+    fields?: string[];
     actorId?: string;
     actorName?: string;
     at: string;
@@ -55,6 +57,19 @@ export interface CreateLeadInput {
 export interface UpdateLeadInput {
     status?: LeadStatus;
     note?: string;
+}
+/**
+ * Editable contact/business fields of a lead. Admins (system_owner) and the
+ * assigned platform seller can edit these. Omitted fields are left untouched;
+ * `phone`/`company` set to an empty string clear the value (→ null).
+ */
+export interface EditLeadFieldsInput {
+    name?: string;
+    email?: string;
+    phone?: string;
+    company?: string;
+    vertical?: LeadVertical;
+    message?: string;
 }
 export interface ListLeadsQuery {
     status?: LeadStatus;

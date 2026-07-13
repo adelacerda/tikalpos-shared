@@ -344,6 +344,7 @@ export type {
   Lead,
   CreateLeadInput,
   UpdateLeadInput,
+  EditLeadFieldsInput,
   ListLeadsQuery,
   ListLeadsResult,
 } from './types/lead';
