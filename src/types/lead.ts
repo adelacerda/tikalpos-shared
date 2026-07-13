@@ -69,6 +69,7 @@ export type LeadEventKind =
   | 'CREATED'
   | 'STATUS_CHANGED'
   | 'NOTE_ADDED'
+  | 'EDITED'
   | 'CONTACTED'
   | 'CONVERTED';
 
@@ -77,6 +78,8 @@ export interface LeadEvent {
   fromStatus?: LeadStatus;
   toStatus?: LeadStatus;
   note?: string;
+  /** For 'EDITED' events: which contact/business fields were changed. */
+  fields?: string[];
   actorId?: string;
   actorName?: string;
   at: string; // ISO 8601
@@ -124,6 +127,20 @@ export interface CreateLeadInput {
 export interface UpdateLeadInput {
   status?: LeadStatus;
   note?: string;
+}
+
+/**
+ * Editable contact/business fields of a lead. Admins (system_owner) and the
+ * assigned platform seller can edit these. Omitted fields are left untouched;
+ * `phone`/`company` set to an empty string clear the value (→ null).
+ */
+export interface EditLeadFieldsInput {
+  name?: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  vertical?: LeadVertical;
+  message?: string;
 }
 
 export interface ListLeadsQuery {
