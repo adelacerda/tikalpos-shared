@@ -564,6 +564,10 @@ export type {
   ReviewSellerDocumentInput,
   SellerDocumentsQuery,
   SellerPeriodStatement,
+  SellerTeamMember,
+  TeamLeadGroup,
+  TeamLeadsResult,
+  ReassignLeadInput,
 } from './types/seller';
 export { SELLER_DOC_LIMITS } from './types/seller';
 

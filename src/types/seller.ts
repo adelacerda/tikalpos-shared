@@ -6,6 +6,8 @@
 // downline's collected invoices. Rates and taxes are stored as integer basis
 // points (1000 = 10.00%) to avoid float drift; money is always integer cents.
 
+import type { Lead } from './lead';
+
 export type CommissionKind = 'SELLER' | 'OVERRIDE';
 export type CommissionStatus = 'ACCRUED' | 'PAID' | 'REVERSED';
 
@@ -263,3 +265,51 @@ export const SELLER_DOC_LIMITS = {
   MAX_BYTES: 10 * 1024 * 1024, // 10 MB
   MIME_TYPES: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'] as const,
 } as const;
+
+// ── Leader view: the downline's leads, grouped by seller (FT-SELLERS) ────────
+//
+// "Leader" is derived, not a flag: a seller is a leader when it has a downline.
+// The scope is the seller's whole SUBTREE (downline of downline), so a leader of
+// leaders sees everything under them. It never includes the leader's own leads —
+// those stay in their personal list, deliberately separate.
+
+/** A seller in the leader's team, for pickers and grouping headers. */
+export interface SellerTeamMember {
+  id: string;
+  name: string;
+  email: string;
+  active: boolean;
+  /** Who this member reports to (lets the UI show the tree's shape). */
+  leaderId: string | null;
+  /** How deep under the leader: 1 = direct report, 2 = their report, … */
+  depth: number;
+  /** Leads currently assigned to this member. */
+  leadCount: number;
+}
+
+/** One seller and the leads they currently hold. */
+export interface TeamLeadGroup {
+  sellerId: string;
+  sellerName: string;
+  sellerEmail: string;
+  active: boolean;
+  depth: number;
+  leads: Lead[];
+}
+
+/** The leader's team view: every member of the subtree, with their leads. */
+export interface TeamLeadsResult {
+  /** Groups with at least one lead are listed first, busiest first. */
+  groups: TeamLeadGroup[];
+  /** Everyone in the subtree — including members holding zero leads. */
+  members: SellerTeamMember[];
+  totalLeads: number;
+}
+
+/**
+ * Move a lead to another seller. The target must be inside the leader's subtree,
+ * or the leader themselves (that's how a leader takes a lead for themselves).
+ */
+export interface ReassignLeadInput {
+  toSellerId: string;
+}

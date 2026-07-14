@@ -70,6 +70,7 @@ export type LeadEventKind =
   | 'STATUS_CHANGED'
   | 'NOTE_ADDED'
   | 'EDITED'
+  | 'REASSIGNED'
   | 'CONTACTED'
   | 'CONVERTED';
 
@@ -80,6 +81,14 @@ export interface LeadEvent {
   note?: string;
   /** For 'EDITED' events: which contact/business fields were changed. */
   fields?: string[];
+  /**
+   * For 'REASSIGNED' events: who the lead moved between. Names are snapshotted
+   * so the history still reads correctly if a seller is later renamed/removed.
+   */
+  fromSellerId?: string | null;
+  fromSellerName?: string | null;
+  toSellerId?: string;
+  toSellerName?: string;
   actorId?: string;
   actorName?: string;
   at: string; // ISO 8601

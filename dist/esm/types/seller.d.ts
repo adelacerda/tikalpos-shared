@@ -1,3 +1,4 @@
+import type { Lead } from './lead';
 export type CommissionKind = 'SELLER' | 'OVERRIDE';
 export type CommissionStatus = 'ACCRUED' | 'PAID' | 'REVERSED';
 /** A platform seller (and, when it has a downline, a leader). */
@@ -224,4 +225,41 @@ export declare const SELLER_DOC_LIMITS: {
     readonly MAX_BYTES: number;
     readonly MIME_TYPES: readonly ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 };
+/** A seller in the leader's team, for pickers and grouping headers. */
+export interface SellerTeamMember {
+    id: string;
+    name: string;
+    email: string;
+    active: boolean;
+    /** Who this member reports to (lets the UI show the tree's shape). */
+    leaderId: string | null;
+    /** How deep under the leader: 1 = direct report, 2 = their report, … */
+    depth: number;
+    /** Leads currently assigned to this member. */
+    leadCount: number;
+}
+/** One seller and the leads they currently hold. */
+export interface TeamLeadGroup {
+    sellerId: string;
+    sellerName: string;
+    sellerEmail: string;
+    active: boolean;
+    depth: number;
+    leads: Lead[];
+}
+/** The leader's team view: every member of the subtree, with their leads. */
+export interface TeamLeadsResult {
+    /** Groups with at least one lead are listed first, busiest first. */
+    groups: TeamLeadGroup[];
+    /** Everyone in the subtree — including members holding zero leads. */
+    members: SellerTeamMember[];
+    totalLeads: number;
+}
+/**
+ * Move a lead to another seller. The target must be inside the leader's subtree,
+ * or the leader themselves (that's how a leader takes a lead for themselves).
+ */
+export interface ReassignLeadInput {
+    toSellerId: string;
+}
 //# sourceMappingURL=seller.d.ts.map
