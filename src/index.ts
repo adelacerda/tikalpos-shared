@@ -154,8 +154,15 @@ export type {
   CampaignAnchorValidation,
   CampaignBatch,
   CampaignProjection,
+  PushCampaignReportQuery,
+  PushCampaignStatusFilter,
+  PushCampaignReportRow,
+  PushCampaignTotals,
+  PushCampaignReportTotals,
+  PushCampaignOrgGroup,
+  PushCampaignReport,
 } from './types/push-promotion';
-export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor } from './types/push-promotion';
+export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor, pushRate } from './types/push-promotion';
 
 // Reward points advisor
 export type {

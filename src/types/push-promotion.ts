@@ -185,3 +185,118 @@ export function validateCampaignAnchor(input: {
   }
   return { ok: true };
 }
+
+// ── System-admin campaign report (cross-franchise) ───────────────────────────
+//
+// Rolls the send ledger (PushPromotionSend) up per campaign. Three distinct
+// counts, in narrowing order — never conflate them:
+//   sent      → rows written (an attempt)
+//   delivered → Expo receipt OK; the message reached the device. THE BILLABLE
+//               SIGNAL. It does NOT mean anyone looked at it.
+//   tapped    → the recipient actually opened the app from the notification.
+// Money mirrors billing: each delivery is free while the org is under its plan's
+// included monthly quota, and billed at `lockedFeeCents` past it.
+
+/** Campaign run-window state, relative to now. */
+export type PushCampaignStatusFilter = 'ALL' | 'ACTIVE' | 'ENDED' | 'SCHEDULED';
+
+/** Filters for the system-admin push campaign report. */
+export interface PushCampaignReportQuery {
+  /** ISO-8601. Filters the send ledger by `sentAt` (inclusive). */
+  from?: string;
+  to?: string;
+  /** Restrict to one franchise; omit for all. */
+  organizationId?: string;
+  /** Campaign run-window state. */
+  status?: PushCampaignStatusFilter;
+  /** Audience the campaign targeted. */
+  target?: PushPromotionTarget | 'ALL';
+  /** What the campaign was anchored to. */
+  anchorType?: PushPromotionAnchorType | 'ALL';
+  /** Free-text match against campaign title/body and franchise name. */
+  search?: string;
+}
+
+/** One campaign's delivery + effectiveness rollup. */
+export interface PushCampaignReportRow {
+  promotionId: string;
+  organizationId: string;
+  organizationName: string;
+  title: string;
+  body: string;
+  anchorType: PushPromotionAnchorType;
+  target: PushPromotionTarget;
+  memberTier: LoyaltyTier | null;
+  startsAt: string; // ISO-8601
+  endsAt: string; // ISO-8601
+  createdAt: string; // ISO-8601
+  /** Rotation cursor — when this campaign last pushed. */
+  lastSentAt: string | null;
+  active: boolean;
+  /** Budget cap on deliveries; null = limited by the window only. */
+  maxDeliveries: number | null;
+
+  /** Attempts written to the send ledger. */
+  sent: number;
+  /** Reached the device (Expo receipt OK) — the billable signal. */
+  delivered: number;
+  /** Recipients who opened the app from this campaign's notification. */
+  tapped: number;
+  /** delivered / sent, 0..1 (0 when sent = 0). */
+  deliveryRate: number;
+  /** tapped / delivered, 0..1 (0 when delivered = 0) — the campaign's CTR. */
+  tapRate: number;
+
+  /** Deliveries absorbed by the plan's included monthly quota (billed Q0). */
+  freeDeliveries: number;
+  /** Deliveries billed at the overage rate. */
+  chargedDeliveries: number;
+  /** Total billed for this campaign, in cents. */
+  chargedCents: number;
+  /** Per-delivery overage rate snapshotted at opt-in. */
+  lockedFeeCents: number;
+}
+
+/** Roll-up counters shared by a franchise subtotal and the platform total. */
+export interface PushCampaignTotals {
+  campaigns: number;
+  sent: number;
+  delivered: number;
+  tapped: number;
+  deliveryRate: number;
+  tapRate: number;
+  freeDeliveries: number;
+  chargedDeliveries: number;
+  chargedCents: number;
+}
+
+/** Platform-wide totals across every campaign matching the filters. */
+export type PushCampaignReportTotals = PushCampaignTotals;
+
+/** One franchise and every campaign it sent in the filtered period. */
+export interface PushCampaignOrgGroup {
+  organizationId: string;
+  organizationName: string;
+  /** Subtotals across this franchise's campaigns. */
+  totals: PushCampaignTotals;
+  /**
+   * Fatigue signal: guests who silenced THIS franchise's promo push. A spike
+   * means it's burning the shared user base — worth acting on before users kill
+   * the global opt-in. Not date-filtered (it's a current standing count).
+   */
+  mutes: number;
+  /** This franchise's campaigns, most recently sent first. */
+  campaigns: PushCampaignReportRow[];
+}
+
+export interface PushCampaignReport {
+  /** Franchises, busiest first (by deliveries). */
+  groups: PushCampaignOrgGroup[];
+  totals: PushCampaignReportTotals;
+}
+
+/** Ratio helper — 0 when the denominator is 0, so a rate never yields NaN. */
+export function pushRate(numerator: number, denominator: number): number {
+  if (denominator <= 0) return 0;
+  return numerator / denominator;
+}

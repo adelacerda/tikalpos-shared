@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildPushDeepLink, validateCampaignAnchor } from '../types/push-promotion';
+import { buildPushDeepLink, validateCampaignAnchor, pushRate } from '../types/push-promotion';
 
 describe('buildPushDeepLink', () => {
   it('points at the reward when anchored to a reward', () => {
@@ -46,5 +46,17 @@ describe('validateCampaignAnchor', () => {
       campaignStartsAt: '2027-01-05T00:00:00Z',
       campaignEndsAt: '2027-01-20T00:00:00Z',
     })).toEqual({ ok: true, warning: 'CAMPAIGN_ENTIRELY_AFTER_ANCHOR_EXPIRY' });
+  });
+});
+
+describe('pushRate', () => {
+  it('returns the ratio', () => {
+    expect(pushRate(1, 4)).toBe(0.25);
+    expect(pushRate(3, 3)).toBe(1);
+  });
+
+  it('returns 0 instead of NaN/Infinity when nothing was sent', () => {
+    expect(pushRate(0, 0)).toBe(0);
+    expect(pushRate(5, 0)).toBe(0);
   });
 });

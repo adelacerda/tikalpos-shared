@@ -4,7 +4,7 @@ export { STAFF_ROLES, isStaffRole, allowedStaffRolesFor, allowedDeviceRolesFor, 
 export { SUPPORTED_LOCALES, isSupportedLocale, COUNTRY_CATALOG, getCatalogEntry, phoneDigits, toE164, nationalPart, isValidNationalPhone, isValidTaxId, } from './types/country';
 export { isRewardPromotionActive, isRewardBoostActive, isDiscoveryHighlightActive, CASHBACK_APPLY_MODE, activeCashbackMultiplier, cashbackEarnedCents, cashbackApplicableCents, expiryBlockKey, expiryBlockStartsAt, expiryBlockEndsAt, balanceExpiresAt, expiryExamples, EXPIRY_BLOCK_MONTHS, EXPIRY_VALIDITY_MONTHS, } from './types/loyalty';
 export { isLoyaltyAdActive } from './types/ad';
-export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor } from './types/push-promotion';
+export { isPushPromotionActive, buildPushDeepLink, validateCampaignAnchor, pushRate } from './types/push-promotion';
 export { REWARD_MARGIN_GREEN_MAX, REWARD_MARGIN_YELLOW_MAX, REWARD_TICKET_DRIFT_RATIO, expectedRewardCostCents, requiredSpendCents, recommendedRewardPoints, profitabilityForPoints, bandForMargin, ticketDriftExceeds, } from './types/reward-points-advisor';
 export { DEVICE_ROLES, isDeviceRole } from './types/device';
 export { TELEMETRY_BUFFER_CAPS, TELEMETRY_FLUSH_INTERVAL_MS, } from './types/telemetry';

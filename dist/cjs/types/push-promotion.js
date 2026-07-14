@@ -19,6 +19,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isPushPromotionActive = isPushPromotionActive;
 exports.buildPushDeepLink = buildPushDeepLink;
 exports.validateCampaignAnchor = validateCampaignAnchor;
+exports.pushRate = pushRate;
 /** True when a push campaign is live (active and within its window) at `now`. */
 function isPushPromotionActive(p, now = Date.now()) {
     return (p.active === true &&
@@ -63,5 +64,11 @@ function validateCampaignAnchor(input) {
         return { ok: true, warning: 'CAMPAIGN_ENTIRELY_AFTER_ANCHOR_EXPIRY' };
     }
     return { ok: true };
+}
+/** Ratio helper — 0 when the denominator is 0, so a rate never yields NaN. */
+function pushRate(numerator, denominator) {
+    if (denominator <= 0)
+        return 0;
+    return numerator / denominator;
 }
 //# sourceMappingURL=push-promotion.js.map

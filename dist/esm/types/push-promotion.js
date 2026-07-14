@@ -59,4 +59,10 @@ export function validateCampaignAnchor(input) {
     }
     return { ok: true };
 }
+/** Ratio helper — 0 when the denominator is 0, so a rate never yields NaN. */
+export function pushRate(numerator, denominator) {
+    if (denominator <= 0)
+        return 0;
+    return numerator / denominator;
+}
 //# sourceMappingURL=push-promotion.js.map
