@@ -39,6 +39,11 @@ export interface SystemLoyaltyMember {
     /** Demo member: allowed to enter demo mode in the app (sales rep / test
      *  account). System-admin toggle. Does NOT affect franchise reports. */
     isDemo: boolean;
+    /** Forced-demo member: ALWAYS scoped to demo franchises only — can never see
+     *  or enroll in real franchises, and is excluded from real franchises' member
+     *  lists and billable member consumption. System-admin toggle, stronger than
+     *  isDemo (no in-app opt-in). */
+    forceDemo: boolean;
     /** Franchises the member is enrolled in (for the expanded row). */
     enrollments: SystemLoyaltyMemberEnrollment[];
 }
