@@ -32,12 +32,40 @@ export function isLoyaltyOnlyPlan(tier) {
     return tier === 'LOYALTY_LITE' || tier === 'LOYALTY_PRO' || tier === 'LOYALTY_MAX';
 }
 /**
- * Cashback (alternative loyalty mode) is available on every plan EXCEPT
- * LOYALTY_LITE. Pro/Max and all POS plans qualify. Gate the cashback mode
- * selector and the config endpoint with this.
+ * POS plans include the loyalty side of their homonymous Loyalty "twin", from
+ * which they inherit every loyalty limit and overage fee:
+ *   POS Lite  (STARTER) ⊇ Loyalty Lite
+ *   POS Pro   (PRO)     ⊇ Loyalty Pro
+ *   POS Max   (SCALE)   ⊇ Loyalty Max
+ * POS Ultra (ENTERPRISE) has NO twin — it is fully custom / negotiated.
+ * The loyalty side of a POS plan is DERIVED from its twin, never configured
+ * separately.
+ */
+export const POS_TO_LOYALTY_TWIN = {
+    STARTER: 'LOYALTY_LITE',
+    PRO: 'LOYALTY_PRO',
+    SCALE: 'LOYALTY_MAX',
+};
+/** The Loyalty twin a POS plan inherits its loyalty side from, or null when the
+ *  plan has no twin (Loyalty plans themselves, and ENTERPRISE = fully custom). */
+export function loyaltyTwinOf(tier) {
+    if (tier == null)
+        return null;
+    return POS_TO_LOYALTY_TWIN[tier] ?? null;
+}
+/**
+ * Cashback (alternative loyalty mode) is available on every plan EXCEPT the
+ * Lite tier. POS plans derive this from their twin, so POS Lite (⊇ Loyalty
+ * Lite) is NOT eligible, while POS Pro/Max (⊇ Loyalty Pro/Max) are. POS Ultra
+ * (ENTERPRISE, no twin) is fully configurable → eligible. Gate the cashback
+ * mode selector and the config endpoint with this.
  */
 export function isCashbackEligiblePlan(tier) {
-    return tier !== 'LOYALTY_LITE' && tier != null;
+    if (tier == null)
+        return false;
+    // Resolve POS plans to their loyalty twin; twin-less plans use their own tier.
+    const effective = loyaltyTwinOf(tier) ?? tier;
+    return effective !== 'LOYALTY_LITE';
 }
 /** Plan families: a franchise should only be recommended to upgrade WITHIN its
  *  family (Loyalty → Loyalty, POS → POS). */
