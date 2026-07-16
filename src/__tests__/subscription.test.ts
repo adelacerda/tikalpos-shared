@@ -216,20 +216,20 @@ describe('Loyalty Pro plan', () => {
 });
 
 describe('POS ⊇ Loyalty twin mapping', () => {
-  it('maps each POS plan to its homonymous Loyalty twin (Max = SCALE, Ultra = ENTERPRISE has none)', () => {
+  it('maps each POS plan to its homonymous Loyalty twin (Max = ENTERPRISE, Ultra = SCALE has none)', () => {
     expect(POS_TO_LOYALTY_TWIN).toEqual({
       STARTER: 'LOYALTY_LITE',
       PRO: 'LOYALTY_PRO',
-      SCALE: 'LOYALTY_MAX',
+      ENTERPRISE: 'LOYALTY_MAX',
     });
   });
 
   it('loyaltyTwinOf resolves POS plans and returns null for twin-less tiers', () => {
     expect(loyaltyTwinOf('STARTER')).toBe('LOYALTY_LITE'); // POS Lite
     expect(loyaltyTwinOf('PRO')).toBe('LOYALTY_PRO'); // POS Pro
-    expect(loyaltyTwinOf('SCALE')).toBe('LOYALTY_MAX'); // POS Max
-    // POS Ultra (ENTERPRISE) is fully custom — no twin.
-    expect(loyaltyTwinOf('ENTERPRISE')).toBeNull();
+    expect(loyaltyTwinOf('ENTERPRISE')).toBe('LOYALTY_MAX'); // POS Max
+    // POS Ultra (SCALE) is fully custom — no twin.
+    expect(loyaltyTwinOf('SCALE')).toBeNull();
     // Loyalty plans themselves have no twin.
     expect(loyaltyTwinOf('LOYALTY_LITE')).toBeNull();
     expect(loyaltyTwinOf(null)).toBeNull();
