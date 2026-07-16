@@ -5,8 +5,11 @@ import {
   SUBSCRIPTION_STATUSES,
   SUBSCRIPTION_EVENT_KINDS,
   PLAN_LIMITS,
+  POS_TO_LOYALTY_TWIN,
   isPlanTier,
   isLoyaltyOnlyPlan,
+  loyaltyTwinOf,
+  isCashbackEligiblePlan,
   isBillingCycle,
   isSubscriptionStatus,
   isSubscriptionEventKind,
@@ -209,6 +212,45 @@ describe('Loyalty Pro plan', () => {
   it('LOYALTY_PRO is a recognized plan tier', () => {
     expect(isPlanTier('LOYALTY_PRO')).toBe(true);
     expect(PLAN_TIERS).toContain('LOYALTY_PRO');
+  });
+});
+
+describe('POS ⊇ Loyalty twin mapping', () => {
+  it('maps each POS plan to its homonymous Loyalty twin (Max = SCALE, Ultra = ENTERPRISE has none)', () => {
+    expect(POS_TO_LOYALTY_TWIN).toEqual({
+      STARTER: 'LOYALTY_LITE',
+      PRO: 'LOYALTY_PRO',
+      SCALE: 'LOYALTY_MAX',
+    });
+  });
+
+  it('loyaltyTwinOf resolves POS plans and returns null for twin-less tiers', () => {
+    expect(loyaltyTwinOf('STARTER')).toBe('LOYALTY_LITE'); // POS Lite
+    expect(loyaltyTwinOf('PRO')).toBe('LOYALTY_PRO'); // POS Pro
+    expect(loyaltyTwinOf('SCALE')).toBe('LOYALTY_MAX'); // POS Max
+    // POS Ultra (ENTERPRISE) is fully custom — no twin.
+    expect(loyaltyTwinOf('ENTERPRISE')).toBeNull();
+    // Loyalty plans themselves have no twin.
+    expect(loyaltyTwinOf('LOYALTY_LITE')).toBeNull();
+    expect(loyaltyTwinOf(null)).toBeNull();
+  });
+});
+
+describe('isCashbackEligiblePlan (derived from the twin)', () => {
+  it('excludes Lite on both sides: Loyalty Lite AND POS Lite (STARTER ⊇ Loyalty Lite)', () => {
+    expect(isCashbackEligiblePlan('LOYALTY_LITE')).toBe(false);
+    expect(isCashbackEligiblePlan('STARTER')).toBe(false);
+  });
+
+  it('allows Pro/Max on both sides + POS Ultra (custom)', () => {
+    for (const tier of ['LOYALTY_PRO', 'LOYALTY_MAX', 'PRO', 'SCALE', 'ENTERPRISE'] as const) {
+      expect(isCashbackEligiblePlan(tier)).toBe(true);
+    }
+  });
+
+  it('is false for null/undefined', () => {
+    expect(isCashbackEligiblePlan(null)).toBe(false);
+    expect(isCashbackEligiblePlan(undefined)).toBe(false);
   });
 });
 
