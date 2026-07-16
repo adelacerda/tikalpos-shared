@@ -11,22 +11,22 @@ export declare function isLoyaltyOnlyPlan(tier: PlanTier | string | null | undef
 /**
  * POS plans include the loyalty side of their homonymous Loyalty "twin", from
  * which they inherit every loyalty limit and overage fee:
- *   POS Lite  (STARTER) ⊇ Loyalty Lite
- *   POS Pro   (PRO)     ⊇ Loyalty Pro
- *   POS Max   (SCALE)   ⊇ Loyalty Max
- * POS Ultra (ENTERPRISE) has NO twin — it is fully custom / negotiated.
+ *   POS Lite  (STARTER)    ⊇ Loyalty Lite
+ *   POS Pro   (PRO)        ⊇ Loyalty Pro
+ *   POS Max   (ENTERPRISE) ⊇ Loyalty Max
+ * POS Ultra (SCALE) has NO twin — it is fully custom / negotiated.
  * The loyalty side of a POS plan is DERIVED from its twin, never configured
  * separately.
  */
 export declare const POS_TO_LOYALTY_TWIN: Readonly<Partial<Record<PlanTier, PlanTier>>>;
 /** The Loyalty twin a POS plan inherits its loyalty side from, or null when the
- *  plan has no twin (Loyalty plans themselves, and ENTERPRISE = fully custom). */
+ *  plan has no twin (Loyalty plans themselves, and SCALE = fully custom). */
 export declare function loyaltyTwinOf(tier: PlanTier | string | null | undefined): PlanTier | null;
 /**
  * Cashback (alternative loyalty mode) is available on every plan EXCEPT the
  * Lite tier. POS plans derive this from their twin, so POS Lite (⊇ Loyalty
  * Lite) is NOT eligible, while POS Pro/Max (⊇ Loyalty Pro/Max) are. POS Ultra
- * (ENTERPRISE, no twin) is fully configurable → eligible. Gate the cashback
+ * (SCALE, no twin) is fully configurable → eligible. Gate the cashback
  * mode selector and the config endpoint with this.
  */
 export declare function isCashbackEligiblePlan(tier: PlanTier | string | null | undefined): boolean;
