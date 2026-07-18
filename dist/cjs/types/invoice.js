@@ -9,6 +9,10 @@ exports.isInvoiceStatus = isInvoiceStatus;
 exports.isInvoicePaymentMethod = isInvoicePaymentMethod;
 // ── Enums (UPPERCASE values, per repo convention) ────────────────────────────
 exports.INVOICE_STATUSES = [
+    // Issued by a period close but held for manual review before it's sent to the
+    // customer (used when the global auto-send flag is off). Never counts as due
+    // or overdue — the payment clock starts when it's approved and sent.
+    'READY_FOR_REVIEW',
     'OPEN',
     'PARTIALLY_PAID',
     'PAID',

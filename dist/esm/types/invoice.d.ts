@@ -1,5 +1,5 @@
 import type { PlanTier, BillingCycle } from './subscription';
-export declare const INVOICE_STATUSES: readonly ["OPEN", "PARTIALLY_PAID", "PAID", "OVERDUE", "VOID"];
+export declare const INVOICE_STATUSES: readonly ["READY_FOR_REVIEW", "OPEN", "PARTIALLY_PAID", "PAID", "OVERDUE", "VOID"];
 export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 export declare const INVOICE_CLOSE_TYPES: readonly ["MANUAL", "AUTO"];
 export type InvoiceCloseType = (typeof INVOICE_CLOSE_TYPES)[number];
@@ -54,6 +54,9 @@ export interface Invoice {
     amountPaidCents: number;
     /** Link to the closed usage window this invoice was generated from. */
     usageWindowId: string | null;
+    /** When the "invoice issued" email was sent to the customer (null = not sent
+     *  yet — e.g. still in review). */
+    issuedNoticeSentAt: string | null;
     createdAt: string;
     updatedAt: string;
     /** Populated when fetching invoice detail. */
