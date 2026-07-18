@@ -8,6 +8,10 @@ import type { PlanTier, BillingCycle } from './subscription';
 // ── Enums (UPPERCASE values, per repo convention) ────────────────────────────
 
 export const INVOICE_STATUSES = [
+  // Issued by a period close but held for manual review before it's sent to the
+  // customer (used when the global auto-send flag is off). Never counts as due
+  // or overdue — the payment clock starts when it's approved and sent.
+  'READY_FOR_REVIEW',
   'OPEN',
   'PARTIALLY_PAID',
   'PAID',
@@ -88,6 +92,9 @@ export interface Invoice {
   amountPaidCents: number;
   /** Link to the closed usage window this invoice was generated from. */
   usageWindowId: string | null;
+  /** When the "invoice issued" email was sent to the customer (null = not sent
+   *  yet — e.g. still in review). */
+  issuedNoticeSentAt: string | null;
   createdAt: string;
   updatedAt: string;
   /** Populated when fetching invoice detail. */
