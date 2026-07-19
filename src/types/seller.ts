@@ -133,7 +133,13 @@ export interface SellerClient {
   currentPeriodEnd: string | null;
   lockedMonthlyFeeCents: number | null;
   lockedAnnualFeeCents: number | null;
+  /** Effective fee the client actually pays = locked fee if set, else list price. */
+  monthlyFeeCents: number | null;
+  annualFeeCents: number | null;
   currency: string;
+  /** Owner (OWNER-role user) of the franchise. */
+  ownerName: string | null;
+  ownerEmail: string | null;
   /** Fiscal address + contact phone (to invoice/contact the client). */
   fiscalAddress: string | null;
   contactPhone: string | null;
@@ -155,6 +161,8 @@ export interface SellerCommissionsQuery {
   payoutPeriod?: string; // YYYY-MM
   status?: CommissionStatus;
   kind?: CommissionKind;
+  /** Exclude commissions of demo franchises (they don't pay). Seller portal sets this. */
+  excludeDemo?: boolean;
 }
 
 // ── Payouts (the 5th-of-month seller payment record) ─────────────────────────
