@@ -79,7 +79,19 @@ export interface CampaignBatch {
  * tomorrow's batches over whoever is still pending. It is an estimate: frequency
  * caps and anti-repeat may defer some recipients to a later day.
  */
+/** Effective run state, mirroring what the scheduler actually acts on. */
+export type CampaignRunStatus = 'RUNNING' | 'NOT_STARTED' | 'ENDED' | 'PAUSED';
+/** Why nothing sends today while the campaign is RUNNING. */
+export type CampaignPendingReason = 'NONE' | 'ALL_IN_COOLDOWN' | 'NO_RECIPIENTS' | 'NO_CITY';
 export interface CampaignProjection {
+    /**
+     * Effective state the scheduler acts on: PAUSED (active=false), NOT_STARTED
+     * (before startsAt), ENDED (at/after endsAt), or RUNNING. Only RUNNING can
+     * send; the others always have empty batches.
+     */
+    status: CampaignRunStatus;
+    /** When RUNNING but nothing goes out today, the reason (else 'NONE'). */
+    pendingReason: CampaignPendingReason;
     /** Total eligible recipients (opt-in + city + audience/tier + push token − muted). */
     estimatedReach: number;
     /** Actually delivered so far, across all days. */

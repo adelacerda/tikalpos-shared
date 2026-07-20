@@ -154,6 +154,8 @@ export type {
   CampaignAnchorValidation,
   CampaignBatch,
   CampaignProjection,
+  CampaignRunStatus,
+  CampaignPendingReason,
   PushCampaignReportQuery,
   PushCampaignStatusFilter,
   PushCampaignReportRow,
