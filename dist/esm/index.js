@@ -21,4 +21,5 @@ export { PLAN_TIERS, BILLING_CYCLES, SUBSCRIPTION_STATUSES, SUBSCRIPTION_EVENT_K
 export { INVOICE_STATUSES, INVOICE_CLOSE_TYPES, PAYMENT_METHODS, INVOICE_LINE_KINDS, isInvoiceStatus, isInvoicePaymentMethod, } from './types/invoice';
 export { SELLER_DOC_LIMITS } from './types/seller';
 export { OPERATOR_PIN_REGEX, OPERATOR_LOGIN_CODE_REGEX } from './types/loyalty-operator';
+export { isCouponClaimable } from './types/coupon';
 //# sourceMappingURL=index.js.map
