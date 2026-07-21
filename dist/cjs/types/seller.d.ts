@@ -15,6 +15,8 @@ export interface Seller {
     sellerAnnualBps: number | null;
     overrideMonthlyBps: number | null;
     overrideAnnualBps: number | null;
+    /** Last successful login (ISO), or null if the seller has never signed in. */
+    lastLoginAt: string | null;
     createdAt: string;
     updatedAt: string;
 }
