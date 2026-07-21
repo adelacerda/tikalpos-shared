@@ -34,9 +34,12 @@ function isPushPromotionActive(p, now = Date.now()) {
  * which already renders the active cashback boost. Single source of truth for
  * both the scheduler (send) and the web composer (preview).
  */
-function buildPushDeepLink(anchorType, organizationId, rewardId) {
+function buildPushDeepLink(anchorType, organizationId, rewardId, couponId) {
     if (anchorType === 'REWARD' && rewardId) {
         return `tikalpos://reward/${organizationId}/${rewardId}`;
+    }
+    if (anchorType === 'COUPON' && couponId) {
+        return `tikalpos://coupon/${couponId}`;
     }
     return `tikalpos://franchise/${organizationId}`;
 }
@@ -52,6 +55,9 @@ function validateCampaignAnchor(input) {
         return { ok: true };
     if (input.anchorType === 'REWARD') {
         return input.rewardId ? { ok: true } : { ok: false, error: 'REWARD_REQUIRED' };
+    }
+    if (input.anchorType === 'COUPON') {
+        return input.couponId ? { ok: true } : { ok: false, error: 'COUPON_REQUIRED' };
     }
     // CASHBACK_BOOST
     const boost = input.cashbackBoost;

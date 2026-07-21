@@ -446,7 +446,7 @@ export interface LoyaltyMerchantSearchResponse {
  * POINTS_ONLY— "Obtener puntos por compra": no reward is redeemed, the merchant
  *              just records the spend (and optionally the tier discount).
  */
-export type RedemptionHoldMode = 'REDEEM' | 'POINTS_ONLY' | 'CASHBACK_APPLY';
+export type RedemptionHoldMode = 'REDEEM' | 'POINTS_ONLY' | 'CASHBACK_APPLY' | 'COUPON';
 
 export interface LoyaltyRedemptionHold {
   id: string;
@@ -464,6 +464,8 @@ export interface CreateRedemptionHoldInput {
   mode: RedemptionHoldMode;
   /** The owned GiftedReward to redeem (REDEEM mode only). */
   giftedRewardId?: string;
+  /** The owned CouponGrant to redeem (COUPON mode only). */
+  couponGrantId?: string;
 }
 
 /** Web (owner) resolves a scanned hold before consuming it. */
@@ -486,6 +488,22 @@ export interface RedemptionResolveResult {
     /** Reward kind — lets the web redemption screen show "Entregar: X" and skip the amount for GIFT. */
     rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
   } | null;
+  /** Present in COUPON mode — the coupon being redeemed. The web previews the
+   * benefit live before consuming and re-validates min-check/PLU at the register. */
+  coupon: {
+    couponGrantId: string;
+    name: string;
+    benefitKind: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT' | 'POINTS_BONUS' | 'CASHBACK_BONUS';
+    minCheckAmountCents: number;
+    discountType: 'PERCENTAGE' | 'FIXED_AMOUNT' | 'NONE' | null;
+    discountValue: number; // cents for FIXED_AMOUNT, percent for PERCENTAGE; 0 otherwise
+    maxDiscountValue?: number; // cap (cents) for PERCENTAGE
+    /** Label handed over for FREE_PRODUCT/GIFT. */
+    benefitLabel?: string;
+    /** Bonus amounts for POINTS_BONUS / CASHBACK_BONUS. */
+    bonusPoints?: number;
+    bonusCashbackCents?: number;
+  } | null;
   tier: string | null;
   tierDiscountBps: number; // the guest's tier discount (0 if none)
 }
@@ -495,6 +513,7 @@ export interface RedemptionConsumeInput {
   amountCents: number;       // amount spent, before any discount
   applyReward: boolean;      // redeem the owned reward (ignored in POINTS_ONLY)
   applyTierDiscount: boolean; // apply the tier discount
+  applyCoupon?: boolean;     // redeem the coupon (COUPON mode only)
   orderRef?: string;         // optional external order/check number (owner control)
 }
 
@@ -514,6 +533,12 @@ export interface RedemptionConsumeResult {
   cashbackEarnedCents?: number;
   /** Cashback (cents) applied from the member's balance to this bill. */
   cashbackAppliedCents?: number;
+  /** COUPON mode: the coupon grant was consumed on this scan. */
+  couponRedeemed?: boolean;
+  /** COUPON mode: bonus points credited by a POINTS_BONUS coupon. */
+  couponBonusPoints?: number;
+  /** COUPON mode: bonus cashback (cents) credited by a CASHBACK_BONUS coupon. */
+  couponBonusCashbackCents?: number;
 }
 
 export interface ReserveRewardInput {

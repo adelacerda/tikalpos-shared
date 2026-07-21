@@ -28,7 +28,7 @@ export type PushPromotionTarget = 'NON_MEMBERS' | 'MEMBERS' | 'BOTH';
  *                     slot on the loyalty rule), deep-links to the franchise
  *                     screen (which already surfaces the active boost).
  */
-export type PushPromotionAnchorType = 'NONE' | 'REWARD' | 'CASHBACK_BOOST';
+export type PushPromotionAnchorType = 'NONE' | 'REWARD' | 'CASHBACK_BOOST' | 'COUPON';
 
 /** A push campaign a franchise created to reach loyalty users. */
 export interface PushPromotion {
@@ -38,6 +38,10 @@ export interface PushPromotion {
   anchorType: PushPromotionAnchorType;
   /** The catalog reward this push promotes; null unless `anchorType === 'REWARD'`. */
   rewardId: string | null;
+  /** The coupon this campaign hands out; null unless `anchorType === 'COUPON'`.
+   * A COUPON campaign auto-grants the coupon to each recipient as it sends,
+   * capped at `maxDeliveries` (the "primeros N"); the tap opens their coupon. */
+  couponId?: string | null;
   /** Notification title (merchant-authored). */
   title: string;
   /** Notification body (merchant-authored). */
@@ -61,6 +65,8 @@ export interface CreatePushPromotionInput {
   anchorType: PushPromotionAnchorType;
   /** Required when `anchorType === 'REWARD'`, otherwise omitted/null. */
   rewardId?: string | null;
+  /** Required when `anchorType === 'COUPON'`, otherwise omitted/null. */
+  couponId?: string | null;
   title: string;
   body: string;
   target: PushPromotionTarget;
@@ -92,9 +98,13 @@ export function buildPushDeepLink(
   anchorType: PushPromotionAnchorType,
   organizationId: string,
   rewardId: string | null,
+  couponId?: string | null,
 ): string {
   if (anchorType === 'REWARD' && rewardId) {
     return `tikalpos://reward/${organizationId}/${rewardId}`;
+  }
+  if (anchorType === 'COUPON' && couponId) {
+    return `tikalpos://coupon/${couponId}`;
   }
   return `tikalpos://franchise/${organizationId}`;
 }
@@ -162,7 +172,7 @@ export interface CampaignProjection {
 export interface CampaignAnchorValidation {
   ok: boolean;
   /** Hard error — block submit. */
-  error?: 'REWARD_REQUIRED' | 'CASHBACK_BOOST_NOT_CONFIGURED';
+  error?: 'REWARD_REQUIRED' | 'CASHBACK_BOOST_NOT_CONFIGURED' | 'COUPON_REQUIRED';
   /** Soft warning — allow submit, surface an alert. */
   warning?: 'CAMPAIGN_ENTIRELY_AFTER_ANCHOR_EXPIRY';
 }
@@ -177,6 +187,7 @@ export interface CampaignAnchorValidation {
 export function validateCampaignAnchor(input: {
   anchorType: PushPromotionAnchorType;
   rewardId?: string | null;
+  couponId?: string | null;
   cashbackBoost?: CampaignCashbackBoost | null;
   campaignStartsAt: string;
   campaignEndsAt: string;
@@ -185,6 +196,10 @@ export function validateCampaignAnchor(input: {
 
   if (input.anchorType === 'REWARD') {
     return input.rewardId ? { ok: true } : { ok: false, error: 'REWARD_REQUIRED' };
+  }
+
+  if (input.anchorType === 'COUPON') {
+    return input.couponId ? { ok: true } : { ok: false, error: 'COUPON_REQUIRED' };
   }
 
   // CASHBACK_BOOST
