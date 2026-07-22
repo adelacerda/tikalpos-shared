@@ -594,6 +594,7 @@ export type {
   CouponGrantStatus,
   CouponGrantSource,
   CouponStats,
+  CouponLocation,
   Coupon,
   CreateCouponInput,
   UpdateCouponInput,

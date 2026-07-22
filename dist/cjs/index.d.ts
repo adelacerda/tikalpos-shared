@@ -53,6 +53,6 @@ export type { CommissionKind, CommissionStatus, Seller, CreateSellerInput, Updat
 export { SELLER_DOC_LIMITS } from './types/seller';
 export type { LoyaltyOperator, CreateLoyaltyOperatorInput, UpdateLoyaltyOperatorInput, LoyaltyOperatorsView, OperatorLoginInput, OperatorSession, } from './types/loyalty-operator';
 export { OPERATOR_PIN_REGEX, OPERATOR_LOGIN_CODE_REGEX } from './types/loyalty-operator';
-export type { CouponBenefitKind, CouponDiscountType, CouponStatus, CouponGrantStatus, CouponGrantSource, CouponStats, Coupon, CreateCouponInput, UpdateCouponInput, GrantCouponInput, GuestCoupon, ClaimCouponInput, ClaimCouponResult, PublicCouponView, } from './types/coupon';
+export type { CouponBenefitKind, CouponDiscountType, CouponStatus, CouponGrantStatus, CouponGrantSource, CouponStats, CouponLocation, Coupon, CreateCouponInput, UpdateCouponInput, GrantCouponInput, GuestCoupon, ClaimCouponInput, ClaimCouponResult, PublicCouponView, } from './types/coupon';
 export { isCouponClaimable } from './types/coupon';
 //# sourceMappingURL=index.d.ts.map
