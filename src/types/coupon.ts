@@ -171,6 +171,17 @@ export interface GuestCoupon {
   isMember: boolean;
   minCheckCents: number;
   validAtHome?: boolean;
+  /** Branches where the coupon can be redeemed (resolved server-side; an empty
+   * `locationIds` means all the merchant's active branches). Lets the customer
+   * see WHERE it's valid without knowing how many branches the merchant has. */
+  validLocations?: CouponLocation[];
+}
+
+/** A branch where a coupon is valid, as shown to the customer. */
+export interface CouponLocation {
+  name: string;
+  address?: string | null;
+  city?: string | null;
 }
 
 /** Mobile → claim a coupon by code (link/public). */
