@@ -12,6 +12,12 @@ describe('buildPushDeepLink', () => {
     expect(buildPushDeepLink('NONE', 'org1', null)).toBe('tikalpos://franchise/org1');
     expect(buildPushDeepLink('CASHBACK_BOOST', 'org1', null)).toBe('tikalpos://franchise/org1');
   });
+  it('points at the coupon when anchored to a coupon', () => {
+    expect(buildPushDeepLink('COUPON', 'org1', null, 'cp1')).toBe('tikalpos://coupon/cp1');
+  });
+  it('falls back to the franchise screen when a COUPON anchor has no coupon', () => {
+    expect(buildPushDeepLink('COUPON', 'org1', null, null)).toBe('tikalpos://franchise/org1');
+  });
 });
 
 describe('validateCampaignAnchor', () => {
@@ -25,6 +31,11 @@ describe('validateCampaignAnchor', () => {
   it('REWARD requires a rewardId', () => {
     expect(validateCampaignAnchor({ anchorType: 'REWARD', rewardId: 'r1', ...win })).toEqual({ ok: true });
     expect(validateCampaignAnchor({ anchorType: 'REWARD', rewardId: null, ...win })).toEqual({ ok: false, error: 'REWARD_REQUIRED' });
+  });
+
+  it('COUPON requires a couponId', () => {
+    expect(validateCampaignAnchor({ anchorType: 'COUPON', couponId: 'c1', ...win })).toEqual({ ok: true });
+    expect(validateCampaignAnchor({ anchorType: 'COUPON', couponId: null, ...win })).toEqual({ ok: false, error: 'COUPON_REQUIRED' });
   });
 
   it('CASHBACK_BOOST blocks when no boost is configured', () => {

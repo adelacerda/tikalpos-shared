@@ -585,3 +585,22 @@ export type {
   OperatorSession,
 } from './types/loyalty-operator';
 export { OPERATOR_PIN_REGEX, OPERATOR_LOGIN_CODE_REGEX } from './types/loyalty-operator';
+
+// Coupons ("cupones")
+export type {
+  CouponBenefitKind,
+  CouponDiscountType,
+  CouponStatus,
+  CouponGrantStatus,
+  CouponGrantSource,
+  CouponStats,
+  Coupon,
+  CreateCouponInput,
+  UpdateCouponInput,
+  GrantCouponInput,
+  GuestCoupon,
+  ClaimCouponInput,
+  ClaimCouponResult,
+  PublicCouponView,
+} from './types/coupon';
+export { isCouponClaimable } from './types/coupon';
