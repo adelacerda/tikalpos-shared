@@ -547,6 +547,90 @@ export interface ReserveRewardInput {
   note?: string;
 }
 
+// ── Remote redemption (escrow — online merchants) ──────────────────────────
+//
+// For merchants with `redemptionChannel` CODE/BOTH the guest generates a human
+// code instead of a live QR; the merchant enters it, ships with the benefit
+// applied, and it settles when the guest confirms receipt. The underlying
+// entitlement is reserved ("flotante") at code generation and only consumed on
+// confirmation — if delivery fails it returns to the guest. Full design:
+// `docs/loyalty-comercios-online.md`.
+
+/** How a franchise exposes redemption in the app. Default `QR` (presencial). */
+export type RedemptionChannel = 'QR' | 'CODE' | 'BOTH';
+
+/** Escrow lifecycle of a remote (code-based) transaction. */
+export type RemoteRedemptionStatus =
+  | 'PENDING'    // code generated, benefit reserved (flotante), waiting for merchant
+  | 'ACCEPTED'   // merchant entered the code; sees guest + benefit
+  | 'PROCESSED'  // merchant shipped with the benefit applied + marked "procesada"
+  | 'CONFIRMED'  // guest confirmed receipt (or ghost auto-confirm) → consumed
+  | 'DISPUTED'   // guest reported "not received" → system-admin reconciliation
+  | 'RELEASED'   // returned to the guest (dispute for guest / not delivered)
+  | 'EXPIRED';   // merchant never entered the code within the honor window
+
+/** System-admin dispute SLA (business days). */
+export const REMOTE_REDEMPTION_DISPUTE_SLA_BUSINESS_DAYS = 5;
+
+/** Escrow time windows (days), per the closed design. */
+export const REMOTE_REDEMPTION_WINDOWS = {
+  honorDays: 3,        // merchant must enter the code within this
+  autoConfirmDays: 7,  // ghost backstop after PROCESSED
+  snoozeCapDays: 30,   // hard cap while the guest keeps postponing → dispute
+} as const;
+
+/** The escrow transaction the merchant works and the guest tracks. */
+export interface RemoteRedemption {
+  id: string;
+  code: string;                  // human-readable; the guest sends it via WhatsApp
+  orgId: string;
+  guestId: string;
+  mode: RedemptionHoldMode;      // REDEEM | POINTS_ONLY | CASHBACK_APPLY | COUPON
+  status: RemoteRedemptionStatus;
+  /** Owned entitlement held in escrow (by mode). */
+  giftedRewardId?: string | null;
+  couponGrantId?: string | null;
+  /** Merchant inputs captured at "procesada". */
+  amountCents?: number | null;
+  accountNumber?: string | null; // order number → reference on the member's movements
+  note?: string | null;
+  applyTierDiscount?: boolean;   // operator choice (default on when the member qualifies)
+  /** Lifecycle timestamps (ISO-8601). */
+  createdAt: string;
+  acceptedAt?: string | null;
+  processedAt?: string | null;
+  confirmedAt?: string | null;
+  disputedAt?: string | null;
+  resolvedAt?: string | null;
+  /** Absolute deadlines (ISO-8601) from the windows above. */
+  honorExpiresAt: string;          // createdAt + honorDays
+  autoConfirmAt?: string | null;   // processedAt + autoConfirmDays (ghost backstop)
+  snoozeHardCapAt?: string | null; // processedAt + snoozeCapDays
+}
+
+/** Mobile → generate a remote code (reserves the benefit → flotante). */
+export interface CreateRemoteRedemptionInput {
+  mode: RedemptionHoldMode;
+  giftedRewardId?: string;   // REDEEM
+  couponGrantId?: string;    // COUPON
+}
+
+/** Merchant → mark the code processed (ships with the benefit applied). */
+export interface ProcessRemoteRedemptionInput {
+  amountCents: number;        // the order amount (merchant-entered → anti-fraud)
+  accountNumber: string;      // order number → stored as the movement reference
+  applyTierDiscount: boolean; // operator choice (default on when applicable)
+  note?: string;
+  /** Only false when the merchant cannot fulfil the reward (→ RELEASED). */
+  applyReward?: boolean;
+}
+
+/** Guest → resolve a pending remote redemption after (or before) receiving. */
+export type RemoteRedemptionGuestAction = 'CONFIRM' | 'POSTPONE' | 'DISPUTE';
+
+/** System-admin → reconcile a dispute. */
+export type RemoteRedemptionResolution = 'CONFIRM' | 'RELEASE';
+
 // ── Ad carousel cards ──────────────────────────────────────────────────────
 
 export interface LoyaltyAdCampaignCard {
