@@ -417,6 +417,65 @@ export interface RedemptionConsumeResult {
 export interface ReserveRewardInput {
     note?: string;
 }
+/** How a franchise exposes redemption in the app. Default `QR` (presencial). */
+export type RedemptionChannel = 'QR' | 'CODE' | 'BOTH';
+/** Escrow lifecycle of a remote (code-based) transaction. */
+export type RemoteRedemptionStatus = 'PENDING' | 'ACCEPTED' | 'PROCESSED' | 'CONFIRMED' | 'DISPUTED' | 'RELEASED' | 'EXPIRED';
+/** System-admin dispute SLA (business days). */
+export declare const REMOTE_REDEMPTION_DISPUTE_SLA_BUSINESS_DAYS = 5;
+/** Escrow time windows (days), per the closed design. */
+export declare const REMOTE_REDEMPTION_WINDOWS: {
+    readonly honorDays: 3;
+    readonly autoConfirmDays: 7;
+    readonly snoozeCapDays: 30;
+};
+/** The escrow transaction the merchant works and the guest tracks. */
+export interface RemoteRedemption {
+    id: string;
+    code: string;
+    orgId: string;
+    guestId: string;
+    mode: RedemptionHoldMode;
+    status: RemoteRedemptionStatus;
+    /** Owned entitlement held in escrow (by mode). */
+    giftedRewardId?: string | null;
+    couponGrantId?: string | null;
+    /** Merchant inputs captured at "procesada". */
+    amountCents?: number | null;
+    accountNumber?: string | null;
+    note?: string | null;
+    applyTierDiscount?: boolean;
+    /** Lifecycle timestamps (ISO-8601). */
+    createdAt: string;
+    acceptedAt?: string | null;
+    processedAt?: string | null;
+    confirmedAt?: string | null;
+    disputedAt?: string | null;
+    resolvedAt?: string | null;
+    /** Absolute deadlines (ISO-8601) from the windows above. */
+    honorExpiresAt: string;
+    autoConfirmAt?: string | null;
+    snoozeHardCapAt?: string | null;
+}
+/** Mobile → generate a remote code (reserves the benefit → flotante). */
+export interface CreateRemoteRedemptionInput {
+    mode: RedemptionHoldMode;
+    giftedRewardId?: string;
+    couponGrantId?: string;
+}
+/** Merchant → mark the code processed (ships with the benefit applied). */
+export interface ProcessRemoteRedemptionInput {
+    amountCents: number;
+    accountNumber: string;
+    applyTierDiscount: boolean;
+    note?: string;
+    /** Only false when the merchant cannot fulfil the reward (→ RELEASED). */
+    applyReward?: boolean;
+}
+/** Guest → resolve a pending remote redemption after (or before) receiving. */
+export type RemoteRedemptionGuestAction = 'CONFIRM' | 'POSTPONE' | 'DISPUTE';
+/** System-admin → reconcile a dispute. */
+export type RemoteRedemptionResolution = 'CONFIRM' | 'RELEASE';
 export interface LoyaltyAdCampaignCard {
     id: string;
     title: string;

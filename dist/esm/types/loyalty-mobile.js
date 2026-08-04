@@ -56,4 +56,12 @@ export const REVIEW_REPORT_REASONS = [
 export function isReviewReportReason(value) {
     return typeof value === 'string' && REVIEW_REPORT_REASONS.includes(value);
 }
+/** System-admin dispute SLA (business days). */
+export const REMOTE_REDEMPTION_DISPUTE_SLA_BUSINESS_DAYS = 5;
+/** Escrow time windows (days), per the closed design. */
+export const REMOTE_REDEMPTION_WINDOWS = {
+    honorDays: 3, // merchant must enter the code within this
+    autoConfirmDays: 7, // ghost backstop after PROCESSED
+    snoozeCapDays: 30, // hard cap while the guest keeps postponing → dispute
+};
 //# sourceMappingURL=loyalty-mobile.js.map
