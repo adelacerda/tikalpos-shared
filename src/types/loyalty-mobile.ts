@@ -661,6 +661,23 @@ export interface LoyaltyRemoteRedemptionCard {
   autoConfirmAt?: string | null;
 }
 
+/**
+ * Full transaction detail for one remote redemption (tap-through screen). The
+ * money breakdown (`chargeCents`, discounts, earn) is present ONLY once the
+ * merchant has processed the code (amount known). Before that (PENDING/ACCEPTED)
+ * the guest just sees the code + benefit while waiting.
+ */
+export interface LoyaltyRemoteRedemptionDetail extends LoyaltyRemoteRedemptionCard {
+  applyTierDiscount?: boolean | null;
+  /** Order amount the merchant entered (null until processed). */
+  chargeCents?: number | null;         // amount the guest pays after discounts
+  rewardDiscountCents?: number | null;
+  tierDiscountCents?: number | null;
+  /** What the guest earns on the charge — one of these per `earnKind`. */
+  earnPoints?: number | null;
+  earnCashbackCents?: number | null;
+}
+
 // ── Ad carousel cards ──────────────────────────────────────────────────────
 
 export interface LoyaltyAdCampaignCard {

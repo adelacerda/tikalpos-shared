@@ -402,6 +402,7 @@ export type {
   RemoteRedemptionGuestAction,
   RemoteRedemptionResolution,
   LoyaltyRemoteRedemptionCard,
+  LoyaltyRemoteRedemptionDetail,
   LoyaltyAdCampaignCard,
   LoyaltyAdCard,
   LoyaltyDiscoveryCard,
