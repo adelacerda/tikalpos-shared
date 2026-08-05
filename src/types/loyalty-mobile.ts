@@ -253,6 +253,8 @@ export interface LoyaltyFranchiseDetail {
   branding: LoyaltyFranchiseBranding;
   /** True when the franchise is on the LOYALTY_LITE plan → in-store QR redemption. */
   isLoyaltyLite: boolean;
+  /** How this merchant redeems: QR (present-only) | CODE | BOTH. Default QR. */
+  redemptionChannel?: RedemptionChannel;
   pointsBalance: number;
   lifetimePoints: number;
   /** Points that expire on/before the end of next month (block-based expiry). 0/omitted = none upcoming. */
@@ -627,8 +629,12 @@ export interface ProcessRemoteRedemptionInput {
   applyReward?: boolean;
 }
 
-/** Guest → resolve a pending remote redemption after (or before) receiving. */
-export type RemoteRedemptionGuestAction = 'CONFIRM' | 'POSTPONE' | 'DISPUTE';
+/**
+ * Guest → resolve a remote redemption. CONFIRM/POSTPONE/DISPUTE act on a
+ * PROCESSED escrow; CANCEL undoes a still-PENDING code the guest created by
+ * mistake (releases the reserved benefit).
+ */
+export type RemoteRedemptionGuestAction = 'CONFIRM' | 'POSTPONE' | 'DISPUTE' | 'CANCEL';
 
 /** System-admin → reconcile a dispute. */
 export type RemoteRedemptionResolution = 'CONFIRM' | 'RELEASE';
@@ -639,10 +645,13 @@ export interface LoyaltyRemoteRedemptionCard {
   code: string;
   status: RemoteRedemptionStatus;
   mode: RedemptionHoldMode;
+  orgId: string;
   merchantName: string;
   merchantLogoUrl?: string | null;
   /** The reserved benefit's display name (reward for REDEEM, coupon for COUPON). */
   benefitName?: string | null;
+  /** How this merchant rewards the order — so the app says "points" vs "cashback". */
+  earnKind?: 'POINTS' | 'CASHBACK';
   /** Merchant-entered once processed. */
   amountCents?: number | null;
   accountNumber?: string | null;
