@@ -4,7 +4,7 @@ export declare function isLoyaltyAuthProvider(value: unknown): value is LoyaltyA
 export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT' | 'CASHBACK_EARN' | 'CASHBACK_SPEND' | 'CASHBACK_EXPIRY';
 export declare const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[];
 export declare function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind;
-export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING';
+export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING' | 'REMOTE_PROCESSED' | 'REMOTE_RESOLVED';
 export declare const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[];
 export declare function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic;
 export interface LoyaltyMobileProfile {
