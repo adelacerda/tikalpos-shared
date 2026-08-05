@@ -251,6 +251,8 @@ export interface LoyaltyGiftedRewardCard {
   rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
   /** "Flotante": held by an in-flight online (escrow) redemption — shown but not usable. */
   reserved?: boolean;
+  /** The in-flight redemption holding it, so the app can link to its detail. */
+  reservedRemoteRedemptionId?: string | null;
 }
 
 export interface LoyaltyFranchiseDetail {
