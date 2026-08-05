@@ -52,7 +52,9 @@ export type LoyaltyPushTopic =
   | 'WELCOME'
   | 'ENGAGEMENT'
   | 'MODE_CHANGE'       // loyalty mode (points/cashback/both) changed for an org
-  | 'BALANCE_EXPIRING'; // points or cashback balance block is about to expire
+  | 'BALANCE_EXPIRING'  // points or cashback balance block is about to expire
+  | 'REMOTE_PROCESSED'  // online (escrow) code processed by the merchant → confirm
+  | 'REMOTE_RESOLVED';  // online (escrow) dispute resolved (merchant return / admin)
 
 export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'REWARD_EXPIRING',
@@ -63,6 +65,8 @@ export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'ENGAGEMENT',
   'MODE_CHANGE',
   'BALANCE_EXPIRING',
+  'REMOTE_PROCESSED',
+  'REMOTE_RESOLVED',
 ] as const;
 
 export function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic {

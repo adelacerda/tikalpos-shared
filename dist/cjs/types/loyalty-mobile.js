@@ -44,6 +44,8 @@ exports.LOYALTY_PUSH_TOPICS = [
     'ENGAGEMENT',
     'MODE_CHANGE',
     'BALANCE_EXPIRING',
+    'REMOTE_PROCESSED',
+    'REMOTE_RESOLVED',
 ];
 function isLoyaltyPushTopic(value) {
     return typeof value === 'string' && exports.LOYALTY_PUSH_TOPICS.includes(value);
