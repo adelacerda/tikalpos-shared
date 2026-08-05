@@ -161,11 +161,15 @@ export interface LoyaltyGiftedRewardCard {
     ageRestricted?: boolean;
     /** Reward kind (config vocabulary). FREE_PRODUCT/GIFT render as "gratis"/"Obsequio". */
     rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
+    /** "Flotante": held by an in-flight online (escrow) redemption — shown but not usable. */
+    reserved?: boolean;
 }
 export interface LoyaltyFranchiseDetail {
     branding: LoyaltyFranchiseBranding;
     /** True when the franchise is on the LOYALTY_LITE plan → in-store QR redemption. */
     isLoyaltyLite: boolean;
+    /** How this merchant redeems: QR (present-only) | CODE | BOTH. Default QR. */
+    redemptionChannel?: RedemptionChannel;
     pointsBalance: number;
     lifetimePoints: number;
     /** Points that expire on/before the end of next month (block-based expiry). 0/omitted = none upcoming. */
@@ -416,6 +420,90 @@ export interface RedemptionConsumeResult {
 }
 export interface ReserveRewardInput {
     note?: string;
+}
+/** How a franchise exposes redemption in the app. Default `QR` (presencial). */
+export type RedemptionChannel = 'QR' | 'CODE' | 'BOTH';
+/** Escrow lifecycle of a remote (code-based) transaction. */
+export type RemoteRedemptionStatus = 'PENDING' | 'ACCEPTED' | 'PROCESSED' | 'CONFIRMED' | 'DISPUTED' | 'RELEASED' | 'EXPIRED';
+/** System-admin dispute SLA (business days). */
+export declare const REMOTE_REDEMPTION_DISPUTE_SLA_BUSINESS_DAYS = 5;
+/** Escrow time windows (days), per the closed design. */
+export declare const REMOTE_REDEMPTION_WINDOWS: {
+    readonly honorDays: 3;
+    readonly autoConfirmDays: 7;
+    readonly snoozeCapDays: 30;
+};
+/** The escrow transaction the merchant works and the guest tracks. */
+export interface RemoteRedemption {
+    id: string;
+    code: string;
+    orgId: string;
+    guestId: string;
+    mode: RedemptionHoldMode;
+    status: RemoteRedemptionStatus;
+    /** Owned entitlement held in escrow (by mode). */
+    giftedRewardId?: string | null;
+    couponGrantId?: string | null;
+    /** Merchant inputs captured at "procesada". */
+    amountCents?: number | null;
+    accountNumber?: string | null;
+    note?: string | null;
+    applyTierDiscount?: boolean;
+    /** Lifecycle timestamps (ISO-8601). */
+    createdAt: string;
+    acceptedAt?: string | null;
+    processedAt?: string | null;
+    confirmedAt?: string | null;
+    disputedAt?: string | null;
+    resolvedAt?: string | null;
+    /** Absolute deadlines (ISO-8601) from the windows above. */
+    honorExpiresAt: string;
+    autoConfirmAt?: string | null;
+    snoozeHardCapAt?: string | null;
+}
+/** Mobile → generate a remote code (reserves the benefit → flotante). */
+export interface CreateRemoteRedemptionInput {
+    mode: RedemptionHoldMode;
+    giftedRewardId?: string;
+    couponGrantId?: string;
+}
+/** Merchant → mark the code processed (ships with the benefit applied). */
+export interface ProcessRemoteRedemptionInput {
+    amountCents: number;
+    accountNumber: string;
+    applyTierDiscount: boolean;
+    note?: string;
+    /** Only false when the merchant cannot fulfil the reward (→ RELEASED). */
+    applyReward?: boolean;
+}
+/**
+ * Guest → resolve a remote redemption. CONFIRM/POSTPONE/DISPUTE act on a
+ * PROCESSED escrow; CANCEL undoes a still-PENDING code the guest created by
+ * mistake (releases the reserved benefit).
+ */
+export type RemoteRedemptionGuestAction = 'CONFIRM' | 'POSTPONE' | 'DISPUTE' | 'CANCEL';
+/** System-admin → reconcile a dispute. */
+export type RemoteRedemptionResolution = 'CONFIRM' | 'RELEASE';
+/** What the mobile app shows the guest for each of their remote (escrow) codes. */
+export interface LoyaltyRemoteRedemptionCard {
+    id: string;
+    code: string;
+    status: RemoteRedemptionStatus;
+    mode: RedemptionHoldMode;
+    orgId: string;
+    merchantName: string;
+    merchantLogoUrl?: string | null;
+    /** The reserved benefit's display name (reward for REDEEM, coupon for COUPON). */
+    benefitName?: string | null;
+    /** How this merchant rewards the order — so the app says "points" vs "cashback". */
+    earnKind?: 'POINTS' | 'CASHBACK';
+    /** Merchant-entered once processed. */
+    amountCents?: number | null;
+    accountNumber?: string | null;
+    createdAt: string;
+    processedAt?: string | null;
+    honorExpiresAt: string;
+    autoConfirmAt?: string | null;
 }
 export interface LoyaltyAdCampaignCard {
     id: string;

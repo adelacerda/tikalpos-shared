@@ -10,7 +10,7 @@
 // concerns: social auth providers, push topics, ad-carousel cards, and
 // redemption holds (QR-based pre-authorizations).
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.REVIEW_REPORT_REASONS = exports.DEMO_MODE_HEADER = exports.LOYALTY_PUSH_TOPICS = exports.LOYALTY_TRANSACTION_KINDS = exports.LOYALTY_AUTH_PROVIDERS = void 0;
+exports.REMOTE_REDEMPTION_WINDOWS = exports.REMOTE_REDEMPTION_DISPUTE_SLA_BUSINESS_DAYS = exports.REVIEW_REPORT_REASONS = exports.DEMO_MODE_HEADER = exports.LOYALTY_PUSH_TOPICS = exports.LOYALTY_TRANSACTION_KINDS = exports.LOYALTY_AUTH_PROVIDERS = void 0;
 exports.isLoyaltyAuthProvider = isLoyaltyAuthProvider;
 exports.isLoyaltyTransactionKind = isLoyaltyTransactionKind;
 exports.isLoyaltyPushTopic = isLoyaltyPushTopic;
@@ -63,4 +63,12 @@ exports.REVIEW_REPORT_REASONS = [
 function isReviewReportReason(value) {
     return typeof value === 'string' && exports.REVIEW_REPORT_REASONS.includes(value);
 }
+/** System-admin dispute SLA (business days). */
+exports.REMOTE_REDEMPTION_DISPUTE_SLA_BUSINESS_DAYS = 5;
+/** Escrow time windows (days), per the closed design. */
+exports.REMOTE_REDEMPTION_WINDOWS = {
+    honorDays: 3, // merchant must enter the code within this
+    autoConfirmDays: 7, // ghost backstop after PROCESSED
+    snoozeCapDays: 30, // hard cap while the guest keeps postponing → dispute
+};
 //# sourceMappingURL=loyalty-mobile.js.map
