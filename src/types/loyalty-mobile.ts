@@ -245,6 +245,8 @@ export interface LoyaltyGiftedRewardCard {
   ageRestricted?: boolean;
   /** Reward kind (config vocabulary). FREE_PRODUCT/GIFT render as "gratis"/"Obsequio". */
   rewardKind?: 'DISCOUNT' | 'FREE_PRODUCT' | 'GIFT';
+  /** "Flotante": held by an in-flight online (escrow) redemption — shown but not usable. */
+  reserved?: boolean;
 }
 
 export interface LoyaltyFranchiseDetail {
