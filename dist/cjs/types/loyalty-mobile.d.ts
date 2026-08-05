@@ -425,6 +425,12 @@ export interface ReserveRewardInput {
 }
 /** How a franchise exposes redemption in the app. Default `QR` (presencial). */
 export type RedemptionChannel = 'QR' | 'CODE' | 'BOTH';
+/**
+ * How the guest pays a remote (delivery/online) order. Declared by the merchant
+ * at "procesada". Drives the earn-on-non-delivery reconciliation (escrow v2):
+ * the earn is credited on the amount the merchant CONFIRMS was paid.
+ */
+export type RemotePaymentType = 'PREPAID' | 'ON_DELIVERY';
 /** Escrow lifecycle of a remote (code-based) transaction. */
 export type RemoteRedemptionStatus = 'PENDING' | 'ACCEPTED' | 'PROCESSED' | 'CONFIRMED' | 'DISPUTED' | 'RELEASED' | 'EXPIRED';
 /** System-admin dispute SLA (business days). */
@@ -451,6 +457,10 @@ export interface RemoteRedemption {
     accountNumber?: string | null;
     note?: string | null;
     applyTierDiscount?: boolean;
+    paymentType?: RemotePaymentType | null;
+    /** Payment reconciliation on a non-delivery dispute (escrow v2). */
+    paidDeclaredCents?: number | null;
+    paidConfirmedCents?: number | null;
     /** Lifecycle timestamps (ISO-8601). */
     createdAt: string;
     acceptedAt?: string | null;
@@ -477,6 +487,23 @@ export interface ProcessRemoteRedemptionInput {
     note?: string;
     /** Only false when the merchant cannot fulfil the reward (→ RELEASED). */
     applyReward?: boolean;
+    paymentType?: RemotePaymentType;
+}
+/**
+ * Guest → open a non-delivery dispute (escrow v2). The guest declares how much
+ * they actually paid (0 if they returned the whole order / paid nothing); the
+ * merchant then confirms the amount, and the earn is credited on it.
+ */
+export interface DisputeRemoteRedemptionInput {
+    paidDeclaredCents: number;
+}
+/**
+ * Merchant → "not delivered / I accept fault" (escrow v2). Confirms how much the
+ * guest paid. If it matches the guest's declared amount, the earn is credited on
+ * it and the reward is returned; otherwise it escalates to system-admin.
+ */
+export interface ReleaseRemoteRedemptionInput {
+    paidConfirmedCents: number;
 }
 /**
  * Guest → resolve a remote redemption. CONFIRM/POSTPONE/DISPUTE act on a
@@ -486,6 +513,15 @@ export interface ProcessRemoteRedemptionInput {
 export type RemoteRedemptionGuestAction = 'CONFIRM' | 'POSTPONE' | 'DISPUTE' | 'CANCEL';
 /** System-admin → reconcile a dispute. */
 export type RemoteRedemptionResolution = 'CONFIRM' | 'RELEASE';
+/**
+ * System-admin → reconcile a disputed remote redemption (escrow v2). On RELEASE,
+ * the admin sets the final confirmed paid amount (used when merchant and guest
+ * disagree); the earn is credited on it before returning the reward.
+ */
+export interface ReconcileRemoteRedemptionInput {
+    resolution: RemoteRedemptionResolution;
+    paidConfirmedCents?: number;
+}
 /** What the mobile app shows the guest for each of their remote (escrow) codes. */
 export interface LoyaltyRemoteRedemptionCard {
     id: string;
@@ -522,6 +558,12 @@ export interface LoyaltyRemoteRedemptionDetail extends LoyaltyRemoteRedemptionCa
     /** What the guest earns on the charge — one of these per `earnKind`. */
     earnPoints?: number | null;
     earnCashbackCents?: number | null;
+    /** Payment context + reconciliation (escrow v2). */
+    paymentType?: RemotePaymentType | null;
+    paidDeclaredCents?: number | null;
+    paidConfirmedCents?: number | null;
+    /** Reason the merchant/system-admin gave when resolving a dispute. */
+    resolutionNote?: string | null;
 }
 export interface LoyaltyAdCampaignCard {
     id: string;
