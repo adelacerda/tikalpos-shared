@@ -633,6 +633,25 @@ export type RemoteRedemptionGuestAction = 'CONFIRM' | 'POSTPONE' | 'DISPUTE';
 /** System-admin → reconcile a dispute. */
 export type RemoteRedemptionResolution = 'CONFIRM' | 'RELEASE';
 
+/** What the mobile app shows the guest for each of their remote (escrow) codes. */
+export interface LoyaltyRemoteRedemptionCard {
+  id: string;
+  code: string;
+  status: RemoteRedemptionStatus;
+  mode: RedemptionHoldMode;
+  merchantName: string;
+  merchantLogoUrl?: string | null;
+  /** The reserved benefit's display name (reward for REDEEM, coupon for COUPON). */
+  benefitName?: string | null;
+  /** Merchant-entered once processed. */
+  amountCents?: number | null;
+  accountNumber?: string | null;
+  createdAt: string;
+  processedAt?: string | null;
+  honorExpiresAt: string;
+  autoConfirmAt?: string | null;
+}
+
 // ── Ad carousel cards ──────────────────────────────────────────────────────
 
 export interface LoyaltyAdCampaignCard {

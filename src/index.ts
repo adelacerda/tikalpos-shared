@@ -401,6 +401,7 @@ export type {
   ProcessRemoteRedemptionInput,
   RemoteRedemptionGuestAction,
   RemoteRedemptionResolution,
+  LoyaltyRemoteRedemptionCard,
   LoyaltyAdCampaignCard,
   LoyaltyAdCard,
   LoyaltyDiscoveryCard,
