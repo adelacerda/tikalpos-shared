@@ -169,6 +169,8 @@ export interface GuestCoupon {
   redeemedAt?: string | null;
   /** True when the guest is already enrolled in this merchant (drives "Canjear" vs "Unirme"). */
   isMember: boolean;
+  /** How this merchant redeems: QR (present-only) | CODE | BOTH. Enables online use. */
+  redemptionChannel?: 'QR' | 'CODE' | 'BOTH';
   minCheckCents: number;
   validAtHome?: boolean;
   /** Branches where the coupon can be redeemed (resolved server-side; an empty
