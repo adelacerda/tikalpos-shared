@@ -227,6 +227,9 @@ export interface LoyaltyFranchiseDetail {
     referrerRewardPoints?: number;
     /** Points the referred member earns on their first service. */
     referredRewardPoints?: number;
+    /** Cashback (cents) each side earns instead, on cashback-mode merchants. */
+    referrerRewardCashbackCents?: number;
+    referredRewardCashbackCents?: number;
     /** Portfolio photos (ordered media URLs) shown in the merchant profile. */
     gallery?: string[];
     /** Simple service catalog (name + optional price/duration/note). Informational
