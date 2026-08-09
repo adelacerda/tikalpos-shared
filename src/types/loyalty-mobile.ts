@@ -319,6 +319,10 @@ export interface LoyaltyFranchiseDetail {
   /** Cashback (cents) each side earns instead, on cashback-mode merchants. */
   referrerRewardCashbackCents?: number;
   referredRewardCashbackCents?: number;
+  /** Currency the referral pays in when the merchant runs BOTH mode ('POINTS' |
+   * 'CASHBACK'), declared by the merchant. Both sides get it regardless of the
+   * member's own earn preference. Defaults to POINTS in single-currency modes. */
+  referralRewardCurrency?: 'POINTS' | 'CASHBACK';
   // ── Professional profile (home-services Fase 3) ──
   /** Portfolio photos (ordered media URLs) shown in the merchant profile. */
   gallery?: string[];
