@@ -1,18 +1,96 @@
-// Loyalty Ad system — FT-GROWTH-017 / reward-wizard SS5.
+// Loyalty Ad system — FT-GROWTH-017 / reward-wizard SS5, generalized into
+// "promociones" (see docs/feature-promociones.md).
 //
-// A franchise can promote a reward with a full-screen ad in the TikalLoyalty
-// app's ad carousel. Billing mirrors the discovery highlight: a flat,
-// system-admin-configured per-impression fee, deduped per user/day, with the
-// rate snapshotted (`lockedFeeCents`) at opt-in so later system-rate changes
-// never affect an existing campaign. The merchant sets the start/end window.
+// A franchise promotes SOMETHING to the TikalLoyalty app on two paid surfaces:
+// the full-screen ad carousel and/or the Discovery neon highlight. The promoted
+// subject is the `adKind` — historically always a reward, now also cashback,
+// tier discounts, stamps, or a free-form message. Billing mirrors the discovery
+// highlight on both surfaces: a flat, system-admin-configured per-impression
+// fee, deduped per user/day, with the rate snapshotted (`lockedFeeCents` /
+// `discoveryLockedFeeCents`) at opt-in so later system-rate changes never
+// affect an existing campaign. The merchant sets the start/end window.
 
-/** A full-screen promotional ad a franchise created to promote a reward. */
+/**
+ * What a promotion is about. Drives eligibility (the kind is only offered when
+ * the underlying feature is on), the CTA target, and the default copy.
+ * `REWARD` is the legacy kind — every ad created before promotions existed.
+ */
+export type AdKind = 'REWARD' | 'CASHBACK' | 'TIER_DISCOUNT' | 'STAMPS' | 'GENERIC';
+
+export const AD_KINDS: readonly AdKind[] = [
+  'REWARD',
+  'CASHBACK',
+  'TIER_DISCOUNT',
+  'STAMPS',
+  'GENERIC',
+] as const;
+
+/**
+ * Where a non-reward promotion's CTA lands inside the franchise profile. The
+ * app opens the franchise and focuses this section; `REWARD` promotions instead
+ * open the reward itself, so they resolve to `null`.
+ */
+export type PromoFranchiseSection = 'cashback' | 'tiers' | 'stamps' | 'general';
+
+/** The franchise-profile section a kind's CTA focuses (null → open the reward). */
+export function promoSectionForKind(kind: AdKind): PromoFranchiseSection | null {
+  switch (kind) {
+    case 'REWARD':
+      return null;
+    case 'CASHBACK':
+      return 'cashback';
+    case 'TIER_DISCOUNT':
+      return 'tiers';
+    case 'STAMPS':
+      return 'stamps';
+    case 'GENERIC':
+      return 'general';
+  }
+}
+
+/** The franchise's loyalty capabilities that decide which kinds it may promote. */
+export interface PromoEligibilityContext {
+  /** LoyaltyRule.loyaltyMode — 'POINTS' | 'CASHBACK' | 'BOTH'. */
+  loyaltyMode: string;
+  tiersEnabled: boolean;
+  stampsEnabled: boolean;
+  /** False when the franchise has no reward catalog to point a REWARD ad at. */
+  hasRewards: boolean;
+}
+
+/**
+ * True when a franchise may promote `kind` — a merchant can't advertise a
+ * feature it doesn't run. GENERIC is always allowed (it's a free-form message).
+ * The same predicate gates the web creator and the served carousel, so an ad
+ * whose feature is switched off later stops being served.
+ */
+export function isPromoKindAvailable(kind: AdKind, ctx: PromoEligibilityContext): boolean {
+  switch (kind) {
+    case 'REWARD':
+      return ctx.hasRewards;
+    case 'CASHBACK':
+      return ctx.loyaltyMode === 'CASHBACK' || ctx.loyaltyMode === 'BOTH';
+    case 'TIER_DISCOUNT':
+      return ctx.tiersEnabled;
+    case 'STAMPS':
+      return ctx.stampsEnabled;
+    case 'GENERIC':
+      return true;
+  }
+}
+
+/** A promotion a franchise runs on the full-screen and/or discovery surface. */
 export interface LoyaltyAd {
   id: string;
   organizationId: string;
-  /** The catalog reward this ad promotes (CTA target for members). */
-  rewardId: string;
+  /** What this promotion is about. Legacy rows are `REWARD`. */
+  adKind: AdKind;
+  /** The catalog reward this ad promotes (CTA target for members). Null for
+   *  every kind other than `REWARD`. */
+  rewardId: string | null;
   title: string;
+  /** Optional second line under the title — the body of a GENERIC message. */
+  subtitle?: string | null;
   /** Brand icon, 512×512, rendered ~44pt circular over the creative. */
   iconUrl: string;
   /** Full-screen creative, 1080×2400 (9:20), rendered cover. Image OR video
@@ -25,16 +103,27 @@ export interface LoyaltyAd {
   ctaLabel: string;
   startsAt: string; // ISO-8601 — run window / opt-in
   endsAt: string; // ISO-8601
+  /** Runs in the app's full-screen ad carousel (billed per impression). */
+  fullScreen: boolean;
   /** Ad-impression system rate snapshotted at opt-in. */
   lockedFeeCents: number;
+  /** Runs as the paid neon highlight in the Discovery carousel. */
+  discoveryHighlight: boolean;
+  /** Discovery-highlight system rate snapshotted at opt-in; null when the
+   *  promotion doesn't run on that surface. */
+  discoveryLockedFeeCents?: number | null;
   active: boolean;
   createdAt: string; // ISO-8601
 }
 
-/** Merchant-supplied fields when creating an ad (the rest is server-assigned). */
+/** Merchant-supplied fields when creating a promotion (the rest is server-assigned). */
 export interface CreateLoyaltyAdInput {
-  rewardId: string;
+  /** Defaults to `REWARD` (the reward-wizard path) when omitted. */
+  adKind?: AdKind;
+  /** Required for `REWARD`, ignored otherwise. */
+  rewardId?: string | null;
   title: string;
+  subtitle?: string | null;
   /** @deprecated The ad icon is the franchise logo, served at runtime. */
   iconUrl?: string;
   /** Image OR video (exactly one). Image is also the video poster when both. */
@@ -44,7 +133,14 @@ export interface CreateLoyaltyAdInput {
   ctaLabel: string;
   startsAt: string; // ISO-8601
   endsAt: string; // ISO-8601
+  /** Surfaces to run on. Defaults to full-screen only (legacy behaviour); at
+   *  least one must be true. */
+  fullScreen?: boolean;
+  discoveryHighlight?: boolean;
 }
+
+/** Editable fields of an existing promotion. */
+export type UpdateLoyaltyAdInput = Partial<CreateLoyaltyAdInput> & { active?: boolean };
 
 /** True when an ad is live (active and within its window) at `now` (epoch ms). */
 export function isLoyaltyAdActive(ad: LoyaltyAd, now: number = Date.now()): boolean {

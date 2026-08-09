@@ -1,3 +1,4 @@
+import type { AdKind } from './ad';
 export type LoyaltyAuthProvider = 'GOOGLE' | 'APPLE' | 'EMAIL';
 export declare const LOYALTY_AUTH_PROVIDERS: readonly LoyaltyAuthProvider[];
 export declare function isLoyaltyAuthProvider(value: unknown): value is LoyaltyAuthProvider;
@@ -584,18 +585,24 @@ export interface LoyaltyAdCampaignCard {
     expiresAt?: string | null;
 }
 /**
- * A real full-screen ad served to the loyalty app's ad carousel (reward-wizard
- * SS5). The server resolves `isMember` from the guest's enrolments so the app
- * routes the bottom CTA: member → the reward, non-member → the franchise
- * preview (to enrol). One billable impression is charged per ad per user/day
- * on serve, at the ad's locked fee.
+ * A real full-screen promotion served to the loyalty app's ad carousel. The
+ * server resolves `isMember` from the guest's enrolments so the app routes the
+ * bottom CTA: for a `REWARD` promotion, member → the reward, non-member → the
+ * franchise preview (to enrol); every other kind opens the franchise focused on
+ * the kind's section (`promoSectionForKind`). One billable impression is
+ * charged per promotion per user/day on serve, at the promotion's locked fee.
  */
 export interface LoyaltyAdCard {
     adId: string;
     organizationId: string;
-    rewardId: string;
+    /** What the promotion is about — drives the CTA target. */
+    adKind: AdKind;
+    /** The promoted reward. Null for every kind other than `REWARD`. */
+    rewardId: string | null;
     sponsoredByOrgName: string;
     title: string;
+    /** Optional second line under the title (the body of a GENERIC message). */
+    subtitle?: string | null;
     iconUrl: string;
     imageUrl?: string | null;
     /** Optional 8s video creative. When present the app plays it (muted, no loop,
@@ -605,6 +612,19 @@ export interface LoyaltyAdCard {
     /** True when the guest already belongs to this franchise. */
     isMember: boolean;
 }
+/**
+ * The promotion behind a highlighted discovery card when the highlight was
+ * bought as a generic promotion instead of on a reward. The card renders this
+ * creative and copy; the CTA opens the franchise focused on the kind's section.
+ */
+export interface LoyaltyDiscoveryPromo {
+    adId: string;
+    adKind: AdKind;
+    title: string;
+    subtitle?: string | null;
+    imageUrl?: string | null;
+    ctaLabel: string;
+}
 export interface LoyaltyDiscoveryCard {
     orgId: string;
     branding: LoyaltyFranchiseBranding;
@@ -612,6 +632,9 @@ export interface LoyaltyDiscoveryCard {
      *  franchises (no points catalog) — the card then leads with cashback info. */
     reward: LoyaltyRewardCard | null;
     highlighted: boolean;
+    /** Set when `highlighted` came from a generic promotion (not a reward opt-in)
+     *  — the card leads with this creative instead of the reward. */
+    promo?: LoyaltyDiscoveryPromo | null;
     tags: string[];
     /** How the franchise rewards → drives the points/cashback badges on the card. */
     loyaltyMode: 'POINTS' | 'CASHBACK' | 'BOTH';
