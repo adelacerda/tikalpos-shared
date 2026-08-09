@@ -135,14 +135,25 @@ export {
   EXPIRY_VALIDITY_MONTHS,
 } from './types/loyalty';
 
-// Loyalty Ad system (FT-GROWTH-017 / reward-wizard SS5)
+// Loyalty Ad system (FT-GROWTH-017 / reward-wizard SS5), generalized into
+// promotions: any kind (reward, cashback, tier discount, stamps, free-form)
+// on the full-screen and/or discovery surface.
 export type {
   LoyaltyAd,
   CreateLoyaltyAdInput,
+  UpdateLoyaltyAdInput,
+  AdKind,
+  PromoFranchiseSection,
+  PromoEligibilityContext,
   AdImpressionPricing,
   CreateAdImpressionPricingInput,
 } from './types/ad';
-export { isLoyaltyAdActive } from './types/ad';
+export {
+  isLoyaltyAdActive,
+  AD_KINDS,
+  promoSectionForKind,
+  isPromoKindAvailable,
+} from './types/ad';
 
 // Push Promotion system (FT-GROWTH-017 / reward-wizard)
 export type {
@@ -410,6 +421,7 @@ export type {
   LoyaltyAdCampaignCard,
   LoyaltyAdCard,
   LoyaltyDiscoveryCard,
+  LoyaltyDiscoveryPromo,
   LoyaltyDiscoveryPage,
   LoyaltyFranchisePreview,
   LoyaltyPushSubscribeInput,
