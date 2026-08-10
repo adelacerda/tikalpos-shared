@@ -811,10 +811,14 @@ export interface LoyaltyDiscoveryPromo {
 export interface LoyaltyDiscoveryCard {
   orgId: string;
   branding: LoyaltyFranchiseBranding;
-  /** A reward from a franchise the guest hasn't joined. Null for cashback-only
-   *  franchises (no points catalog) — the card then leads with cashback info. */
+  /** A reward the guest can still get. Null for cashback-only franchises (no
+   *  points catalog) — the card then leads with cashback info. Rewards the guest
+   *  already holds never become cards. */
   reward: LoyaltyRewardCard | null;
   highlighted: boolean;      // a paid discovery-highlight reward (shown + billed)
+  /** True when the guest already joined this franchise. The card then invites
+   *  them in ("Ver") instead of offering to join. */
+  isMember?: boolean;
   /** Set when `highlighted` came from a generic promotion (not a reward opt-in)
    *  — the card leads with this creative instead of the reward. */
   promo?: LoyaltyDiscoveryPromo | null;
