@@ -622,7 +622,11 @@ export interface LoyaltyDiscoveryPromo {
     adKind: AdKind;
     title: string;
     subtitle?: string | null;
+    /** Landscape 1200×600 — the home carousel card's banner. */
     imageUrl?: string | null;
+    /** Portrait 1080×1440 — the "Ver todas" feed card. Null → the card falls back
+     *  to the franchise's own default image. */
+    verticalImageUrl?: string | null;
     ctaLabel: string;
 }
 export interface LoyaltyDiscoveryCard {

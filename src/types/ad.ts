@@ -91,6 +91,13 @@ export interface LoyaltyAd {
   title: string;
   /** Optional second line under the title — the body of a GENERIC message. */
   subtitle?: string | null;
+  /** Discovery-surface creative, landscape 1200×600 — the home carousel card's
+   *  banner. Required when the promotion runs on the discovery surface; the
+   *  full-screen creative is a different shape and can't be reused. */
+  discoveryImageUrl?: string | null;
+  /** Discovery-surface creative, portrait 1080×1440 (3:4) — the "Ver todas"
+   *  feed card. Optional: falls back to the franchise's own default. */
+  discoveryVerticalImageUrl?: string | null;
   /** Brand icon, 512×512, rendered ~44pt circular over the creative. */
   iconUrl: string;
   /** Full-screen creative, 1080×2400 (9:20), rendered cover. Image OR video
@@ -126,10 +133,15 @@ export interface CreateLoyaltyAdInput {
   subtitle?: string | null;
   /** @deprecated The ad icon is the franchise logo, served at runtime. */
   iconUrl?: string;
-  /** Image OR video (exactly one). Image is also the video poster when both. */
+  /** Full-screen creative, portrait 1080×1920. Image OR video, exactly one. */
   imageUrl?: string | null;
-  /** Optional 8s video creative URL (uploaded via /media/upload-video). */
+  /** Optional 8s video creative URL (uploaded via /media/upload-video).
+   *  Full-screen only — the discovery highlight never plays video. */
   videoUrl?: string | null;
+  /** Discovery creative, landscape 1200×600. Required for the discovery surface. */
+  discoveryImageUrl?: string | null;
+  /** Discovery creative, portrait 1080×1440. Optional (falls back to the org default). */
+  discoveryVerticalImageUrl?: string | null;
   ctaLabel: string;
   startsAt: string; // ISO-8601
   endsAt: string; // ISO-8601
