@@ -13,6 +13,9 @@ export interface SystemLoyaltyMemberEnrollment {
     organizationId: string;
     organizationName: string;
     points: number;
+    /** True when the franchise itself is a demo. Drives the "only demo" badge and
+     *  is the ONLY safe criterion for the demo purge — never the member. */
+    organizationIsDemo: boolean;
     /** Rewards obtained (purchased with points + welcome gifts). */
     rewardsPurchased: number;
     /** Of those, how many were actually redeemed at POS. */
@@ -46,6 +49,10 @@ export interface SystemLoyaltyMember {
     forceDemo: boolean;
     /** Franchises the member is enrolled in (for the expanded row). */
     enrollments: SystemLoyaltyMemberEnrollment[];
+    /** Enrolled somewhere, and every one of those franchises is a demo. Such a
+     *  member has nothing in a real merchant, which is what makes them safe to
+     *  wipe entirely. False for a member with no enrollments at all. */
+    onlyDemoFranchises: boolean;
 }
 export type SystemLoyaltyMemberSort = 'createdAt' | 'lastActiveAt' | 'avgSessionSeconds' | 'sessionCount' | 'name' | 'city';
 /** Query params for the system-admin members endpoint. */
@@ -77,4 +84,29 @@ export interface SystemLoyaltyMembersResponse {
     appVersions: string[];
 }
 export declare const LOYALTY_MEMBER_PLATFORMS: readonly LoyaltyMemberPlatform[];
+/** What a demo purge would delete, or did delete. Counted per table so the
+ *  operator sees the blast radius before confirming an irreversible action. */
+export interface DemoLoyaltyPurgeCounts {
+    memberships: number;
+    transactions: number;
+    giftedRewards: number;
+    balanceBlocks: number;
+    couponGrants: number;
+    reviews: number;
+    remoteRedemptions: number;
+    redemptionHolds: number;
+    pushSends: number;
+    pushMutes: number;
+    adImpressions: number;
+    discoveryHighlights: number;
+}
+export interface DemoLoyaltyPurgePreview {
+    /** Demo franchises in scope, with their member count. */
+    organizations: {
+        id: string;
+        name: string;
+        memberships: number;
+    }[];
+    counts: DemoLoyaltyPurgeCounts;
+}
 //# sourceMappingURL=system-loyalty-members.d.ts.map
