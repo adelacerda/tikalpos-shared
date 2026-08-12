@@ -501,6 +501,8 @@ export type {
   SystemLoyaltyMemberSort,
   SystemLoyaltyMembersQuery,
   SystemLoyaltyMembersResponse,
+  DemoLoyaltyPurgeCounts,
+  DemoLoyaltyPurgePreview,
 } from './types/system-loyalty-members';
 export { LOYALTY_MEMBER_PLATFORMS } from './types/system-loyalty-members';
 
