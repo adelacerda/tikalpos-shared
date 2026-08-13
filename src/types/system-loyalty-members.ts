@@ -15,9 +15,14 @@ export interface LoyaltySessionReportInput {
 
 /** One franchise a member is enrolled in (shown when the row is expanded). */
 export interface SystemLoyaltyMemberEnrollment {
+  /** The membership row itself — what the movement tools address. */
+  guestLoyaltyId: string;
   organizationId: string;
   organizationName: string;
   points: number;
+  /** Cashback balance in cents. Shown beside points because a member can hold
+   *  cashback and zero points, which otherwise reads as an empty membership. */
+  cashbackBalanceCents: number;
   /** True when the franchise itself is a demo. Drives the "only demo" badge and
    *  is the ONLY safe criterion for the demo purge — never the member. */
   organizationIsDemo: boolean;
@@ -124,4 +129,56 @@ export interface DemoLoyaltyPurgePreview {
   /** Demo franchises in scope, with their member count. */
   organizations: { id: string; name: string; memberships: number }[];
   counts: DemoLoyaltyPurgeCounts;
+}
+
+// ── Deleting individual movements ───────────────────────────────────────────
+// For test movements left on a REAL merchant after demoing it to its owner.
+// The demo purge is scoped by `organization.isDemo` and cannot reach these, so
+// the operator picks rows one by one against a preview of the exact result.
+
+export type LoyaltyMovementUnit = 'POINTS' | 'CASHBACK';
+
+export interface LoyaltyMovementRow {
+  id: string;
+  type: string;
+  unit: LoyaltyMovementUnit;
+  /** Signed delta: points, or cents for cashback. */
+  points: number;
+  balanceAfter: number;
+  description: string | null;
+  /** The sale it was earned on, when the merchant entered one. */
+  originalAmountCents: number | null;
+  orderId: string | null;
+  createdAt: string;
+}
+
+export interface MemberMovementsResponse {
+  guestLoyaltyId: string;
+  guestName: string | null;
+  guestEmail: string | null;
+  orgId: string;
+  orgName: string;
+  pointsBalance: number;
+  cashbackBalanceCents: number;
+  movements: LoyaltyMovementRow[];
+}
+
+/** The exact state a deletion would leave — produced by the same replay the
+ *  write uses, so it is the result rather than an estimate of it. */
+export interface DeleteMovementsPreview {
+  matched: number;
+  requested: number;
+  pointsBefore: number;
+  pointsAfter: number;
+  cashbackBeforeCents: number;
+  cashbackAfterCents: number;
+  remainingMovements: number;
+  /** True when the result would leave a balance below zero. */
+  goesNegative: boolean;
+}
+
+export interface DeleteMovementsResult {
+  deleted: number;
+  pointsAfter: number;
+  cashbackAfterCents: number;
 }
