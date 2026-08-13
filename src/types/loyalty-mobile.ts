@@ -727,6 +727,10 @@ export interface LoyaltyRemoteRedemptionDetail extends LoyaltyRemoteRedemptionCa
   /** Order amount the merchant entered (null until processed). */
   chargeCents?: number | null;         // amount the guest pays after discounts
   rewardDiscountCents?: number | null;
+  couponDiscountCents?: number | null;
+  /** Cashback spent on this bill (CASHBACK_APPLY) — it is why the charge dropped,
+   *  so the breakdown must name it rather than just show a smaller total. */
+  cashbackAppliedCents?: number | null;
   tierDiscountCents?: number | null;
   /** What the guest earns on the charge — one of these per `earnKind`. */
   earnPoints?: number | null;
