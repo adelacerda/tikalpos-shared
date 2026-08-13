@@ -501,6 +501,11 @@ export type {
   SystemLoyaltyMemberSort,
   SystemLoyaltyMembersQuery,
   SystemLoyaltyMembersResponse,
+  LoyaltyMovementUnit,
+  LoyaltyMovementRow,
+  MemberMovementsResponse,
+  DeleteMovementsPreview,
+  DeleteMovementsResult,
   DemoLoyaltyPurgeCounts,
   DemoLoyaltyPurgePreview,
 } from './types/system-loyalty-members';
