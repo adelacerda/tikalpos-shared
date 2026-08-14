@@ -8,8 +8,10 @@
 export interface LoyaltyOperator {
   id: string;
   organizationId: string;
-  /** Branch this cashier is assigned to (redemptions are attributed to it). */
-  locationId: string;
+  /** Branch this cashier is assigned to (redemptions are attributed to it).
+   *  Null for a merchant with no branches — home service, or simply none
+   *  created. Attribution, not access: the cashier session never carries it. */
+  locationId: string | null;
   name: string;
   /** True for the owner's auto-created entry (can't be deleted). */
   isOwner: boolean;
