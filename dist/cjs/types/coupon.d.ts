@@ -116,6 +116,21 @@ export interface UpdateCouponInput {
     benefitLabel?: string;
     /** ACTIVE ↔ DRAFT before any grant; CANCELED stops distribution (live grants honored). */
     status?: CouponStatus;
+    benefitKind?: CouponBenefitKind;
+    discountType?: CouponDiscountType;
+    discountValue?: number;
+    maxDiscountValue?: number | null;
+    bonusPoints?: number | null;
+    bonusCashbackCents?: number | null;
+    minCheckCents?: number;
+    requiredProductIds?: string[];
+    locationIds?: string[];
+    validAtHome?: boolean;
+    combinableWithDiscounts?: boolean;
+    replacesWelcome?: boolean;
+    /** ISO date. */
+    expiresAt?: string;
+    poolTotal?: number;
 }
 /** Direct grant to one member (admin). */
 export interface GrantCouponInput {

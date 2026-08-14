@@ -135,12 +135,34 @@ export interface CreateCouponInput {
 
 /** Editable-once-issued fields (cosmetic only) + status transitions. */
 export interface UpdateCouponInput {
+  // ── Always editable ──
   name?: string;
   description?: string;
   imageUrl?: string;
   benefitLabel?: string;
   /** ACTIVE ↔ DRAFT before any grant; CANCELED stops distribution (live grants honored). */
   status?: CouponStatus;
+
+  // ── Editable ONLY while nothing has been handed out (poolClaimed === 0) ──
+  // A merchant who set a condition wrong could otherwise only delete and start
+  // over. Once someone holds a coupon these are frozen: they accepted those
+  // terms, and changing them underneath would be a different promise. The
+  // backend rejects them outright rather than dropping them silently.
+  benefitKind?: CouponBenefitKind;
+  discountType?: CouponDiscountType;
+  discountValue?: number;
+  maxDiscountValue?: number | null;
+  bonusPoints?: number | null;
+  bonusCashbackCents?: number | null;
+  minCheckCents?: number;
+  requiredProductIds?: string[];
+  locationIds?: string[];
+  validAtHome?: boolean;
+  combinableWithDiscounts?: boolean;
+  replacesWelcome?: boolean;
+  /** ISO date. */
+  expiresAt?: string;
+  poolTotal?: number;
 }
 
 /** Direct grant to one member (admin). */
