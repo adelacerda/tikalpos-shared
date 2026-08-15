@@ -852,6 +852,9 @@ export interface LoyaltyDiscoveryPage {
 // (welcome → else lowest-cost); `otherRewards` is the rest of the catalog.
 export interface LoyaltyFranchisePreview {
   branding: LoyaltyFranchiseBranding;
+  /** The merchant's own photos, same as the member view. Deciding whether to
+   *  join is exactly when someone wants to see the place. */
+  gallery?: string[];
   welcomeReward: LoyaltyRewardCard | null;
   otherRewards: LoyaltyRewardCard[];
   /** How the franchise rewards → drives points/cashback hooks on the preview. */
