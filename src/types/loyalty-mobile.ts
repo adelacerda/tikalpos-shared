@@ -56,7 +56,8 @@ export type LoyaltyPushTopic =
   | 'MODE_CHANGE'       // loyalty mode (points/cashback/both) changed for an org
   | 'BALANCE_EXPIRING'  // points or cashback balance block is about to expire
   | 'REMOTE_PROCESSED'  // online (escrow) code processed by the merchant → confirm
-  | 'REMOTE_RESOLVED';  // online (escrow) dispute resolved (merchant return / admin)
+  | 'REMOTE_RESOLVED'   // online (escrow) dispute resolved (merchant return / admin)
+  | 'NEW_MERCHANT';     // platform notice: a new merchant opened in the guest's city
 
 export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'REWARD_EXPIRING',
@@ -69,6 +70,7 @@ export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'BALANCE_EXPIRING',
   'REMOTE_PROCESSED',
   'REMOTE_RESOLVED',
+  'NEW_MERCHANT',
 ] as const;
 
 export function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic {
@@ -86,6 +88,8 @@ export interface LoyaltyMobileProfile {
   city?: string | null;
   /** Explicit opt-in to marketing/promotional push (Apple 4.5.4). */
   marketingPushOptIn?: boolean;
+  /** Opt-in to the platform notice when a new merchant opens in their city. */
+  newMerchantAlertOptIn?: boolean;
   /** True when this account is allowed to enter demo mode (sales rep / test
    *  account). Set by system-admin. Only effect: gates demo-mode activation —
    *  does NOT affect reports. Default false/undefined. */
@@ -887,4 +891,10 @@ export interface UpdateLoyaltyProfileInput {
   city?: string | null;
   /** Marketing/promotional push consent toggle (Apple 4.5.4). */
   marketingPushOptIn?: boolean;
+  /**
+   * "Tell me when a new merchant opens in my city." A separate consent from
+   * `marketingPushOptIn`: no merchant picks this audience and none is billed
+   * for it, so declining merchant advertising does not decline this.
+   */
+  newMerchantAlertOptIn?: boolean;
 }
