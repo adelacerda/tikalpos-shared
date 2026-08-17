@@ -859,6 +859,13 @@ export interface LoyaltyFranchisePreview {
   /** The merchant's own photos, same as the member view. Deciding whether to
    *  join is exactly when someone wants to see the place. */
   gallery?: string[];
+  /** What the merchant actually does, same as the member view. For a
+   *  home-services business this is the offer itself — "¿qué hacen y cuánto
+   *  cuesta?" is the question that decides whether joining is worth it, and it
+   *  used to be answerable only AFTER joining. */
+  services?: LoyaltyServiceItem[];
+  /** WhatsApp in E.164 — makes a service row tappable to book. */
+  whatsapp?: string | null;
   welcomeReward: LoyaltyRewardCard | null;
   otherRewards: LoyaltyRewardCard[];
   /** How the franchise rewards → drives points/cashback hooks on the preview. */
