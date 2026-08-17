@@ -5,7 +5,7 @@ export declare function isLoyaltyAuthProvider(value: unknown): value is LoyaltyA
 export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT' | 'CASHBACK_EARN' | 'CASHBACK_SPEND' | 'CASHBACK_EXPIRY';
 export declare const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[];
 export declare function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind;
-export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING' | 'REMOTE_PROCESSED' | 'REMOTE_RESOLVED';
+export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING' | 'REMOTE_PROCESSED' | 'REMOTE_RESOLVED' | 'NEW_MERCHANT';
 export declare const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[];
 export declare function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic;
 export interface LoyaltyMobileProfile {
@@ -17,6 +17,8 @@ export interface LoyaltyMobileProfile {
     city?: string | null;
     /** Explicit opt-in to marketing/promotional push (Apple 4.5.4). */
     marketingPushOptIn?: boolean;
+    /** Opt-in to the platform notice when a new merchant opens in their city. */
+    newMerchantAlertOptIn?: boolean;
     /** True when this account is allowed to enter demo mode (sales rep / test
      *  account). Set by system-admin. Only effect: gates demo-mode activation —
      *  does NOT affect reports. Default false/undefined. */
@@ -697,5 +699,11 @@ export interface UpdateLoyaltyProfileInput {
     city?: string | null;
     /** Marketing/promotional push consent toggle (Apple 4.5.4). */
     marketingPushOptIn?: boolean;
+    /**
+     * "Tell me when a new merchant opens in my city." A separate consent from
+     * `marketingPushOptIn`: no merchant picks this audience and none is billed
+     * for it, so declining merchant advertising does not decline this.
+     */
+    newMerchantAlertOptIn?: boolean;
 }
 //# sourceMappingURL=loyalty-mobile.d.ts.map
