@@ -66,6 +66,14 @@ export interface SystemLoyaltyMembersQuery {
     platform?: LoyaltyMemberPlatform;
     /** Filter to members enrolled in a specific franchise. */
     organizationId?: string;
+    /**
+     * `'none'` = accounts that joined NO real merchant.
+     *
+     * Enrollments in demo franchises don't count as joining: the point of this
+     * filter is the drop-off between "created an account" and "joined someone",
+     * and a demo enrollment is not someone.
+     */
+    enrollment?: 'none';
     /** Filter to members running a specific app version. */
     appVersion?: string;
     /** Case-insensitive match against name, email or phone. */
