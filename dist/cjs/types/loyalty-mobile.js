@@ -46,6 +46,7 @@ exports.LOYALTY_PUSH_TOPICS = [
     'BALANCE_EXPIRING',
     'REMOTE_PROCESSED',
     'REMOTE_RESOLVED',
+    'MERCHANT_SURVEY',
     'NEW_MERCHANT',
 ];
 function isLoyaltyPushTopic(value) {

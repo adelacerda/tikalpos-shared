@@ -5,7 +5,7 @@ export declare function isLoyaltyAuthProvider(value: unknown): value is LoyaltyA
 export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT' | 'CASHBACK_EARN' | 'CASHBACK_SPEND' | 'CASHBACK_EXPIRY';
 export declare const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[];
 export declare function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind;
-export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING' | 'REMOTE_PROCESSED' | 'REMOTE_RESOLVED' | 'NEW_MERCHANT';
+export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING' | 'REMOTE_PROCESSED' | 'REMOTE_RESOLVED' | 'NEW_MERCHANT' | 'MERCHANT_SURVEY';
 export declare const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[];
 export declare function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic;
 export interface LoyaltyMobileProfile {
@@ -635,6 +635,32 @@ export interface LoyaltyDiscoveryPromo {
     verticalImageUrl?: string | null;
     ctaLabel: string;
 }
+/**
+ * A merchant's live coupon, surfaced to guests who are NOT its members.
+ *
+ * Carousel only — a coupon has no portrait art, so it would break the "Ver
+ * todas" feed card, which is built around a 1080×1440 image.
+ *
+ * Claiming a coupon enrolls the guest (see `claimAndOpenHold`), so for a
+ * non-member this is not a discount on the side: it IS the way in.
+ */
+export interface LoyaltyDiscoveryCoupon {
+    couponId: string;
+    name: string;
+    /** One-line benefit, already localized ("Q50 de descuento"). */
+    benefitSummary: string;
+    imageUrl?: string | null;
+    expiresAt: string;
+    /** Left in the pool. Drives the "quedan N de M" urgency line. */
+    remaining: number;
+    poolTotal: number;
+    /** The code the claim endpoint takes. Required: tapping the card opens the
+     *  same modal the prompt uses, and without a code its button claims nothing. */
+    publicCode: string;
+    /** Claiming this replaces the franchise's welcome gift — the modal says so,
+     *  because discovering it after committing is what burns trust. */
+    replacesWelcome: boolean;
+}
 export interface LoyaltyDiscoveryCard {
     orgId: string;
     branding: LoyaltyFranchiseBranding;
@@ -649,6 +675,13 @@ export interface LoyaltyDiscoveryCard {
     /** Set when `highlighted` came from a generic promotion (not a reward opt-in)
      *  — the card leads with this creative instead of the reward. */
     promo?: LoyaltyDiscoveryPromo | null;
+    /**
+     * A live coupon of this franchise, for non-members only.
+     *
+     * Never set together with a leading `promo`: that impression was PAID for,
+     * and a coupon must not displace something a merchant bought.
+     */
+    coupon?: LoyaltyDiscoveryCoupon | null;
     tags: string[];
     /** How the franchise rewards → drives the points/cashback badges on the card. */
     loyaltyMode: 'POINTS' | 'CASHBACK' | 'BOTH';
@@ -713,4 +746,79 @@ export interface UpdateLoyaltyProfileInput {
      */
     newMerchantAlertOptIn?: boolean;
 }
+/**
+ * The one coupon to offer a guest this session, or null.
+ *
+ * Resolved server-side from: a merchant they opened within the last 30 days,
+ * are STILL not a member of, whose coupon is live with stock left and has
+ * never been shown to them. Picked at random among whatever qualifies.
+ *
+ * Deliberately NOT a discount they get for free: claiming it enrolls them.
+ */
+export interface CouponPromptCandidate {
+    couponId: string;
+    organizationId: string;
+    organizationName: string;
+    logoUrl?: string | null;
+    name: string;
+    description?: string | null;
+    benefitSummary: string;
+    imageUrl?: string | null;
+    expiresAt: string;
+    remaining: number;
+    poolTotal: number;
+    /** The code the claim endpoint takes. A coupon without one can't be claimed
+     *  from the modal, so the resolver never offers it — the button would be a
+     *  dead end. */
+    publicCode: string;
+    /** True when claiming this replaces the franchise's welcome gift — the modal
+     *  must say so, or the guest discovers it after committing. */
+    replacesWelcome: boolean;
+}
+/** A merchant somebody asked for, as they typed it. */
+export interface MerchantRequestRaw {
+    id: string;
+    guestId: string;
+    guestName: string | null;
+    guestEmail: string | null;
+    guestCity: string | null;
+    /** Exactly what they wrote — never rewritten, so the tally stays auditable. */
+    text: string;
+    createdAt: string;
+    canonicalId: string | null;
+}
+/**
+ * The same merchant, however people spelled it.
+ *
+ * "Polo Campero", "pollocampero" and "Pollo Campero" are one demand signal;
+ * counting them apart hides it. Merging is manual because only a human knows
+ * that two strings mean one business.
+ */
+export interface MerchantRequestGroup {
+    id: string;
+    name: string;
+    /** How many people asked for it. The number that decides anything. */
+    requests: number;
+    /** ISO — the most recent ask, so a stale demand is visible as stale. */
+    lastRequestedAt: string;
+    /** Set once the merchant actually joins → who to tell. */
+    organizationId: string | null;
+    organizationName: string | null;
+    /** Guests already told it arrived, so nobody is told twice. */
+    notified: number;
+    /** Reachable askers still waiting for the news. */
+    pending: number;
+}
+/** Who the survey invite would reach, before sending it. */
+export interface SurveyAudiencePreview {
+    /** Registered and never joined any merchant. */
+    noMerchant: number;
+    /** Joined exactly one and never transacted — they never found what to do. */
+    oneAndIdle: number;
+    /** In the chosen audience but with no live device: counted, not notified. */
+    unreachable: number;
+    /** Already answered, so they are never asked again. */
+    alreadyAnswered: number;
+}
+export type SurveyAudience = 'NO_MERCHANT' | 'ONE_AND_IDLE' | 'BOTH';
 //# sourceMappingURL=loyalty-mobile.d.ts.map
