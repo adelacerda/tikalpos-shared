@@ -816,6 +816,27 @@ export interface LoyaltyDiscoveryPromo {
   ctaLabel: string;
 }
 
+/**
+ * A merchant's live coupon, surfaced to guests who are NOT its members.
+ *
+ * Carousel only — a coupon has no portrait art, so it would break the "Ver
+ * todas" feed card, which is built around a 1080×1440 image.
+ *
+ * Claiming a coupon enrolls the guest (see `claimAndOpenHold`), so for a
+ * non-member this is not a discount on the side: it IS the way in.
+ */
+export interface LoyaltyDiscoveryCoupon {
+  couponId: string;
+  name: string;
+  /** One-line benefit, already localized ("Q50 de descuento"). */
+  benefitSummary: string;
+  imageUrl?: string | null;
+  expiresAt: string;
+  /** Left in the pool. Drives the "quedan N de M" urgency line. */
+  remaining: number;
+  poolTotal: number;
+}
+
 export interface LoyaltyDiscoveryCard {
   orgId: string;
   branding: LoyaltyFranchiseBranding;
@@ -830,6 +851,13 @@ export interface LoyaltyDiscoveryCard {
   /** Set when `highlighted` came from a generic promotion (not a reward opt-in)
    *  — the card leads with this creative instead of the reward. */
   promo?: LoyaltyDiscoveryPromo | null;
+  /**
+   * A live coupon of this franchise, for non-members only.
+   *
+   * Never set together with a leading `promo`: that impression was PAID for,
+   * and a coupon must not displace something a merchant bought.
+   */
+  coupon?: LoyaltyDiscoveryCoupon | null;
   tags: string[];            // the franchise's category tags (badge shows ≤2, client picks at random)
   /** How the franchise rewards → drives the points/cashback badges on the card. */
   loyaltyMode: 'POINTS' | 'CASHBACK' | 'BOTH';
@@ -904,4 +932,36 @@ export interface UpdateLoyaltyProfileInput {
    * for it, so declining merchant advertising does not decline this.
    */
   newMerchantAlertOptIn?: boolean;
+}
+
+// ── Coupon prompt (the "you looked and didn't join" modal) ──────────────────
+
+/**
+ * The one coupon to offer a guest this session, or null.
+ *
+ * Resolved server-side from: a merchant they opened within the last 30 days,
+ * are STILL not a member of, whose coupon is live with stock left and has
+ * never been shown to them. Picked at random among whatever qualifies.
+ *
+ * Deliberately NOT a discount they get for free: claiming it enrolls them.
+ */
+export interface CouponPromptCandidate {
+  couponId: string;
+  organizationId: string;
+  organizationName: string;
+  logoUrl?: string | null;
+  name: string;
+  description?: string | null;
+  benefitSummary: string;
+  imageUrl?: string | null;
+  expiresAt: string;
+  remaining: number;
+  poolTotal: number;
+  /** The code the claim endpoint takes. A coupon without one can't be claimed
+   *  from the modal, so the resolver never offers it — the button would be a
+   *  dead end. */
+  publicCode: string;
+  /** True when claiming this replaces the franchise's welcome gift — the modal
+   *  must say so, or the guest discovers it after committing. */
+  replacesWelcome: boolean;
 }

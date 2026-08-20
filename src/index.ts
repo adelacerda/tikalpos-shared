@@ -422,6 +422,8 @@ export type {
   LoyaltyAdCard,
   LoyaltyDiscoveryCard,
   LoyaltyDiscoveryPromo,
+  LoyaltyDiscoveryCoupon,
+  CouponPromptCandidate,
   LoyaltyDiscoveryPage,
   LoyaltyFranchisePreview,
   LoyaltyPushSubscribeInput,
