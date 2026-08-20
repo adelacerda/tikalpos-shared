@@ -654,6 +654,12 @@ export interface LoyaltyDiscoveryCoupon {
     /** Left in the pool. Drives the "quedan N de M" urgency line. */
     remaining: number;
     poolTotal: number;
+    /** The code the claim endpoint takes. Required: tapping the card opens the
+     *  same modal the prompt uses, and without a code its button claims nothing. */
+    publicCode: string;
+    /** Claiming this replaces the franchise's welcome gift — the modal says so,
+     *  because discovering it after committing is what burns trust. */
+    replacesWelcome: boolean;
 }
 export interface LoyaltyDiscoveryCard {
     orgId: string;
