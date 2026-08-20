@@ -5,7 +5,7 @@ export declare function isLoyaltyAuthProvider(value: unknown): value is LoyaltyA
 export type LoyaltyTransactionKind = 'EARN' | 'REDEEM' | 'EXPIRY' | 'ADJUSTMENT' | 'CASHBACK_EARN' | 'CASHBACK_SPEND' | 'CASHBACK_EXPIRY';
 export declare const LOYALTY_TRANSACTION_KINDS: readonly LoyaltyTransactionKind[];
 export declare function isLoyaltyTransactionKind(value: unknown): value is LoyaltyTransactionKind;
-export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING' | 'REMOTE_PROCESSED' | 'REMOTE_RESOLVED' | 'NEW_MERCHANT';
+export type LoyaltyPushTopic = 'REWARD_EXPIRING' | 'NEW_PROMOTION' | 'REDEMPTION_READY' | 'BALANCE_MILESTONE' | 'WELCOME' | 'ENGAGEMENT' | 'MODE_CHANGE' | 'BALANCE_EXPIRING' | 'REMOTE_PROCESSED' | 'REMOTE_RESOLVED' | 'NEW_MERCHANT' | 'MERCHANT_SURVEY';
 export declare const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[];
 export declare function isLoyaltyPushTopic(value: unknown): value is LoyaltyPushTopic;
 export interface LoyaltyMobileProfile {
@@ -775,4 +775,50 @@ export interface CouponPromptCandidate {
      *  must say so, or the guest discovers it after committing. */
     replacesWelcome: boolean;
 }
+/** A merchant somebody asked for, as they typed it. */
+export interface MerchantRequestRaw {
+    id: string;
+    guestId: string;
+    guestName: string | null;
+    guestEmail: string | null;
+    guestCity: string | null;
+    /** Exactly what they wrote — never rewritten, so the tally stays auditable. */
+    text: string;
+    createdAt: string;
+    canonicalId: string | null;
+}
+/**
+ * The same merchant, however people spelled it.
+ *
+ * "Polo Campero", "pollocampero" and "Pollo Campero" are one demand signal;
+ * counting them apart hides it. Merging is manual because only a human knows
+ * that two strings mean one business.
+ */
+export interface MerchantRequestGroup {
+    id: string;
+    name: string;
+    /** How many people asked for it. The number that decides anything. */
+    requests: number;
+    /** ISO — the most recent ask, so a stale demand is visible as stale. */
+    lastRequestedAt: string;
+    /** Set once the merchant actually joins → who to tell. */
+    organizationId: string | null;
+    organizationName: string | null;
+    /** Guests already told it arrived, so nobody is told twice. */
+    notified: number;
+    /** Reachable askers still waiting for the news. */
+    pending: number;
+}
+/** Who the survey invite would reach, before sending it. */
+export interface SurveyAudiencePreview {
+    /** Registered and never joined any merchant. */
+    noMerchant: number;
+    /** Joined exactly one and never transacted — they never found what to do. */
+    oneAndIdle: number;
+    /** In the chosen audience but with no live device: counted, not notified. */
+    unreachable: number;
+    /** Already answered, so they are never asked again. */
+    alreadyAnswered: number;
+}
+export type SurveyAudience = 'NO_MERCHANT' | 'ONE_AND_IDLE' | 'BOTH';
 //# sourceMappingURL=loyalty-mobile.d.ts.map

@@ -57,7 +57,8 @@ export type LoyaltyPushTopic =
   | 'BALANCE_EXPIRING'  // points or cashback balance block is about to expire
   | 'REMOTE_PROCESSED'  // online (escrow) code processed by the merchant → confirm
   | 'REMOTE_RESOLVED'   // online (escrow) dispute resolved (merchant return / admin)
-  | 'NEW_MERCHANT';     // platform notice: a new merchant opened in the guest's city
+  | 'NEW_MERCHANT'      // platform notice: a new merchant opened in the guest's city
+  | 'MERCHANT_SURVEY';  // platform ask: which merchant would you like to see here?
 
 export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'REWARD_EXPIRING',
@@ -70,6 +71,7 @@ export const LOYALTY_PUSH_TOPICS: readonly LoyaltyPushTopic[] = [
   'BALANCE_EXPIRING',
   'REMOTE_PROCESSED',
   'REMOTE_RESOLVED',
+  'MERCHANT_SURVEY',
   'NEW_MERCHANT',
 ] as const;
 
@@ -971,3 +973,58 @@ export interface CouponPromptCandidate {
    *  must say so, or the guest discovers it after committing. */
   replacesWelcome: boolean;
 }
+
+// ── «¿Qué comercio te gustaría ver?» ────────────────────────────────────────
+// Los que descargaron, se registraron y no encontraron nada que valiera la
+// pena son la mejor fuente de información que hay, y hoy se pierde entera:
+// cada uno sabe qué comercio lo habría convencido y nadie se lo ha preguntado.
+
+/** A merchant somebody asked for, as they typed it. */
+export interface MerchantRequestRaw {
+  id: string;
+  guestId: string;
+  guestName: string | null;
+  guestEmail: string | null;
+  guestCity: string | null;
+  /** Exactly what they wrote — never rewritten, so the tally stays auditable. */
+  text: string;
+  createdAt: string;
+  canonicalId: string | null;
+}
+
+/**
+ * The same merchant, however people spelled it.
+ *
+ * "Polo Campero", "pollocampero" and "Pollo Campero" are one demand signal;
+ * counting them apart hides it. Merging is manual because only a human knows
+ * that two strings mean one business.
+ */
+export interface MerchantRequestGroup {
+  id: string;
+  name: string;
+  /** How many people asked for it. The number that decides anything. */
+  requests: number;
+  /** ISO — the most recent ask, so a stale demand is visible as stale. */
+  lastRequestedAt: string;
+  /** Set once the merchant actually joins → who to tell. */
+  organizationId: string | null;
+  organizationName: string | null;
+  /** Guests already told it arrived, so nobody is told twice. */
+  notified: number;
+  /** Reachable askers still waiting for the news. */
+  pending: number;
+}
+
+/** Who the survey invite would reach, before sending it. */
+export interface SurveyAudiencePreview {
+  /** Registered and never joined any merchant. */
+  noMerchant: number;
+  /** Joined exactly one and never transacted — they never found what to do. */
+  oneAndIdle: number;
+  /** In the chosen audience but with no live device: counted, not notified. */
+  unreachable: number;
+  /** Already answered, so they are never asked again. */
+  alreadyAnswered: number;
+}
+
+export type SurveyAudience = 'NO_MERCHANT' | 'ONE_AND_IDLE' | 'BOTH';
